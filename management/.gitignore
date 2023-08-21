@@ -1,3 +1,6 @@
+# Config file
+config.ini
+
 # Logs
 logs
 *.log
@@ -40,7 +43,6 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-certs
 
 # TypeScript v1 declaration files
 typings/
@@ -103,6 +105,3 @@ dist
 
 # TernJS port file
 .tern-port
-
-*.code-workspace
-.vscode
