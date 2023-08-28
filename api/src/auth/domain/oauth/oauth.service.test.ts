@@ -4,7 +4,7 @@ import {faker} from '@faker-js/faker';
 import {build} from 'test';
 import {User, UserService} from 'user/domain';
 import {EventEmitterModule, EventEmitter2} from '@nestjs/event-emitter';
-import {GoogleOAuth} from './oauth.entity';
+import {GoogleIdentity} from './thirdPartyIdentity.entity';
 import {
   NoRefreshTokenProvidedError,
   MissingDataForAccountCreationError,
@@ -46,7 +46,7 @@ describe('OAuthService', () => {
 
   describe('login', () => {
     it('should successfully return a user for an existing account', async () => {
-      const authentication = new GoogleOAuth({
+      const authentication = new GoogleIdentity({
         email: user.email.toString(),
         accessToken: faker.datatype.uuid(),
         refreshToken: faker.datatype.uuid(),
@@ -56,7 +56,7 @@ describe('OAuthService', () => {
     });
 
     it('should emit an event on successful login', async () => {
-      const authentication = new GoogleOAuth({
+      const authentication = new GoogleIdentity({
         email: user.email.toString(),
         accessToken: faker.datatype.uuid(),
         refreshToken: faker.datatype.uuid(),
@@ -70,7 +70,7 @@ describe('OAuthService', () => {
     });
 
     it('should throw an error if the user does not has a refresh token and does not have the identity provider', async () => {
-      const authentication = new GoogleOAuth({
+      const authentication = new GoogleIdentity({
         email: user.email.toString(),
         accessToken: faker.datatype.uuid(),
       });
@@ -81,7 +81,7 @@ describe('OAuthService', () => {
     });
 
     it('should not throw an error if no refresh token is provided and the user has the identity provider', async () => {
-      const authentication = new GoogleOAuth({
+      const authentication = new GoogleIdentity({
         email: user.email.toString(),
         accessToken: faker.datatype.uuid(),
       });
@@ -94,7 +94,7 @@ describe('OAuthService', () => {
     });
 
     it('should register the user as admin if it is not known and there are no other users', async () => {
-      const authentication = new GoogleOAuth({
+      const authentication = new GoogleIdentity({
         email: user.email.toString(),
         accessToken: faker.datatype.uuid(),
         refreshToken: faker.datatype.uuid(),
@@ -109,7 +109,7 @@ describe('OAuthService', () => {
     });
 
     it('should return undefined if it is not known but there are other users', async () => {
-      const authentication = new GoogleOAuth({
+      const authentication = new GoogleIdentity({
         email: user.email.toString(),
         accessToken: faker.datatype.uuid(),
         refreshToken: faker.datatype.uuid(),
@@ -123,7 +123,7 @@ describe('OAuthService', () => {
     });
 
     it('should throw an error if we are creating the first user but he lacks required refresh token', async () => {
-      const authentication = new GoogleOAuth({
+      const authentication = new GoogleIdentity({
         email: user.email.toString(),
         accessToken: faker.datatype.uuid(),
         name: faker.name.fullName(),
@@ -138,7 +138,7 @@ describe('OAuthService', () => {
     });
 
     it('should throw an error if we are creating the first user but he lacks required name', async () => {
-      const authentication = new GoogleOAuth({
+      const authentication = new GoogleIdentity({
         email: user.email.toString(),
         accessToken: faker.datatype.uuid(),
         refreshToken: faker.datatype.uuid(),

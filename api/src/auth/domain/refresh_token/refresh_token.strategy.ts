@@ -35,7 +35,7 @@ export class RefreshTokenBodyStrategy extends PassportStrategy(
   }
 
   async validate(request: Request): Promise<Client> {
-    const token = request.body?.refreshToken;
+    const token = request.body?.refresh_token;
     if (!token) throw new UnauthorizedException();
     const client = await this.refreshTokenService.verify(token);
     if (!client) throw new UnauthorizedException();

@@ -125,6 +125,7 @@ export const Root = styled(Pressable)<RootProps>`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   padding-horizontal: ${({theme}) => theme.spacing.l}px;
   padding-vertical: ${({theme}) => theme.spacing.m}px;
   border-radius: ${({theme}) => theme.spacing.s}px;
@@ -135,9 +136,12 @@ export const Root = styled(Pressable)<RootProps>`
 
 export const Label = styled(Typography)<LabelProps>`
   text-align: center;
+  font-size: ${({theme}) => theme.textVariants.body.fontSize}px;
   color: ${({variant, ...props}) => variantColorFetcher[variant](props).color};
 `;
 
 export const LeftIconContainer = styled(View)`
   margin-right: ${({theme}) => theme.spacing.s}px;
+  max-width: ${({theme}) => theme.spacing.l}px;
+  max-height: ${({theme}) => theme.spacing.l}px;
 `;

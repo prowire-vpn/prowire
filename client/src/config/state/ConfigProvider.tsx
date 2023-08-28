@@ -15,9 +15,9 @@ const ConfigDispatchContext = createContext<null | Dispatch<ConfigActions>>(
 );
 
 export function ConfigProvider({children}: PropsWithChildren) {
-  const [tasks, dispatch] = useReducer(configReducer, initialConfig);
+  const [config, dispatch] = useReducer(configReducer, initialConfig);
   return (
-    <ConfigContext.Provider value={tasks}>
+    <ConfigContext.Provider value={config}>
       <ConfigDispatchContext.Provider value={dispatch}>
         {children}
       </ConfigDispatchContext.Provider>
@@ -26,9 +26,17 @@ export function ConfigProvider({children}: PropsWithChildren) {
 }
 
 export function useConfig() {
-  return useContext(ConfigContext);
+  const context = useContext(ConfigContext);
+  if (!context) {
+    throw new Error('useConfig must be used within a ConfigProvider');
+  }
+  return context;
 }
 
 export function useConfigDispatch() {
-  return useContext(ConfigDispatchContext);
+  const context = useContext(ConfigDispatchContext);
+  if (!context) {
+    throw new Error('useConfigDispatch must be used within a ConfigProvider');
+  }
+  return context;
 }

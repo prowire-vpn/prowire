@@ -1,5 +1,5 @@
 import {Controller, Get, UseGuards, UseFilters, Query, Response} from '@nestjs/common';
-import {GoogleOAuthGuard, GoogleOAuthGuardForceRefresh} from 'auth/domain';
+import {GoogleOAuthGuard, GoogleOAuthGuardInit, GoogleOAuthGuardForceRefresh} from 'auth/domain';
 import {RedirectExceptionFilter} from './google.controller.exception';
 import {AccessTokenService, RefreshTokenService, Client as IClient} from 'auth/domain';
 import {Client} from 'auth/utils/client.decorator';
@@ -7,7 +7,8 @@ import {Response as IResponse} from 'express';
 import {readFileSync} from 'fs';
 import {rootPath} from 'root';
 import {ConfigService} from '@nestjs/config';
-import {createAuthCookie} from './utils';
+import {StartGoogleFlowQueryDto} from './google.controller.dto';
+import {OAuthService} from 'auth/domain/oauth';
 
 @Controller('auth/google')
 export class GoogleController {
@@ -16,6 +17,7 @@ export class GoogleController {
   constructor(
     private accessTokenService: AccessTokenService,
     private refreshTokenService: RefreshTokenService,
+    private oauthService: OAuthService,
     private configService: ConfigService,
   ) {
     this.htmlResponse = readFileSync(
@@ -25,8 +27,9 @@ export class GoogleController {
   }
 
   @Get()
-  @UseGuards(GoogleOAuthGuard)
-  start() {
+  @UseGuards(GoogleOAuthGuardInit)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  start(@Query() _query: StartGoogleFlowQueryDto) {
     throw new Error('Should redirect before landing here');
   }
 
@@ -39,31 +42,12 @@ export class GoogleController {
   @Get('redirect')
   @UseGuards(GoogleOAuthGuard)
   @UseFilters(RedirectExceptionFilter)
-  redirect(
+  async redirect(
     @Response() response: IResponse,
     @Query('state') state: string,
     @Client() client: IClient,
-  ): void {
-    const accessToken = this.accessTokenService.create(client);
-    const refreshToken = this.refreshTokenService.create(client);
-
-    const fromDesktop = state.startsWith('desktop:');
-
-    if (fromDesktop) {
-      const url = new URL('prowire://oauth/return');
-      url.searchParams.append('accessToken', accessToken.token);
-      url.searchParams.append('state', state);
-      url.searchParams.append('refreshToken', refreshToken.token);
-      response.send(this.htmlResponse.replace(/%url%/g, url.toString()));
-      return;
-    }
-
-    createAuthCookie(response, refreshToken);
-
-    const url = new URL(this.configService.getOrThrow<string>('ADMIN_PANEL_URL'));
-    url.pathname = '/auth/return';
-    url.searchParams.append('accessToken', accessToken.token);
-    url.searchParams.append('state', state);
-    response.redirect(url.toString());
+  ): Promise<void> {
+    const session = await this.oauthService.issueOAuthSessionCode(state, client);
+    response.redirect(session.redirectionUrl);
   }
 }

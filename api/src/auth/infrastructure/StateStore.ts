@@ -5,7 +5,6 @@ import {
   Metadata,
 } from 'passport-oauth2';
 import {Request} from 'express';
-import {randomUUID} from 'crypto';
 
 const states: Set<string> = new Set();
 
@@ -20,10 +19,15 @@ function store(
     callback = metaOrCallback;
   }
   if (!callback) throw new Error('callback is required');
-  const state = typeof req.query.state === 'string' ? req.query.state : randomUUID();
+  const state = req.query.state as string;
+  if (!state) throw new Error('state is required');
   if (states.has(state)) return callback(new Error('state already exists'), state);
   states.add(state);
   callback(null, state);
+}
+
+function addState(state: string) {
+  states.add(state);
 }
 
 function verify(req: Request, state: string, callback: StateStoreVerifyCallback): void;
@@ -47,10 +51,11 @@ function verify(
   states.delete(state);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  callback(null, true, 'state');
+  callback(null, true, state);
 }
 
-export const StateStore: IStateStore = {
+export const StateStore: IStateStore & {addState: (state: string) => void} = {
   store,
   verify,
+  addState,
 };

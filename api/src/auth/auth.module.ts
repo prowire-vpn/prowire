@@ -10,8 +10,10 @@ import {
   RefreshTokenCookieStrategy,
   RefreshTokenBodyStrategy,
 } from './domain';
-import {GoogleController, RefreshTokenController} from './presentation';
+import {GoogleController, RefreshTokenController, AuthController} from './presentation';
 import {UserModule} from 'user';
+import {OAuthSessionRepository, OAuthSessionClass, OAuthSessionSchema} from './infrastructure';
+import {MongooseModule} from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -25,8 +27,9 @@ import {UserModule} from 'user';
       },
       inject: [ConfigService],
     }),
+    MongooseModule.forFeature([{name: OAuthSessionClass.name, schema: OAuthSessionSchema}]),
   ],
-  controllers: [GoogleController, RefreshTokenController],
+  controllers: [GoogleController, RefreshTokenController, AuthController],
   providers: [
     OAuthService,
     AccessTokenService,
@@ -35,6 +38,7 @@ import {UserModule} from 'user';
     AccessTokenStrategy,
     RefreshTokenCookieStrategy,
     RefreshTokenBodyStrategy,
+    OAuthSessionRepository,
   ],
 })
 export class AuthModule {}

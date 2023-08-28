@@ -1,29 +1,28 @@
 import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
-import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
-import {QueryClientProvider} from 'react-query';
-import {ThemeProvider} from 'styled-components/native';
-import {queryClient} from 'base/api/client';
-import {ApiConfigPage} from 'config/pages';
-import {ConfigProvider} from 'config/state';
-import {theme} from 'ui/theme';
+import {StatusBar, useColorScheme, Text} from 'react-native';
+import {Root, ContentArea} from './App.style';
+import {LogoutButton} from 'auth/components';
+import {Init} from 'base/components/Init';
+import {Providers} from 'base/components/Providers';
 
 export function App() {
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <NavigationContainer>
-      <ConfigProvider>
-        <ThemeProvider theme={theme}>
-          <QueryClientProvider client={queryClient}>
-            <SafeAreaView>
-              <StatusBar
-                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-              />
-              <ApiConfigPage />
-            </SafeAreaView>
-          </QueryClientProvider>
-        </ThemeProvider>
-      </ConfigProvider>
+    <NavigationContainer documentTitle={{enabled: false}}>
+      <Providers>
+        <Root>
+          <ContentArea>
+            <StatusBar
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            />
+            <Init>
+              <Text>Home</Text>
+              <LogoutButton />
+            </Init>
+          </ContentArea>
+        </Root>
+      </Providers>
     </NavigationContainer>
   );
 }

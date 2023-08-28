@@ -6,7 +6,7 @@ import {Client} from 'auth/domain';
 import {faker} from '@faker-js/faker';
 import {ForbiddenException} from '@nestjs/common';
 
-describe('GoogleController', () => {
+describe('UserController', () => {
   let user: User;
   let client: Client;
 

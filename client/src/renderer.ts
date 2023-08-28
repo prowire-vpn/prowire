@@ -1,9 +1,10 @@
 import {AppRegistry} from 'react-native';
-import {App} from './base/components/App/App';
+import {App} from './base/components/App';
 
 AppRegistry.registerComponent('App', () => App);
 
 AppRegistry.runApplication('App', {
+  title: 'Prowire',
   rootTag: document.getElementById('root'),
 });
 

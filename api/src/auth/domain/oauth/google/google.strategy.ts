@@ -3,7 +3,7 @@ import {Strategy, Profile, StrategyOptions} from 'passport-google-oauth20';
 import {ConfigService} from '@nestjs/config';
 import {Injectable, UnauthorizedException} from '@nestjs/common';
 import {NoVerifiedEmailError} from './google.strategy.error';
-import {GoogleOAuth} from 'auth/domain/oauth/oauth.entity';
+import {GoogleIdentity} from 'auth/domain/oauth/thirdPartyIdentity.entity';
 import {OAuthService} from 'auth/domain/oauth/oauth.service';
 import {Client} from 'auth/domain/client.entity';
 import {StateStore} from 'auth/infrastructure';
@@ -29,7 +29,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   ): Promise<Client> {
     const email = this.getProfileEmail(profile);
     if (!email) throw new NoVerifiedEmailError(profile);
-    const authentication = new GoogleOAuth({
+    const authentication = new GoogleIdentity({
       email,
       accessToken,
       refreshToken,
@@ -41,6 +41,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   }
 
   private getProfileEmail(profile: Profile): string | undefined {
-    return profile.emails?.find(({verified}) => verified == 'true')?.value;
+    return profile.emails?.find(({verified}) => `${verified}` == 'true')?.value;
   }
 }

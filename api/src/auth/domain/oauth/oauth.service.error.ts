@@ -1,5 +1,5 @@
 import {User} from 'user/domain';
-import {OAuth} from './oauth.entity';
+import {ThirdPartyIdentity} from './thirdPartyIdentity.entity';
 
 export class NoRefreshTokenProvidedError extends Error {
   constructor(user: User) {
@@ -10,9 +10,27 @@ export class NoRefreshTokenProvidedError extends Error {
 }
 
 export class MissingDataForAccountCreationError extends Error {
-  constructor(authentication: OAuth) {
+  constructor(identity: ThirdPartyIdentity) {
     super(
-      `Attempted to create account with email "${authentication.email}", but missing some account data`,
+      `Attempted to create account with email "${identity.email}", but missing some account data`,
     );
+  }
+}
+
+export class InvalidStateError extends Error {
+  constructor(state: string) {
+    super(`Invalid state "${state}"`);
+  }
+}
+
+export class InvalidCodeError extends Error {
+  constructor(code: string) {
+    super(`Invalid code "${code}"`);
+  }
+}
+
+export class FailedCodeChallengeError extends Error {
+  constructor(given: string, calculated: string) {
+    super(`Invalid code "${given}", expected "${calculated}"`);
   }
 }

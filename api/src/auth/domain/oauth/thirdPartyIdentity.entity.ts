@@ -8,7 +8,8 @@ export interface OAuthConstructor {
   state?: string;
 }
 
-export abstract class OAuth {
+// Identity obtained from a third party provider
+export abstract class ThirdPartyIdentity {
   provider: IdentityProvider;
   email: EmailAddress;
   accessToken: string;
@@ -52,7 +53,7 @@ export abstract class OAuth {
   }
 }
 
-export class GoogleOAuth extends OAuth {
+export class GoogleIdentity extends ThirdPartyIdentity {
   requiresRefreshToken = true;
 
   constructor(profile: OAuthConstructor) {

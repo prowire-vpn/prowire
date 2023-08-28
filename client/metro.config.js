@@ -18,6 +18,7 @@ const config = {
     extraNodeModules: {
       'base': path.resolve(__dirname, './src/base'),
       'config': path.resolve(__dirname, './src/config'),
+      'auth': path.resolve(__dirname, './src/auth'),
       'ui': path.resolve(__dirname, './src/ui'),
       'assets': path.resolve(__dirname, './assets'),
     }
@@ -37,4 +38,4 @@ const config = {
   ],
 };
 
-module.exports = config
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);

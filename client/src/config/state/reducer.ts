@@ -1,25 +1,41 @@
 import {ConfigActions} from './action';
-import {} from './ConfigProvider';
 
 export interface ConfigState {
+  inputApiUrl?: string;
   apiUrl?: string;
+  error?: unknown;
 }
 
-export const initialConfig: ConfigState = {apiUrl: undefined};
+export const initialConfig: ConfigState = {apiUrl: undefined, error: undefined};
 
 export function configReducer(
   config: ConfigState,
   action: ConfigActions,
 ): ConfigState {
   switch (action.type) {
-    case 'setApiUrl': {
+    case 'input': {
       return {
         ...config,
+        error: undefined,
+        inputApiUrl: action.payload,
+      };
+    }
+    case 'validate': {
+      return {
+        ...config,
+        error: undefined,
+        inputApiUrl: undefined,
         apiUrl: action.payload,
       };
     }
-    default: {
-      throw Error('Unknown action: ' + action.type);
+    case 'error': {
+      return {
+        ...config,
+        error: action.payload,
+      };
+    }
+    case 'clear': {
+      return initialConfig;
     }
   }
 }

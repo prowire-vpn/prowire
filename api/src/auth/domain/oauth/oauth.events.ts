@@ -1,11 +1,11 @@
-import {OAuth} from './oauth.entity';
+import {ThirdPartyIdentity} from './thirdPartyIdentity.entity';
 import {User} from 'user/domain';
 
 export class OauthAuthenticatedEvent {
   public static namespace = 'auth.oauth.authenticated';
-  public authentication: OAuth;
+  public authentication: ThirdPartyIdentity;
   public user: User;
-  constructor(authentication: OAuth, user: User) {
+  constructor(authentication: ThirdPartyIdentity, user: User) {
     this.authentication = authentication;
     this.user = user;
   }
