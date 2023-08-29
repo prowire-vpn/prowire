@@ -2,7 +2,7 @@ import {Grid, GridItem} from '@chakra-ui/react';
 import * as React from 'react';
 import {useState} from 'react';
 import {UserListCard} from './UserListCard';
-import {useFindUsers} from 'user/api';
+import {useFindUsers} from 'user/data';
 
 export function UserListPage() {
   const [search, setSearch] = useState('');

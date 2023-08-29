@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {ServerCards} from './ServerCards';
 import {FullPageLoader} from 'base/components';
-import {useFindServer} from 'server/api';
+import {ServerCards} from 'server/components';
+import {useFindServer} from 'server/data';
 
 export function ServerListPage() {
   const {isLoading, error, data} = useFindServer();
