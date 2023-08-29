@@ -1,13 +1,13 @@
-import {useContext, useEffect} from 'react';
+import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {AuthContext} from 'auth/init';
+import {useAuth} from 'auth/state';
 
 interface useAuthenticatedOptions {
   requireAuthentication?: boolean;
 }
 
 export function useAuthenticated(options?: useAuthenticatedOptions): boolean {
-  const {accessToken} = useContext(AuthContext);
+  const {accessToken} = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {PropsWithChildren} from 'react';
 import {usePostToken, useStoreRefreshToken} from 'auth/data';
 import {useAuthDispatch, useAuth} from 'auth/state';
-import {setAccessToken} from 'base/api/client';
+import {setAccessToken} from 'base/data';
 
 export function TokenExchanger({children}: PropsWithChildren) {
   const {code, codeVerifier, refreshToken} = useAuth();

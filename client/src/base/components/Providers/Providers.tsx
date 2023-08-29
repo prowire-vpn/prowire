@@ -3,7 +3,7 @@ import {PropsWithChildren} from 'react';
 import {QueryClientProvider} from 'react-query';
 import {ThemeProvider} from 'styled-components/native';
 import {AuthProvider} from 'auth/state';
-import {queryClient} from 'base/api/client';
+import {queryClient} from 'base/data';
 import {ConfigProvider} from 'config/state';
 import {theme} from 'ui/theme';
 

@@ -106,3 +106,7 @@ dist
 
 *.code-workspace
 .vscode
+
+# OSX
+#
+.DS_Store

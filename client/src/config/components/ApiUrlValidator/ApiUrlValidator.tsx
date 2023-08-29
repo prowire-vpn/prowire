@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {PropsWithChildren} from 'react';
-import {setBaseUrl} from 'base/api/client';
+import {setBaseUrl} from 'base/data';
 import {useGetHealth, useStoreApiUrl} from 'config/data';
 import {useConfig, useConfigDispatch} from 'config/state';
 
@@ -23,7 +23,6 @@ export function ApiUrlValidator({children}: PropsWithChildren) {
       dispatch({type: 'validate', payload: inputApiUrl});
     },
     onError: err => {
-      console.log('ERROR HERE');
       dispatch({type: 'error', payload: err});
     },
   });

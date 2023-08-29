@@ -4,11 +4,11 @@ import {deleteUserGenerator} from './deleteUser';
 import {findUsersGenerator} from './findUsers';
 import {getMeGenerator} from './getMe';
 import {postUserGenerator} from './postUser';
-import {axios} from 'base/api';
+import {client} from 'base/data';
 
-export const getMe = async () => getMeGenerator(axios);
+export const getMe = async () => getMeGenerator(client);
 export const findUsers = async (context: QueryFunctionContext) =>
-  findUsersGenerator(axios, context);
-export const deleteUser = async (id: string) => deleteUserGenerator(axios, id);
+  findUsersGenerator(client, context);
+export const deleteUser = async (id: string) => deleteUserGenerator(client, id);
 export const postUser = async (user: Omit<CreateUserRequestBodyDto, 'email'> & {email: string}) =>
-  postUserGenerator(axios, user);
+  postUserGenerator(client, user);

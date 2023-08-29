@@ -4,7 +4,7 @@ import {
   useMutation,
   UseMutationOptions,
 } from 'react-query';
-import {queryClient} from 'base/api/client';
+import {queryClient} from 'base/data';
 import {getItem, storeItem, clearItem} from 'base/state/storage';
 
 const REFRESH_TOKEN_KEY = 'refreshToken';

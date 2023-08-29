@@ -1,7 +1,7 @@
 import {usePostRefresh, useClearRefreshToken} from 'auth/data';
 import {useAuth, useAuthDispatch} from 'auth/state';
 import {isAuthError, getTokenExpiration} from 'auth/utils';
-import {setAccessToken} from 'base/api/client';
+import {setAccessToken} from 'base/data';
 
 export function useAttemptToRefreshToken() {
   const {refreshToken, accessToken} = useAuth();

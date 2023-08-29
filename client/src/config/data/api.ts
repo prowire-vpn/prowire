@@ -1,5 +1,5 @@
 import {AppHealthResponseBodyDto} from '@prowire-vpn/api';
-import {client} from 'base/api/client';
+import {client} from 'base/data';
 
 export async function getHealth(
   baseURL?: string,

@@ -4,7 +4,7 @@ import {
   RefreshTokenRequestBodyDto,
   RefreshTokenResponseBodyDto,
 } from '@prowire-vpn/api';
-import {client} from 'base/api/client';
+import {client} from 'base/data';
 
 export async function postToken(
   body: AuthTokenRequestBodyDto,

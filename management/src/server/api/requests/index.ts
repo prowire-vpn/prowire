@@ -1,4 +1,4 @@
 import {findServerGenerator} from './findServer';
-import {axios} from 'base/api';
+import {client} from 'base/data';
 
-export const findServer = async () => findServerGenerator(axios);
+export const findServer = async () => findServerGenerator(client);

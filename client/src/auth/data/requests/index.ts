@@ -4,7 +4,7 @@ import {
 } from '@prowire-vpn/api';
 import {postRefreshGenerator} from './refresh';
 import {postTokenGenerator} from './token';
-import {client} from 'base/api/client';
+import {client} from 'base/data';
 
 export const postToken = async (data: AuthTokenRequestBodyDto) =>
   postTokenGenerator(client, data);

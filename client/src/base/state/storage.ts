@@ -1,9 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import usePromise from 'react-promise-suspense';
-
-export function useGetItem(key: string) {
-  return usePromise(AsyncStorage.getItem, [key]);
-}
 
 export function getItem(key: string) {
   return AsyncStorage.getItem(key);

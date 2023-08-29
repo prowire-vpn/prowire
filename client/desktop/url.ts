@@ -9,7 +9,7 @@ export function handleUrl(url: string) {
       break;
     }
     default:
-      console.log('Unknown path:', urlObj.pathname);
+      console.warn('Unknown path:', urlObj.pathname);
   }
 }
 
