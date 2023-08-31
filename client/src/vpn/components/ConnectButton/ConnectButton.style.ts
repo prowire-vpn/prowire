@@ -6,7 +6,6 @@ export const Root = styled(Pressable)`
   width: 50%;
   padding-bottom: 50%;
   background-color: ${({theme}) => theme.colors.primary};
-  border-radius: 50%;
 `;
 
 export const Content = styled.View`

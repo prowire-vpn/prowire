@@ -3,6 +3,8 @@ import {ConfigActions} from './action';
 export interface ConfigState {
   inputApiUrl?: string;
   apiUrl?: string;
+  previousApiUrl?: string;
+  apiHealthy?: boolean;
   error?: unknown;
 }
 
@@ -34,8 +36,14 @@ export function configReducer(
         error: action.payload,
       };
     }
+    case 'apiHealth': {
+      return {
+        ...config,
+        apiHealthy: action.payload,
+      };
+    }
     case 'clear': {
-      return initialConfig;
+      return {...initialConfig, previousApiUrl: config.apiUrl};
     }
   }
 }

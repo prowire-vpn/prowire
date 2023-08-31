@@ -6,6 +6,7 @@ export async function getHealth(
 ): Promise<AppHealthResponseBodyDto> {
   const {data} = await client.get<AppHealthResponseBodyDto>('/health', {
     baseURL,
+    timeout: 3000,
   });
   return data;
 }

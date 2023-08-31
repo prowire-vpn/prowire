@@ -1,5 +1,5 @@
-import {VpnConfig} from './vpn_config.entity';
-import {VpnConfigRepository} from 'server/infrastructure/vpn_config.repository';
+import {VpnConfig} from './vpnConfig.entity';
+import {VpnConfigRepository} from 'server/infrastructure/vpnConfig.repository';
 import {Injectable} from '@nestjs/common';
 
 @Injectable()

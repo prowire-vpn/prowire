@@ -1,12 +1,12 @@
 import {PropsWithChildren} from 'react';
 import * as React from 'react';
 import {setBaseUrl} from 'base/data';
-import {useGetApiUrl} from 'config/data';
-import {ApiConfigPage} from 'config/pages';
+import {useGetApiUrl, useGetHealth} from 'config/data';
+import {ApiConfigPage, ServerUnreachablePage} from 'config/pages';
 import {useConfig, useConfigDispatch} from 'config/state';
 
 export function ConfigInit({children}: PropsWithChildren) {
-  const config = useConfig();
+  const {apiUrl, apiHealthy} = useConfig();
   const dispatch = useConfigDispatch();
 
   useGetApiUrl({
@@ -19,7 +19,22 @@ export function ConfigInit({children}: PropsWithChildren) {
     },
   });
 
-  if (config.apiUrl) {
+  const {isError} = useGetHealth(apiUrl, {
+    enabled: !!apiUrl,
+    suspense: apiHealthy === undefined,
+    refetchInterval: 10_000,
+    retry: false,
+    onSettled: (data, error) => {
+      const healthy = !error && !!data?.healthy;
+      dispatch({type: 'apiHealth', payload: healthy});
+    },
+  });
+
+  if (isError) {
+    return <ServerUnreachablePage />;
+  }
+
+  if (apiUrl) {
     return <>{children}</>;
   }
 

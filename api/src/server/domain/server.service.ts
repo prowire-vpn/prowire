@@ -3,7 +3,7 @@ import {ServerRepository} from 'server/infrastructure/server.repository';
 import {Server, ServerConstructor} from './server.entity';
 import {ServerNotFoundError} from './server.service.error';
 import {PkiService} from './pki.service';
-import {VpnConfigService} from './vpn_config.service';
+import {VpnConfigService} from './vpnConfig.service';
 import {ServerGateway} from 'server/presentation/server.gateway';
 
 @Injectable()

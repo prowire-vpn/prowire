@@ -17,6 +17,9 @@ const electronHandler = {
     once(channel: string, func: (...args: unknown[]) => void) {
       ipcRenderer.once(channel, (_event, ...args) => func(...args));
     },
+    invoke<T = unknown>(channel: string, ...args: unknown[]): Promise<T> {
+      return ipcRenderer.invoke(channel, ...args);
+    },
     removeAllListeners(channel: string) {
       ipcRenderer.removeAllListeners(channel);
     },
@@ -24,5 +27,9 @@ const electronHandler = {
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
+
+contextBridge.exposeInMainWorld('cryptoModule', {
+  generateKeyPair: () => ipcRenderer.invoke('crypto:generateKeyPair'),
+});
 
 export type ElectronHandler = typeof electronHandler;

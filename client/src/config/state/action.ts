@@ -17,8 +17,14 @@ export interface SetErrorAction {
   payload?: unknown;
 }
 
+export interface ApiHealthAction {
+  type: 'apiHealth';
+  payload: boolean;
+}
+
 export type ConfigActions =
   | ClearAction
   | InputApiUrlAction
   | SetApiUrlAction
-  | SetErrorAction;
+  | SetErrorAction
+  | ApiHealthAction;

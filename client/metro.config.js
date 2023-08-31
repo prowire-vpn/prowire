@@ -20,6 +20,7 @@ const config = {
       'config': path.resolve(__dirname, './src/config'),
       'auth': path.resolve(__dirname, './src/auth'),
       'ui': path.resolve(__dirname, './src/ui'),
+      'vpn': path.resolve(__dirname, './src/vpn'),
       'assets': path.resolve(__dirname, './assets'),
     }
   },

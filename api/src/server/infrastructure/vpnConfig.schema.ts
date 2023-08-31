@@ -1,6 +1,6 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {HydratedDocument, Model, UpdateQuery} from 'mongoose';
-import {VpnConfig} from 'server/domain/vpn_config.entity';
+import {VpnConfig} from 'server/domain/vpnConfig.entity';
 
 @Schema()
 class SubnetSchemaClass {

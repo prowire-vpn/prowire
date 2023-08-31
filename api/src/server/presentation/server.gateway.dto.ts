@@ -18,14 +18,29 @@ export abstract class WebSocketMessage {
 class StartServerEventPayload {
   public readonly certificate: string;
   public readonly ca: string;
+  public readonly protocol: string;
+  public readonly mode: string;
   public readonly routes: Array<string>;
   public readonly subnet: string;
 
   constructor(config: VpnConfig, certificate: string, ca: string) {
     this.certificate = certificate;
     this.ca = ca;
+    this.protocol = config.protocol;
+    this.mode = config.mode;
     this.routes = config.routes.map((route) => route.toIpWithMask());
     this.subnet = config.subnet.toIpWithMask();
+  }
+
+  toJSON() {
+    return {
+      protocol: this.protocol,
+      mode: this.mode,
+      routes: this.routes,
+      subnet: this.subnet,
+      ca: this.ca,
+      certificate: this.certificate,
+    };
   }
 }
 
@@ -40,12 +55,7 @@ export class StartServerEvent extends WebSocketMessage {
   serialize(): Buffer {
     return serialize({
       type: this.type,
-      payload: {
-        routes: this.payload.routes,
-        subnet: this.payload.subnet,
-        ca: this.payload.ca,
-        certificate: this.payload.certificate,
-      },
+      payload: this.payload.toJSON(),
     });
   }
 }

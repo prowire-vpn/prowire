@@ -1,4 +1,4 @@
 export * from './server.repository';
 export * from './server.schema';
-export * from './vpn_config.schema';
-export * from './vpn_config.repository';
+export * from './vpnConfig.schema';
+export * from './vpnConfig.repository';

@@ -1,4 +1,9 @@
-export type VpnConfigConstructor = Pick<VpnConfig, 'routes' | 'subnet'>;
+export type VpnConfigConstructor = {
+  protocol?: 'tcp' | 'udp';
+  mode?: 'tun' | 'tap';
+  subnet: Subnet;
+  routes: Array<Subnet>;
+};
 
 export class Subnet {
   public ip: string;
@@ -28,15 +33,22 @@ export class Subnet {
 }
 
 export class VpnConfig {
-  public routes: Subnet[];
+  public protocol: 'tcp' | 'udp';
+  public mode: 'tun' | 'tap';
   public subnet: Subnet;
+  public routes: Array<Subnet>;
 
   constructor(options: VpnConfigConstructor) {
-    this.routes = options.routes;
+    this.protocol = options.protocol ?? 'udp';
+    this.mode = options.mode ?? 'tun';
     this.subnet = options.subnet;
+    this.routes = options.routes;
   }
 
   static getDefaultConfig(): VpnConfig {
-    return new VpnConfig({subnet: new Subnet('10.8.0.0/24'), routes: []});
+    return new VpnConfig({
+      subnet: new Subnet('10.8.0.0/24'),
+      routes: [new Subnet('10.8.0.0/24')],
+    });
   }
 }

@@ -1,9 +1,11 @@
 export type OpenVpnConfigConstructor = Pick<
   OpenVpnConfig,
-  'port' | 'dhParam' | 'ca' | 'certificate' | 'key' | 'routes' | 'subnet'
+  'protocol' | 'mode' | 'port' | 'dhParam' | 'ca' | 'certificate' | 'key' | 'routes' | 'subnet'
 >;
 
 export class OpenVpnConfig {
+  public protocol: string;
+  public mode: string;
   public port: number;
   public dhParam: string;
   public ca: string;
@@ -13,6 +15,8 @@ export class OpenVpnConfig {
   public subnet: string;
 
   constructor(data: OpenVpnConfigConstructor) {
+    this.protocol = data.protocol;
+    this.mode = data.mode;
     this.port = data.port;
     this.dhParam = data.dhParam;
     this.ca = data.ca;
@@ -29,9 +33,9 @@ export class OpenVpnConfig {
     // Use a subnet topology (https://community.openvpn.net/openvpn/wiki/Topology)
     configFile.push('topology subnet');
     // Use TUN interface
-    configFile.push('dev tun');
+    configFile.push(`dev ${this.mode}`);
     // Use UDP mode
-    configFile.push('proto udp');
+    configFile.push(`proto ${this.protocol}`);
     // Set listening port
     configFile.push(`port ${this.port}`);
     // Add all the routes

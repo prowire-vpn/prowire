@@ -10,14 +10,14 @@ type FormData = {
 };
 
 export function ApiUrlInputForm() {
-  const {error} = useConfig();
+  const {error, previousApiUrl} = useConfig();
   const dispatch = useConfigDispatch();
 
   const {
     control,
     handleSubmit,
     formState: {isValid},
-  } = useForm<FormData>({defaultValues: {url: ''}});
+  } = useForm<FormData>({defaultValues: {url: previousApiUrl ?? ''}});
 
   const onSubmit = useCallback(
     ({url}: FormData) => {
@@ -36,7 +36,7 @@ export function ApiUrlInputForm() {
           <TextInput
             label="Server URL"
             value={value}
-            onChange={onChange}
+            onChangeText={onChange}
             onBlur={onBlur}
           />
         )}

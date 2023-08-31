@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
-import {VpnConfigModel, VpnConfigSchemaClass} from './vpn_config.schema';
+import {VpnConfigModel, VpnConfigSchemaClass} from './vpnConfig.schema';
 import {InjectModel} from '@nestjs/mongoose';
-import {VpnConfig} from 'server/domain/vpn_config.entity';
+import {VpnConfig} from 'server/domain/vpnConfig.entity';
 
 @Injectable()
 export class VpnConfigRepository {
