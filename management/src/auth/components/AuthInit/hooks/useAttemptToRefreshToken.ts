@@ -10,6 +10,7 @@ export function useAttemptToRefreshToken() {
   usePostRefresh(refreshToken, {
     enabled: !!refreshToken,
     suspense: !accessToken,
+    refetchOnWindowFocus: false,
     onSuccess(data) {
       if (!data.refresh_token) {
         throw new Error('No refresh token provided in refresh call');
