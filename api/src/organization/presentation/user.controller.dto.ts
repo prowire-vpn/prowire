@@ -1,6 +1,6 @@
 import {Transform} from 'class-transformer';
 import {isEmail, IsString, IsInstance, IsOptional, IsInt, Min, Max} from 'class-validator';
-import {User, EmailAddress} from 'user/domain';
+import {User, EmailAddress} from 'organization/domain';
 
 export class UserDto {
   id: string;

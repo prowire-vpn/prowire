@@ -1,7 +1,7 @@
 import {Client} from 'auth/domain/client.entity';
 import {RefreshToken} from './refresh_token.entity';
 import {ConfigService} from '@nestjs/config';
-import {UserService} from 'user/domain';
+import {UserService} from 'organization/domain';
 import {NoUserAccountForRefreshTokenError} from './refresh_token.service.error';
 import {Injectable, UnauthorizedException} from '@nestjs/common';
 

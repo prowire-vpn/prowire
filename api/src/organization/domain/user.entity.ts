@@ -1,10 +1,7 @@
 import {Identity, IdentityProvider, IdentityConstructor, IdentityUpdater} from './identity.entity';
 import {EmailAddress} from './email.entity';
-import {ID} from 'types';
-import {ObjectId} from 'bson';
 import {IdentityExistsError} from './user.entity.error';
-
-export type UserId = ID<User>;
+import {Base} from 'app/domain';
 
 export type UserConstructor = Pick<User, 'name' | 'email'> &
   Partial<Pick<User, 'id' | 'avatar' | 'admin'>> & {
@@ -13,8 +10,7 @@ export type UserConstructor = Pick<User, 'name' | 'email'> &
 
 export type UserUpdater = Partial<Pick<User, 'name' | 'email' | 'avatar' | 'admin'>>;
 
-export class User {
-  public id: UserId;
+export class User extends Base {
   public name: string;
   public email: EmailAddress;
   public avatar?: string;
@@ -22,12 +18,13 @@ export class User {
   public identities: Array<Identity>;
 
   public constructor(init: UserConstructor) {
-    this.id = init.id ?? new ObjectId().toHexString();
+    super(init);
     this.name = init.name;
     this.email = init.email;
     this.avatar = init.avatar;
     this.admin = init.admin ?? false;
     this.identities = init.identities?.map((identity) => new Identity(identity)) ?? [];
+    this.initialized = true;
   }
 
   public update(update: UserUpdater): User {

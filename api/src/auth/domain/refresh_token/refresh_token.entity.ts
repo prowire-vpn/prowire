@@ -1,5 +1,4 @@
 import {randomBytes, createCipheriv, createDecipheriv} from 'crypto';
-import {UserId} from 'user/domain';
 import {Client} from '../client.entity';
 import * as Joi from 'joi';
 
@@ -16,7 +15,7 @@ const tokenBodySchema = Joi.object({
 });
 
 export class RefreshToken {
-  subject: UserId;
+  subject: string;
   private key: Buffer;
   private iv: Buffer;
   private tag: Buffer;

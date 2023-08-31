@@ -1,5 +1,5 @@
 import {Injectable, Inject, forwardRef} from '@nestjs/common';
-import {User, UserService} from 'user/domain';
+import {User, UserService} from 'organization/domain';
 import {ThirdPartyIdentity} from './thirdPartyIdentity.entity';
 import {
   NoRefreshTokenProvidedError,

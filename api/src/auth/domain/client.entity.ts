@@ -1,10 +1,10 @@
 import {ClientType, ClientConstructor} from './client.entity.interface';
-import {User, UserId} from 'user/domain/user.entity';
+import {User} from 'organization/domain';
 import {AccessTokenPayload} from './access_token';
 
 export class Client {
   type: ClientType = 'user';
-  id: UserId;
+  id: string;
   admin: boolean;
 
   constructor(init: ClientConstructor) {

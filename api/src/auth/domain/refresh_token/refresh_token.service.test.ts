@@ -2,7 +2,7 @@ import {RefreshTokenService} from './refresh_token.service';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import {Test} from '@nestjs/testing';
 import {build} from 'test';
-import {User, UserService} from 'user/domain';
+import {User, UserService} from 'organization/domain';
 import {UnauthorizedException} from '@nestjs/common';
 import {RefreshToken} from './refresh_token.entity';
 import {NoUserAccountForRefreshTokenError} from './refresh_token.service.error';

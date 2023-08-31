@@ -1,15 +1,12 @@
 import {isBefore, addMinutes} from 'date-fns';
 import {randomBytes} from 'crypto';
 import {Client} from 'auth/domain/client.entity';
-import {UserId} from 'user/domain/user.entity';
 import {Base} from 'app/domain';
 import {ID} from 'types';
 
-export type OAuthSessionId = string;
-
 export interface OAuthSessionConstructor {
   id?: ID<OAuthSession>;
-  userId?: UserId;
+  userId?: string;
   started_at?: Date;
   state: string;
   code_challenge: string;

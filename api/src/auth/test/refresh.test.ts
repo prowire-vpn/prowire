@@ -4,7 +4,7 @@ import {AppModule} from 'app/app.module';
 import {RefreshToken} from 'auth/domain';
 import {INestApplication} from '@nestjs/common';
 import {build, create} from 'test';
-import {User} from 'user/domain';
+import {User} from 'organization/domain';
 
 describe('AuthModule', () => {
   let user: User;

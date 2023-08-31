@@ -5,7 +5,7 @@ import {OAuthService} from 'auth/domain/oauth/oauth.service';
 import {faker} from '@faker-js/faker';
 import {Profile} from 'passport-google-oauth20';
 import {build} from 'test';
-import {EmailAddress, User} from 'user/domain';
+import {EmailAddress, User} from 'organization/domain';
 import {Client} from 'auth/domain/client.entity';
 import {NoVerifiedEmailError} from './google.strategy.error';
 import {UnauthorizedException} from '@nestjs/common';

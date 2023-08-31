@@ -1,19 +1,15 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {UserModel, UserSchemaClass} from './user.schema';
-import {User, UserId, EmailAddress} from 'user/domain';
-import {UserMapper} from 'user/utils';
+import {User, EmailAddress} from 'organization/domain';
 import {isObjectIdOrHexString} from 'mongoose';
 
 @Injectable()
 export class UserRepository {
-  constructor(
-    @InjectModel(UserSchemaClass.name) private userModel: UserModel,
-    private userMapper: UserMapper,
-  ) {}
+  constructor(@InjectModel(UserSchemaClass.name) private userModel: UserModel) {}
 
   async persist(user: User): Promise<User> {
-    await this.userModel.findOneAndUpdate({_id: user.id}, this.userMapper.toModelData(user), {
+    await this.userModel.updateOne({_id: user.id}, this.userModel.fromDomainChanges(user), {
       new: true,
       upsert: true,
     });
@@ -21,18 +17,18 @@ export class UserRepository {
   }
 
   async delete(user: User): Promise<void> {
-    const model = this.userMapper.toModel(user);
+    const model = new this.userModel(this.userModel.fromDomain(user));
     await model.delete();
   }
 
   async findByEmail(email: EmailAddress): Promise<User | null> {
     const user = await this.userModel.findOne({email: email.toString()}).exec();
-    return user && this.userMapper.fromModel(user);
+    return user && user.toDomain();
   }
 
-  async findById(id: UserId): Promise<User | null> {
+  async findById(id: string): Promise<User | null> {
     const user = await this.userModel.findById(id).exec();
-    return user && this.userMapper.fromModel(user);
+    return user && user.toDomain();
   }
 
   async getTotalCount(): Promise<number> {
@@ -56,7 +52,7 @@ export class UserRepository {
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
-    return users.map((user) => this.userMapper.fromModel(user));
+    return users.map((user) => user.toDomain());
   }
 
   async getUserCount(): Promise<number> {

@@ -4,12 +4,12 @@ import {AppModule} from 'app/app.module';
 import {AccessToken} from 'auth/domain';
 import {INestApplication} from '@nestjs/common';
 import {build} from 'test';
-import {User} from 'user/domain';
-import {CreateUserResponseBodyDto} from 'user/presentation';
-import {UserModel, UserSchemaClass} from 'user/infrastructure';
+import {User} from 'organization/domain';
+import {CreateUserResponseBodyDto} from 'organization/presentation';
+import {UserModel, UserSchemaClass} from 'organization/infrastructure';
 import {getModelToken} from '@nestjs/mongoose';
 
-describe('UserModule', () => {
+describe('OrganizationModule', () => {
   let user: User;
   let accessToken: AccessToken;
 

@@ -1,7 +1,7 @@
 import {Controller, Post, UseFilters, Body} from '@nestjs/common';
 import {RedirectExceptionFilter} from './google.controller.exception';
 import {AccessTokenService, RefreshTokenService} from 'auth/domain';
-import {UserService} from 'user/domain';
+import {UserService} from 'organization/domain';
 import {OAuthService} from 'auth/domain/oauth';
 import {AuthTokenRequestBodyDto, AuthTokenResponseBodyDto} from './auth.controller.dto';
 import {Client} from 'auth/domain/client.entity';

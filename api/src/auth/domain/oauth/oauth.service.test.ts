@@ -2,7 +2,7 @@ import {Test} from '@nestjs/testing';
 import {OAuthService} from './oauth.service';
 import {faker} from '@faker-js/faker';
 import {build} from 'test';
-import {User, UserService} from 'user/domain';
+import {User, UserService} from 'organization/domain';
 import {EventEmitterModule, EventEmitter2} from '@nestjs/event-emitter';
 import {GoogleIdentity} from './thirdPartyIdentity.entity';
 import {

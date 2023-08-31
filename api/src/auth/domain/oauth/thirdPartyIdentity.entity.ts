@@ -1,4 +1,9 @@
-import {IdentityProvider, EmailAddress, IdentityUpdater, RegisterUserInfo} from 'user/domain';
+import {
+  IdentityProvider,
+  EmailAddress,
+  IdentityUpdater,
+  RegisterUserInfo,
+} from 'organization/domain';
 
 export interface OAuthConstructor {
   email: string;

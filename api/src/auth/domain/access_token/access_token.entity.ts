@@ -4,7 +4,6 @@ import {AccessTokenPayload, AccessTokenOptions} from './access_token.entity.inte
 import * as Joi from 'joi';
 import {InvalidAccessTokenPayloadError} from './access_token.entity.error';
 import {Client} from 'auth/domain/client.entity';
-import {UserId} from 'user/domain';
 
 const payloadSchema = Joi.object<AccessTokenPayload>({
   sub: Joi.string().required(),
@@ -14,7 +13,7 @@ const payloadSchema = Joi.object<AccessTokenPayload>({
 export class AccessToken {
   id: string;
   algorithm: Algorithm = 'HS256';
-  subject: UserId;
+  subject: string;
   options: AccessTokenOptions;
   admin: boolean;
   token: string;

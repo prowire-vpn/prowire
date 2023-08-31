@@ -5,17 +5,26 @@ type MappingTuple<Domain extends Base, Storage extends BaseSchema<Domain>> = [
   keyof Domain,
   keyof Storage,
 ];
-interface MappingObject<Domain extends Base, Storage extends BaseSchema<Domain>> {
-  domainKey: keyof Domain;
-  storageKey: keyof Storage;
-  toDomain?: (value: Storage[keyof Storage]) => Domain[keyof Domain];
-  fromDomain?: (instance: Domain[keyof Domain]) => Storage[keyof Storage];
+interface MappingObject<
+  Domain extends Base,
+  Storage extends BaseSchema<Domain>,
+  DK extends keyof Domain,
+  SK extends keyof Storage,
+> {
+  domainKey: DK;
+  storageKey: SK;
+  /** If a property is another entity that can be mapped, you can provide a mapper or it */
+  mapper?: Mapper;
+  /** If a property is an array of entities that can be mapped, you can provide a mapper or it */
+  arrayMapper?: Mapper;
+  toDomain?: (value: Storage[SK]) => Domain[DK];
+  fromDomain?: (instance: Domain[DK]) => Storage[SK];
 }
 export type Mapping<Domain extends Base, Storage extends BaseSchema<Domain>> = Array<
-  MappingTuple<Domain, Storage> | MappingObject<Domain, Storage>
+  MappingTuple<Domain, Storage> | MappingObject<Domain, Storage, keyof Domain, keyof Storage>
 >;
 
-export class Mapper<Domain extends Base, Storage extends BaseSchema<Domain>> {
+export class Mapper<Domain extends Base = any, Storage extends BaseSchema<Domain> = any> {
   private readonly domainToStorageMap: Record<keyof Domain, keyof Storage>;
 
   constructor(private readonly mapping: Mapping<Domain, Storage>) {
@@ -36,10 +45,20 @@ export class Mapper<Domain extends Base, Storage extends BaseSchema<Domain>> {
       if (Array.isArray(mapping)) {
         const [domain, storage] = mapping;
         acc[domain] = document[storage];
-      } else {
-        const {domainKey, storageKey, toDomain} = mapping;
-        acc[domainKey] = toDomain ? toDomain(document[storageKey]) : document[storageKey];
+        return acc;
       }
+      const {domainKey, storageKey, toDomain, mapper, arrayMapper} = mapping;
+      if (arrayMapper) {
+        if (!Array.isArray(document[storageKey]))
+          throw new Error(`Property ${String(storageKey)} is not an array`);
+        acc[domainKey] = (document[storageKey] as Array<any>).map((value) =>
+          arrayMapper.toDomain(value),
+        );
+        return acc;
+      }
+
+      const modifier = toDomain ?? mapper?.toDomain.bind(mapper);
+      acc[domainKey] = modifier ? modifier(document[storageKey]) : document[storageKey];
       return acc;
     }, {} as Record<keyof Domain, any>);
   }
@@ -49,10 +68,19 @@ export class Mapper<Domain extends Base, Storage extends BaseSchema<Domain>> {
       if (Array.isArray(mapping)) {
         const [domain, storage] = mapping;
         acc[storage] = instance[domain];
-      } else {
-        const {domainKey, storageKey, fromDomain} = mapping;
-        acc[storageKey] = fromDomain ? fromDomain(instance[domainKey]) : instance[domainKey];
+        return acc;
       }
+      const {domainKey, storageKey, fromDomain, mapper, arrayMapper} = mapping;
+      if (arrayMapper) {
+        if (!Array.isArray(instance[domainKey]))
+          throw new Error(`Property ${String(domainKey)} is not an array`);
+        acc[storageKey] = (instance[domainKey] as Array<any>).map((value) =>
+          arrayMapper.fromDomain(value),
+        );
+        return acc;
+      }
+      const modifier = fromDomain ?? mapper?.fromDomain.bind(mapper);
+      acc[storageKey] = modifier ? modifier(instance[domainKey]) : instance[domainKey];
       return acc;
     }, {} as Record<keyof Storage, any>);
   }

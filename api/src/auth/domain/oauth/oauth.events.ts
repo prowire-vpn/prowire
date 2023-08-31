@@ -1,5 +1,5 @@
 import {ThirdPartyIdentity} from './thirdPartyIdentity.entity';
-import {User} from 'user/domain';
+import {User} from 'organization/domain';
 
 export class OauthAuthenticatedEvent {
   public static namespace = 'auth.oauth.authenticated';

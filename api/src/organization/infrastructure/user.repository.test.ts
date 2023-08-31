@@ -1,11 +1,10 @@
 import {MongooseModule, getModelToken} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
-import {UserRepository, UserSchemaClass, UserSchema, UserModel} from 'user/infrastructure';
-import {UserMapper} from 'user/utils';
+import {UserRepository, UserSchemaClass, UserSchema, UserModel} from 'organization/infrastructure';
 import {build, create} from 'test/factory';
 import {MongoMemoryServer} from 'mongodb-memory-server';
 import {faker} from '@faker-js/faker';
-import {EmailAddress} from 'user/domain';
+import {EmailAddress} from 'organization/domain';
 
 describe('UserRepository', () => {
   let module: TestingModule;
@@ -20,7 +19,7 @@ describe('UserRepository', () => {
         MongooseModule.forRoot(mongod.getUri()),
         MongooseModule.forFeature([{name: UserSchemaClass.name, schema: UserSchema}]),
       ],
-      providers: [UserMapper, UserRepository],
+      providers: [UserRepository],
     }).compile();
     userRepository = module.get<UserRepository>(UserRepository);
     userModel = module.get<UserModel>(getModelToken(UserSchemaClass.name));

@@ -10,9 +10,9 @@ export abstract class Base {
   protected initialized = false;
   public readonly changedProperties = new Set<string | symbol>();
 
-  constructor(init: BaseConstructor) {
-    this.id = init.id ?? new ObjectId().toHexString();
-    this.newEntity = !init.id;
+  constructor(init?: BaseConstructor) {
+    this.id = init?.id ?? new ObjectId().toHexString();
+    this.newEntity = !init?.id;
     const proxy = new Proxy(this, {
       set: (obj, prop, value) => {
         if (this.initialized) {

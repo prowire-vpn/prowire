@@ -10,5 +10,10 @@ module.exports = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {prefix: '<rootDir>/src'}),
   modulePaths: [compilerOptions.baseUrl],
   setupFiles: ['dotenv/config'],
-  setupFilesAfterEnv: ['<rootDir>/test/mongo/setup.ts']
+  setupFilesAfterEnv: ['<rootDir>/test/mongo/setup.ts'],
+  globals: {
+    'ts-jest': {
+      isolatedModules: true
+    }
+  }
 };

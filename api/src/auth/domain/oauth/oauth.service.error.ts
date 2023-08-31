@@ -1,4 +1,4 @@
-import {User} from 'user/domain';
+import {User} from 'organization/domain';
 import {ThirdPartyIdentity} from './thirdPartyIdentity.entity';
 
 export class NoRefreshTokenProvidedError extends Error {

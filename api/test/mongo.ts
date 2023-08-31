@@ -1,7 +1,7 @@
 import {MongooseModule, MongooseModuleOptions} from '@nestjs/mongoose';
 import {MongoMemoryServer} from 'mongodb-memory-server';
 import {model} from 'mongoose';
-import {UserSchema} from 'user/infrastructure';
+import {UserSchema} from 'organization/infrastructure';
 
 export const userModel = model('User', UserSchema);
 

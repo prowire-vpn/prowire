@@ -12,7 +12,7 @@ import {
   UseFilters,
   ForbiddenException,
 } from '@nestjs/common';
-import {UserService} from 'user/domain';
+import {UserService} from 'organization/domain';
 import {AccessTokenGuard, ClientRolesGuard, Client as IClient} from 'auth/domain';
 import {Client, Admin} from 'auth/utils';
 import {

@@ -2,7 +2,7 @@ import {Module, NestModule, MiddlewareConsumer, ValidationPipe} from '@nestjs/co
 import {ConfigSchema} from 'config';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import {AuthModule} from 'auth';
-import {UserModule} from 'user';
+import {OrganizationModule} from 'organization';
 import {MongooseModule} from '@nestjs/mongoose';
 import cookieParser from 'cookie-parser';
 import {EventEmitterModule} from '@nestjs/event-emitter';
@@ -29,7 +29,7 @@ import {HealthController} from './presentation';
     }),
     EventEmitterModule.forRoot(),
     AuthModule,
-    UserModule,
+    OrganizationModule,
     ServerModule,
   ],
   providers: [{provide: APP_PIPE, useValue: new ValidationPipe({transform: true})}],

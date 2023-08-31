@@ -32,8 +32,8 @@ export class OAuthSessionClass extends BaseSchema<OAuthSession> {
 
 export type OAuthSessionDocument = HydratedDocument<OAuthSessionClass>;
 export type OAuthSessionModel = Model<OAuthSessionDocument> & {
-  fromDomain: (session: OAuthSession) => UpdateQuery<OAuthSession>;
-  fromDomainChanges: (session: OAuthSession) => UpdateQuery<OAuthSession>;
+  fromDomain: (session: OAuthSession) => UpdateQuery<OAuthSessionClass>;
+  fromDomainChanges: (session: OAuthSession) => UpdateQuery<OAuthSessionClass>;
 };
 export const OAuthSessionSchema = SchemaFactory.createForClass(OAuthSessionClass);
 

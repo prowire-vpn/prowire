@@ -1,7 +1,7 @@
 import {OauthAuthenticatedEvent} from 'auth/domain/oauth/oauth.events';
 import {OnEvent} from '@nestjs/event-emitter';
 import {MissingIdentityCreationDataError} from './auth.listener.error';
-import {UserRepository} from 'user/infrastructure';
+import {UserRepository} from 'organization/infrastructure';
 import {Injectable} from '@nestjs/common';
 
 @Injectable()

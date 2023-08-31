@@ -1,6 +1,6 @@
 import {NotFoundException, BadRequestException, Catch, ArgumentsHost} from '@nestjs/common';
 import {BaseExceptionFilter} from '@nestjs/core';
-import {EmailAlreadyRegisteredError, UserNotFoundError} from 'user/domain';
+import {EmailAlreadyRegisteredError, UserNotFoundError} from 'organization/domain';
 
 @Catch(EmailAlreadyRegisteredError)
 export class CreateUserExceptionFilter extends BaseExceptionFilter {

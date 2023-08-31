@@ -11,13 +11,13 @@ import {
   RefreshTokenBodyStrategy,
 } from './domain';
 import {GoogleController, RefreshTokenController, AuthController} from './presentation';
-import {UserModule} from 'user';
+import {OrganizationModule} from 'organization';
 import {OAuthSessionRepository, OAuthSessionClass, OAuthSessionSchema} from './infrastructure';
 import {MongooseModule} from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    UserModule,
+    OrganizationModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => {
         return {

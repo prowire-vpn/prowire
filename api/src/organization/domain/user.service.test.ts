@@ -1,8 +1,7 @@
 import {Test} from '@nestjs/testing';
 import {UserService} from './user.service';
 import {EmailAlreadyRegisteredError} from './user.service.error';
-import {UserRepository, UserSchemaClass} from 'user/infrastructure';
-import {UserMapper} from 'user/utils';
+import {UserRepository, UserSchemaClass} from 'organization/infrastructure';
 import {faker} from '@faker-js/faker';
 import {build} from 'test/factory';
 import {userModel} from 'test/mongo';
@@ -23,7 +22,6 @@ describe('UserService', () => {
       controllers: [],
       providers: [
         UserService,
-        UserMapper,
         UserRepository,
         {provide: getModelToken(UserSchemaClass.name), useValue: userModel},
       ],

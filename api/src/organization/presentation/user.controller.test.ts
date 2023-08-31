@@ -1,5 +1,5 @@
 import {UserController} from './user.controller';
-import {User, UserService} from 'user/domain';
+import {User, UserService} from 'organization/domain';
 import {Test} from '@nestjs/testing';
 import {build} from 'test';
 import {Client} from 'auth/domain';

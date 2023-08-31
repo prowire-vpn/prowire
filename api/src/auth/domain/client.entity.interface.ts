@@ -1,8 +1,6 @@
-import {UserId} from 'user/domain';
-
 export type ClientType = 'user';
 
 export interface ClientConstructor {
-  id: UserId;
+  id: string;
   admin: boolean;
 }

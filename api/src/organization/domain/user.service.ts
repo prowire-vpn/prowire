@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
-import {User, UserId, UserUpdater} from './user.entity';
-import {UserRepository} from 'user/infrastructure';
+import {User, UserUpdater} from './user.entity';
+import {UserRepository} from 'organization/infrastructure';
 import {EmailAlreadyRegisteredError, UserNotFoundError} from './user.service.error';
 import {EmailAddress} from './email.entity';
 import {RegisterUserInfo} from './user.service.interface';
@@ -17,7 +17,7 @@ export class UserService {
     return newUser;
   }
 
-  async get(id: UserId): Promise<User | null> {
+  async get(id: string): Promise<User | null> {
     return this.userRepository.findById(id);
   }
 
@@ -25,7 +25,7 @@ export class UserService {
     return this.userRepository.findByEmail(email);
   }
 
-  async update(id: UserId, updates: UserUpdater): Promise<User> {
+  async update(id: string, updates: UserUpdater): Promise<User> {
     const user = await this.userRepository.findById(id);
     if (!user) throw new UserNotFoundError(id);
     user.update(updates);
@@ -33,7 +33,7 @@ export class UserService {
     return user;
   }
 
-  async delete(id: UserId): Promise<void> {
+  async delete(id: string): Promise<void> {
     const user = await this.userRepository.findById(id);
     if (!user) throw new UserNotFoundError(id);
     this.userRepository.delete(user);
