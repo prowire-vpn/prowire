@@ -1,66 +1,68 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {HydratedDocument, Model, UpdateQuery} from 'mongoose';
 import {OAuthSession} from 'auth/domain';
+import {BaseSchema, Mapper} from 'app/infrastructure';
 
 @Schema()
-export class OAuthSessionClass {
+export class OAuthSessionClass extends BaseSchema<OAuthSession> {
   @Prop({type: String, required: false})
-  userId!: Date;
+  public userId!: Date;
 
   @Prop({type: Date, required: true})
-  started_at!: Date;
+  public started_at!: Date;
 
   @Prop({type: String, required: true, unique: true, index: true})
-  state!: string;
+  public state!: string;
 
   @Prop({type: String, required: true})
-  code_challenge!: string;
+  public code_challenge!: string;
 
   @Prop({type: String, required: true})
-  redirect_uri!: string;
+  public redirect_uri!: string;
 
   @Prop({type: String, required: false, unique: true, index: true, sparse: true})
-  code?: string;
+  public code?: string;
 
   @Prop({type: Date, required: false})
-  code_issued_at?: Date;
+  public code_issued_at?: Date;
 
   @Prop({type: Boolean, required: false})
-  code_used?: boolean;
-
-  toDomain!: () => OAuthSession;
+  public code_used?: boolean;
 }
 
 export type OAuthSessionDocument = HydratedDocument<OAuthSessionClass>;
 export type OAuthSessionModel = Model<OAuthSessionDocument> & {
-  fromDomain: (server: OAuthSession) => UpdateQuery<OAuthSession>;
+  fromDomain: (session: OAuthSession) => UpdateQuery<OAuthSession>;
+  fromDomainChanges: (session: OAuthSession) => UpdateQuery<OAuthSession>;
 };
 export const OAuthSessionSchema = SchemaFactory.createForClass(OAuthSessionClass);
 
-OAuthSessionSchema.methods.toDomain = function (): OAuthSession {
-  return new OAuthSession({
-    userId: this.userId,
-    started_at: this.started_at,
-    state: this.state,
-    code_challenge: this.code_challenge,
-    redirect_uri: this.redirect_uri,
-    code: this.code,
-    code_issued_at: this.code_issued_at,
-    code_used: this.code_used,
-  });
-};
+const mapper = new Mapper<OAuthSession, OAuthSessionClass>([
+  {domainKey: 'id', storageKey: '_id', toDomain: (value) => value?.toString()},
+  ['userId', 'userId'],
+  ['started_at', 'started_at'],
+  ['state', 'state'],
+  ['code_challenge', 'code_challenge'],
+  ['redirect_uri', 'redirect_uri'],
+  ['code', 'code'],
+  ['code_issued_at', 'code_issued_at'],
+  ['code_used', 'code_used'],
+]);
 
-OAuthSessionSchema.statics.fromDomain = function (
-  session: OAuthSession,
-): UpdateQuery<OAuthSession> {
-  return {
-    userId: session.userId,
-    started_at: session.started_at,
-    state: session.state,
-    code_challenge: session.code_challenge,
-    redirect_uri: session.redirect_uri,
-    code: session.code,
-    code_issued_at: session.code_issued_at,
-    code_used: session.code_used,
-  };
-};
+OAuthSessionSchema.method('toDomain', function (): OAuthSession {
+  return new OAuthSession(mapper.toDomain(this));
+});
+
+OAuthSessionSchema.static(
+  'fromDomain',
+  function (session: OAuthSession): UpdateQuery<OAuthSession> {
+    return mapper.fromDomain(session);
+  },
+);
+
+OAuthSessionSchema.static(
+  'fromDomainChanges',
+  function (session: OAuthSession): UpdateQuery<OAuthSession> {
+    return mapper.fromDomainChanges(session);
+  },
+);

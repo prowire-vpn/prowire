@@ -1,7 +1,7 @@
 import {Controller, Get, UseGuards} from '@nestjs/common';
 import {ServerService} from 'server/domain';
-import {AccessTokenGuard, ClientRolesGuard} from 'auth/domain';
-import {Admin} from 'auth/utils';
+import {AccessTokenGuard, ClientRolesGuard, Client as IClient} from 'auth/domain';
+import {Admin, Client} from 'auth/utils';
 import {FindServerResponseBodyDto} from './server.controller.dto';
 
 @Controller('server')
@@ -15,4 +15,7 @@ export class ServerController {
     const servers = await this.serverService.find();
     return new FindServerResponseBodyDto(servers);
   }
+
+  @Get('connect')
+  async connect(@Client() client: IClient): Promise<void> {}
 }

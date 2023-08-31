@@ -2,8 +2,13 @@ import {isBefore, addMinutes} from 'date-fns';
 import {randomBytes} from 'crypto';
 import {Client} from 'auth/domain/client.entity';
 import {UserId} from 'user/domain/user.entity';
+import {Base} from 'app/domain';
+import {ID} from 'types';
+
+export type OAuthSessionId = string;
 
 export interface OAuthSessionConstructor {
+  id?: ID<OAuthSession>;
   userId?: UserId;
   started_at?: Date;
   state: string;
@@ -14,7 +19,7 @@ export interface OAuthSessionConstructor {
   code_used?: boolean;
 }
 
-export class OAuthSession {
+export class OAuthSession extends Base {
   userId?: string;
   started_at: Date;
   state: string;
@@ -25,6 +30,7 @@ export class OAuthSession {
   code_used: boolean;
 
   constructor(data: OAuthSessionConstructor) {
+    super(data);
     this.userId = data.userId;
     this.started_at = data.started_at ?? new Date();
     this.state = data.state;
@@ -33,6 +39,7 @@ export class OAuthSession {
     this.code = data.code;
     this.code_issued_at = data.code_issued_at;
     this.code_used = data.code_used ?? false;
+    this.initialized = true;
   }
 
   get state_used(): boolean {
@@ -64,5 +71,10 @@ export class OAuthSession {
     url.searchParams.append('state', this.state);
     url.searchParams.append('code', this.code);
     return url.toString();
+  }
+
+  public useCode(): void {
+    if (!this.code) throw new Error('No code issued');
+    this.code_used = true;
   }
 }

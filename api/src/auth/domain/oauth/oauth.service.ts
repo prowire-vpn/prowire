@@ -72,6 +72,8 @@ export class OAuthService {
   }): Promise<OAuthSession> {
     const session = await this.sessionRepository.find({code});
     if (!session || !session.hasValidCode) throw new InvalidCodeError(code);
+    session.useCode();
+    await this.sessionRepository.persist(session);
     const codeChallenge = createHash('sha-256')
       .update(Buffer.from(codeVerifier, 'base64url'))
       .digest('base64url');

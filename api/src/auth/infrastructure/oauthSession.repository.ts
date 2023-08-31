@@ -13,9 +13,9 @@ export class OAuthSessionRepository {
   constructor(@InjectModel(OAuthSessionClass.name) private sessionModel: OAuthSessionModel) {}
 
   async persist(session: OAuthSession): Promise<OAuthSession> {
-    await this.sessionModel.findOneAndUpdate(
-      {state: session.state},
-      this.sessionModel.fromDomain(session),
+    await this.sessionModel.updateOne(
+      {_id: session.id},
+      this.sessionModel.fromDomainChanges(session),
       {
         new: true,
         upsert: true,
