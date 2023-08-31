@@ -2,6 +2,7 @@ import {GoogleController} from './google.controller';
 import {
   AccessTokenService,
   RefreshTokenService,
+  OAuthService,
   Client,
   AccessToken,
   RefreshToken,
@@ -47,14 +48,20 @@ describe('GoogleController', () => {
       create: jest.fn().mockReturnValue(refreshToken),
     };
 
+    class MockOAuthService {
+      issueOAuthSessionCode = jest.fn().mockReturnValue(build('oauthSession', {code: 'code'}));
+    }
+
     const moduleRef = await Test.createTestingModule({
       controllers: [GoogleController],
-      providers: [AccessTokenService, RefreshTokenService, ConfigService],
+      providers: [AccessTokenService, RefreshTokenService, ConfigService, OAuthService],
     })
       .overrideProvider(AccessTokenService)
       .useValue(mockAccessTokenService)
       .overrideProvider(RefreshTokenService)
       .useValue(mockRefreshTokenService)
+      .overrideProvider(OAuthService)
+      .useClass(MockOAuthService)
       .compile();
 
     googleController = moduleRef.get<GoogleController>(GoogleController);

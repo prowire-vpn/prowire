@@ -10,6 +10,12 @@ import {
   MissingDataForAccountCreationError,
 } from './oauth.service.error';
 import {OauthAuthenticatedEvent} from './oauth.events';
+import {OAuthSessionRepository} from 'auth/infrastructure';
+
+class MockOAuthSessionRepository {
+  persist = jest.fn();
+  find = jest.fn();
+}
 
 describe('OAuthService', () => {
   let user: User;
@@ -33,12 +39,14 @@ describe('OAuthService', () => {
 
     const moduleRef = await Test.createTestingModule({
       imports: [EventEmitterModule.forRoot()],
-      providers: [OAuthService, UserService, EventEmitter2],
+      providers: [OAuthService, UserService, EventEmitter2, OAuthSessionRepository],
     })
       .overrideProvider(UserService)
       .useValue(mockUserService)
       .overrideProvider(EventEmitter2)
       .useValue(mockEventEmitter)
+      .overrideProvider(OAuthSessionRepository)
+      .useClass(MockOAuthSessionRepository)
       .compile();
 
     oAuthService = moduleRef.get<OAuthService>(OAuthService);

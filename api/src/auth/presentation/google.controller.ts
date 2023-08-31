@@ -1,12 +1,11 @@
 import {Controller, Get, UseGuards, UseFilters, Query, Response} from '@nestjs/common';
 import {GoogleOAuthGuard, GoogleOAuthGuardInit, GoogleOAuthGuardForceRefresh} from 'auth/domain';
 import {RedirectExceptionFilter} from './google.controller.exception';
-import {AccessTokenService, RefreshTokenService, Client as IClient} from 'auth/domain';
+import {Client as IClient} from 'auth/domain';
 import {Client} from 'auth/utils/client.decorator';
 import {Response as IResponse} from 'express';
 import {readFileSync} from 'fs';
 import {rootPath} from 'root';
-import {ConfigService} from '@nestjs/config';
 import {StartGoogleFlowQueryDto} from './google.controller.dto';
 import {OAuthService} from 'auth/domain/oauth';
 
@@ -14,12 +13,7 @@ import {OAuthService} from 'auth/domain/oauth';
 export class GoogleController {
   htmlResponse: string;
 
-  constructor(
-    private accessTokenService: AccessTokenService,
-    private refreshTokenService: RefreshTokenService,
-    private oauthService: OAuthService,
-    private configService: ConfigService,
-  ) {
+  constructor(private oauthService: OAuthService) {
     this.htmlResponse = readFileSync(
       `${rootPath}/../static/post_auth_success_redirect.html`,
       'utf8',
