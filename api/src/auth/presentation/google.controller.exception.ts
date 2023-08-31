@@ -3,14 +3,24 @@ import {
   NoVerifiedEmailError,
   NoRefreshTokenProvidedError,
   MissingDataForAccountCreationError,
+  InvalidStateError,
 } from 'auth/domain';
 import {Response} from 'express';
 import {BaseExceptionFilter} from '@nestjs/core';
 
-@Catch(NoVerifiedEmailError, NoRefreshTokenProvidedError, MissingDataForAccountCreationError)
+@Catch(
+  NoVerifiedEmailError,
+  NoRefreshTokenProvidedError,
+  MissingDataForAccountCreationError,
+  InvalidStateError,
+)
 export class RedirectExceptionFilter extends BaseExceptionFilter {
   catch(
-    error: NoVerifiedEmailError | NoRefreshTokenProvidedError | MissingDataForAccountCreationError,
+    error:
+      | NoVerifiedEmailError
+      | NoRefreshTokenProvidedError
+      | MissingDataForAccountCreationError
+      | InvalidStateError,
     host: ArgumentsHost,
   ): void {
     if (error instanceof NoVerifiedEmailError)

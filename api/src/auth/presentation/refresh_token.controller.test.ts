@@ -35,7 +35,7 @@ describe('AuthModule', () => {
     it('should refresh a token using request body', async () => {
       await request(app.getHttpServer())
         .post('/auth/refresh')
-        .send({refreshToken: refreshToken.token})
+        .send({refresh_token: refreshToken.token})
         .expect(201);
     });
 

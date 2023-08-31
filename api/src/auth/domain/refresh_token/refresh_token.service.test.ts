@@ -3,9 +3,11 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
 import {Test} from '@nestjs/testing';
 import {build} from 'test';
 import {User, UserService} from 'organization/domain';
-import {UnauthorizedException} from '@nestjs/common';
 import {RefreshToken} from './refresh_token.entity';
-import {NoUserAccountForRefreshTokenError} from './refresh_token.service.error';
+import {
+  NoUserAccountForRefreshTokenError,
+  InvalidRefreshTokenError,
+} from './refresh_token.service.error';
 
 describe('RefreshTokenService', () => {
   let user: User;
@@ -50,7 +52,7 @@ describe('RefreshTokenService', () => {
 
     it('should throw an error if the refresh token is not valid', async () => {
       await expect(refreshTokenService.verify('invalid')).rejects.toThrowError(
-        UnauthorizedException,
+        InvalidRefreshTokenError,
       );
     });
   });

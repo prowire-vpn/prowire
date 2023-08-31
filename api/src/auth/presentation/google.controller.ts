@@ -4,21 +4,12 @@ import {RedirectExceptionFilter} from './google.controller.exception';
 import {Client as IClient} from 'auth/domain';
 import {Client} from 'auth/utils/client.decorator';
 import {Response as IResponse} from 'express';
-import {readFileSync} from 'fs';
-import {rootPath} from 'root';
 import {StartGoogleFlowQueryDto} from './google.controller.dto';
 import {OAuthService} from 'auth/domain/oauth';
 
 @Controller('auth/google')
 export class GoogleController {
-  htmlResponse: string;
-
-  constructor(private oauthService: OAuthService) {
-    this.htmlResponse = readFileSync(
-      `${rootPath}/../static/post_auth_success_redirect.html`,
-      'utf8',
-    );
-  }
+  constructor(private oauthService: OAuthService) {}
 
   @Get()
   @UseGuards(GoogleOAuthGuardInit)

@@ -5,3 +5,11 @@ export class NoUserAccountForRefreshTokenError extends Error {
     super(`No user account found for refresh token with user ID "${token.subject}"`);
   }
 }
+
+export class InvalidRefreshTokenError extends Error {
+  root: unknown;
+  constructor(root: unknown) {
+    super('Refresh token could not be parsed');
+    this.root = root;
+  }
+}

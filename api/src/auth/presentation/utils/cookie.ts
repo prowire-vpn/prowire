@@ -28,3 +28,10 @@ export function renewAuthCookieIfExists(request: Request, response: Response): v
     response.cookie(cookieName, cookie, cookieOptions);
   }
 }
+
+export function getRefreshTokenFromCookie(request: Request): string | undefined {
+  const cookie = request.cookies?.[cookieName];
+  if (!cookie) return undefined;
+  const {refreshToken} = JSON.parse(cookie);
+  return refreshToken;
+}

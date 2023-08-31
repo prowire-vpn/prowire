@@ -2,8 +2,11 @@ import {Client} from 'auth/domain/client.entity';
 import {RefreshToken} from './refresh_token.entity';
 import {ConfigService} from '@nestjs/config';
 import {UserService} from 'organization/domain';
-import {NoUserAccountForRefreshTokenError} from './refresh_token.service.error';
-import {Injectable, UnauthorizedException} from '@nestjs/common';
+import {
+  NoUserAccountForRefreshTokenError,
+  InvalidRefreshTokenError,
+} from './refresh_token.service.error';
+import {Injectable} from '@nestjs/common';
 
 @Injectable()
 export class RefreshTokenService {
@@ -27,7 +30,7 @@ export class RefreshTokenService {
     try {
       return new RefreshToken({token}, this.key);
     } catch (error) {
-      throw new UnauthorizedException();
+      throw new InvalidRefreshTokenError(error);
     }
   }
 }
