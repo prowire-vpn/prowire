@@ -4,6 +4,7 @@ import {
   NoRefreshTokenProvidedError,
   MissingDataForAccountCreationError,
   InvalidStateError,
+  CodeAlreadyIssuedError,
 } from 'auth/domain';
 import {Response} from 'express';
 import {BaseExceptionFilter} from '@nestjs/core';
@@ -13,6 +14,7 @@ import {BaseExceptionFilter} from '@nestjs/core';
   NoRefreshTokenProvidedError,
   MissingDataForAccountCreationError,
   InvalidStateError,
+  CodeAlreadyIssuedError,
 )
 export class RedirectExceptionFilter extends BaseExceptionFilter {
   catch(

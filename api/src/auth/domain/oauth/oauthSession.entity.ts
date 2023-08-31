@@ -3,6 +3,7 @@ import {randomBytes} from 'crypto';
 import {Client} from 'auth/domain/client.entity';
 import {Base} from 'app/domain';
 import {ID} from 'types';
+import {CodeAlreadyIssuedError, CodeNotIssuedError} from './oauthSession.entity.error';
 
 export interface OAuthSessionConstructor {
   id?: ID<OAuthSession>;
@@ -56,14 +57,14 @@ export class OAuthSession extends Base {
   }
 
   public issueCode(client: Client): void {
-    if (this.code) throw new Error('Code already issued');
+    if (this.code) throw new CodeAlreadyIssuedError();
     this.userId = client.id;
     this.code = randomBytes(32).toString('base64url');
     this.code_issued_at = new Date();
   }
 
   public get redirectionUrl(): string {
-    if (!this.code) throw new Error('No code issued');
+    if (!this.code) throw new CodeNotIssuedError();
     const url = new URL(this.redirect_uri);
     url.searchParams.append('state', this.state);
     url.searchParams.append('code', this.code);
@@ -71,7 +72,7 @@ export class OAuthSession extends Base {
   }
 
   public useCode(): void {
-    if (!this.code) throw new Error('No code issued');
+    if (!this.code) throw new CodeNotIssuedError();
     this.code_used = true;
   }
 }
