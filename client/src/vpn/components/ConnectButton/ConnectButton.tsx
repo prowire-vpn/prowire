@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useCallback} from 'react';
-import {Root, Content} from './ConnectButton.style';
+import {Root} from './ConnectButton.style';
 import PowerIcon from 'assets/icons/power.svg';
 import {Typography} from 'ui/components';
 import {useServerConnect} from 'vpn/data';
@@ -22,10 +22,8 @@ export function ConnectButton() {
 
   return (
     <Root onPress={onPress}>
-      <Content>
-        <PowerIcon />
-        <Typography>Start</Typography>
-      </Content>
+      <PowerIcon />
+      <Typography>Start</Typography>
     </Root>
   );
 }

@@ -1,20 +1,15 @@
-import {Pressable} from 'react-native';
+import {Pressable, Dimensions} from 'react-native';
 import {styled} from 'styled-components/native';
 
 export const Root = styled(Pressable)`
-  height: 0;
-  width: 50%;
-  padding-bottom: 50%;
-  background-color: ${({theme}) => theme.colors.primary};
-`;
-
-export const Content = styled.View`
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  flex: 1;
+  border-radius: ${() =>
+    Math.round(
+      Dimensions.get('window').width + Dimensions.get('window').height,
+    ) / 2}px;
+  width: ${() => Dimensions.get('window').width * 0.5}px;
+  height: ${() => Dimensions.get('window').width * 0.5}px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: ${({theme}) => theme.colors.primary};
 `;
