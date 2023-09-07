@@ -22,20 +22,20 @@ services:
         condition: service_healthy
     ports:
       - "${API_PUBLIC_PORT:-54844}:${API_PORT:-54844}"
+      - "${API_UNSECURE_PUBLIC_PORT:-54845}:${API_UNSECURE_PORT:-54845}"
     volumes:
       - ${CERTIFICATES_DIR_PATH:-./certs}:/certs
     environment:
-      - API_URL=${API_URL:-http://localhost:54844}
-      - ADMIN_PANEL_URL=${ADMIN_PANEL_URL:-http://localhost:8080}
+      - API_URL=${API_URL:-http://localhost:54845}
       - API_PORT=${API_PORT:-54844}
-      - API_UNSECURE_PORT=54845
-      - CORS_ORIGIN=${CORS_ORIGIN:-*}
-      # - SERVER_CERTIFICATE=${SERVER_CERTIFICATE:-/certs/server.crt}
-      # - SERVER_PRIVATE_KEY=${SERVER_PRIVATE_KEY:-/certs/server.key}
+      - API_UNSECURE_PORT=${API_UNSECURE_PORT:-54845}
+      - SERVER_CERTIFICATE=${SERVER_CERTIFICATE:-/certs/server.crt}
+      - SERVER_PRIVATE_KEY=${SERVER_PRIVATE_KEY:-/certs/server.key}
       - MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING:-mongodb://root:change_me@mongo:27017/}
       - MONGO_USER
       - MONGO_PASSWORD
       - MONGO_DATABASE
+      - AUTHORIZED_REDIRECT_URIS=${SERVER_CERTIFICATE:-prowire://auth/redirect,http://localhost:8080/auth/return}
       - GOOGLE_CLIENT_ID
       - GOOGLE_CLIENT_SECRET
       - SERVER_ID=${SERVER_ID:-unique}
@@ -58,7 +58,7 @@ services:
     volumes:
       - ${CERTIFICATES_DIR_PATH:-./certs}:/certs
     environment:
-      - API_URL=http://api:54844
+      - API_URL=http://api:${API_PORT:-54845}
       - VPN_SERVER_SECRET
       - VPN_SERVER_ID=${VPN_SERVER_ID:-unique}
       - VPN_SERVER_DH_PARAM=${VPN_SERVER_DH_PARAM:-/certs/dh2048.pem}
@@ -78,4 +78,5 @@ services:
     ports:
       - "${MANAGEMENT_PUBLIC_PORT:-8080}:80"
     environment:
-      - API_URL=${API_URL:-http://localhost:54844}
+      - API_URL=${API_URL:-http://localhost:54845}
+      - MANAGEMENT_URL=${MANAGEMENT_URL:-http://localhost:8080}

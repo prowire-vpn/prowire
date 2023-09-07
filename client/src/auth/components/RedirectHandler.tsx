@@ -1,11 +1,13 @@
 import {useEffect, PropsWithChildren} from 'react';
 import * as React from 'react';
 import {Platform, Linking} from 'react-native';
+import {useStartAuth} from 'auth/hooks';
 import {useAuth, useAuthDispatch} from 'auth/state';
 
 export function RedirectHandler({children}: PropsWithChildren) {
   const {state: savedSate} = useAuth();
   const dispatch = useAuthDispatch();
+  const startAuth = useStartAuth();
 
   useEffect(() => {
     function handleRedirectUrl(urlStr: string) {
@@ -18,10 +20,24 @@ export function RedirectHandler({children}: PropsWithChildren) {
       if (realPath !== 'auth/redirect') {
         return;
       }
+      const error = url.searchParams.get('error');
+      const provider = url.searchParams.get('provider');
+
+      if (provider && error === 'no-refresh-token-provided') {
+        startAuth(provider, true);
+        return;
+      }
+
+      if (error) {
+        dispatch({
+          type: 'error',
+          payload: new Error(`Could not authenticate: ${error}`),
+        });
+        return;
+      }
 
       const code = url.searchParams.get('code');
       const state = url.searchParams.get('state');
-
       if (!code) {
         dispatch({
           type: 'error',
@@ -62,7 +78,7 @@ export function RedirectHandler({children}: PropsWithChildren) {
       });
       return () => subscription.remove();
     }
-  }, [dispatch, savedSate]);
+  }, [dispatch, savedSate, startAuth]);
 
   return <>{children}</>;
 }

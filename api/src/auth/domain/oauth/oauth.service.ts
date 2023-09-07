@@ -32,7 +32,7 @@ export class OAuthService {
   private async knownUserLogin(user: User, thirdPartyIdentity: ThirdPartyIdentity): Promise<User> {
     const identity = user.getIdentity(thirdPartyIdentity.provider);
     if (!identity && !thirdPartyIdentity.hasRequiredRefreshToken)
-      throw new NoRefreshTokenProvidedError(user);
+      throw new NoRefreshTokenProvidedError({user});
     this.eventEmitter.emit(
       OauthAuthenticatedEvent.namespace,
       new OauthAuthenticatedEvent(thirdPartyIdentity, user),
@@ -43,6 +43,7 @@ export class OAuthService {
   private async unknownUserLogin(identity: ThirdPartyIdentity): Promise<User | undefined> {
     const userCount = await this.userService.getUserCount();
     if (userCount !== 0) return;
+    if (!identity.hasRequiredRefreshToken) throw new NoRefreshTokenProvidedError({identity});
     if (!identity.hasDataForAccountCreation) throw new MissingDataForAccountCreationError(identity);
     return await this.userService.register({...identity.toRegistrationData(), admin: true});
   }
@@ -74,7 +75,7 @@ export class OAuthService {
     if (!session || !session.hasValidCode) throw new InvalidCodeError(code);
     session.useCode();
     await this.sessionRepository.persist(session);
-    const codeChallenge = createHash('sha-256')
+    const codeChallenge = createHash('sha256')
       .update(Buffer.from(codeVerifier, 'base64url'))
       .digest('base64url');
 

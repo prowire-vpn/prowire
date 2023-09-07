@@ -26,7 +26,7 @@ async function run() {
 
   // Enable CORS
   app.enableCors({
-    origin: configService.getOrThrow<string>('CORS_ORIGIN').split(','),
+    origin: true,
     credentials: true,
   });
   // Return null for all undefined values in response

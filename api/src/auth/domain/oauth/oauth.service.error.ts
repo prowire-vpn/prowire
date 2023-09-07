@@ -1,17 +1,22 @@
 import {User} from 'organization/domain';
 import {ThirdPartyIdentity} from './thirdPartyIdentity.entity';
+import {ClientError} from 'app/domain';
 
-export class NoRefreshTokenProvidedError extends Error {
-  constructor(user: User) {
+export class NoRefreshTokenProvidedError extends ClientError {
+  constructor({user, identity}: {user?: User; identity?: ThirdPartyIdentity}) {
     super(
-      `No refresh tokens were provided for user "${user.id}" which does not yet have a Google identity`,
+      'no-refresh-token-provided',
+      `No refresh tokens were provided for user "${
+        user?.id ?? identity?.email ?? 'new user'
+      }" which does not yet have a Google identity`,
     );
   }
 }
 
-export class MissingDataForAccountCreationError extends Error {
+export class MissingDataForAccountCreationError extends ClientError {
   constructor(identity: ThirdPartyIdentity) {
     super(
+      'missing-data-for-account-creation',
       `Attempted to create account with email "${identity.email}", but missing some account data`,
     );
   }

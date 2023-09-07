@@ -1,8 +1,8 @@
 import {PassportStrategy} from '@nestjs/passport';
 import {Strategy, Profile, StrategyOptions} from 'passport-google-oauth20';
 import {ConfigService} from '@nestjs/config';
-import {Injectable, UnauthorizedException} from '@nestjs/common';
-import {NoVerifiedEmailError} from './google.strategy.error';
+import {Injectable} from '@nestjs/common';
+import {NoVerifiedEmailError, UserNotFoundError} from './google.strategy.error';
 import {GoogleIdentity} from 'auth/domain/oauth/thirdPartyIdentity.entity';
 import {OAuthService} from 'auth/domain/oauth/oauth.service';
 import {Client} from 'auth/domain/client.entity';
@@ -36,7 +36,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       name: profile.displayName,
     });
     const user = await this.oAuthService.login(authentication);
-    if (!user) throw new UnauthorizedException();
+    if (!user) throw new UserNotFoundError(email);
     return Client.fromUser(user);
   }
 

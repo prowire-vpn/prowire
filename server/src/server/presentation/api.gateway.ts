@@ -60,7 +60,7 @@ export class ApiGateway implements OnApplicationBootstrap, OnModuleDestroy {
         'X-Prowire-Server-Port': this.configService.getOrThrow<number>('VPN_SERVER_PORT'),
         // IP at which the VPN server is available
         'X-Prowire-Server-IP':
-          this.configService.get<string>('VPN_SERVER_PUBLIC_URL') ?? (await getPublicIp()),
+          this.configService.get<string>('VPN_SERVER_PUBLIC_HOST') ?? (await getPublicIp()),
       },
     });
 

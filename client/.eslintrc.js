@@ -39,6 +39,9 @@ module.exports = {
         alwaysTryTypes: true,
         project: [`${__dirname}/tsconfig.json`],
       },
+      node: {
+        extensions: ['.desktop.ts', '.desktop.tsx', '.mobile.ts', '.mobile.tsx', '.jsx', '.ts', '.tsx'],
+      },
     },
   },
 };

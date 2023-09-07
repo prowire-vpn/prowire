@@ -141,7 +141,7 @@ describe('OAuthService', () => {
       mockUserService.getUserCount = jest.fn(async () => 0);
 
       await expect(oAuthService.login(authentication)).rejects.toThrowError(
-        MissingDataForAccountCreationError,
+        NoRefreshTokenProvidedError,
       );
     });
 

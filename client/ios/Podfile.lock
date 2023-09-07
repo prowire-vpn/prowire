@@ -379,6 +379,8 @@ PODS:
     - React-Core
   - react-native-quick-base64 (2.0.7):
     - React-Core
+  - react-native-simple-openvpn (2.1.0):
+    - React
   - react-native-webview (13.3.1):
     - React-Core
   - React-NativeModulesApple (0.72.4):
@@ -551,6 +553,7 @@ DEPENDENCIES:
   - React-logger (from `../../node_modules/react-native/ReactCommon/logger`)
   - react-native-get-random-values (from `../../node_modules/react-native-get-random-values`)
   - react-native-quick-base64 (from `../../node_modules/react-native-quick-base64`)
+  - react-native-simple-openvpn (from `../../node_modules/react-native-simple-openvpn`)
   - react-native-webview (from `../../node_modules/react-native-webview`)
   - React-NativeModulesApple (from `../../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -639,6 +642,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native-get-random-values"
   react-native-quick-base64:
     :path: "../../node_modules/react-native-quick-base64"
+  react-native-simple-openvpn:
+    :path: "../../node_modules/react-native-simple-openvpn"
   react-native-webview:
     :path: "../../node_modules/react-native-webview"
   React-NativeModulesApple:
@@ -720,6 +725,7 @@ SPEC CHECKSUMS:
   React-logger: da1ebe05ae06eb6db4b162202faeafac4b435e77
   react-native-get-random-values: dee677497c6a740b71e5612e8dbd83e7539ed5bb
   react-native-quick-base64: a5dbe4528f1453e662fcf7351029500b8b63e7bb
+  react-native-simple-openvpn: 30305698b02047dfb4e2764a490b592e1ac1f375
   react-native-webview: c2b70afb1d910cdd8810375aecc6c2894e2ba061
   React-NativeModulesApple: edb5ace14f73f4969df6e7b1f3e41bef0012740f
   React-perflogger: 496a1a3dc6737f964107cb3ddae7f9e265ddda58

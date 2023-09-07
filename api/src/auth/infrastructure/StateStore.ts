@@ -5,8 +5,9 @@ import {
   Metadata,
 } from 'passport-oauth2';
 import {Request} from 'express';
+import {StateAlreadyExistsError, StateNotFoundError} from './StateStore.error';
 
-const states: Set<string> = new Set();
+const states: Map<string, string> = new Map();
 
 function store(req: Request, callback: StateStoreStoreCallback): void;
 function store(req: Request, meta: Metadata, callback: StateStoreStoreCallback): void;
@@ -21,13 +22,13 @@ function store(
   if (!callback) throw new Error('callback is required');
   const state = req.query.state as string;
   if (!state) throw new Error('state is required');
-  if (states.has(state)) return callback(new Error('state already exists'), state);
-  states.add(state);
+  if (states.has(state)) return callback(new StateAlreadyExistsError(state), state);
+  states.set(state, '');
   callback(null, state);
 }
 
-function addState(state: string) {
-  states.add(state);
+function addState(state: string, redirectUri: string) {
+  states.set(state, redirectUri);
 }
 
 function verify(req: Request, state: string, callback: StateStoreVerifyCallback): void;
@@ -47,14 +48,16 @@ function verify(
     callback = metaOrCallback;
   }
   if (!callback) throw new Error('callback is required');
-  if (!states.has(state)) return callback(new Error('state does not exist'), false, state);
+  const redirectUri = states.get(state);
+  if (!redirectUri) return callback(new StateNotFoundError(state), false, state);
+  req.query.client_redirect_uri = redirectUri;
   states.delete(state);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   callback(null, true, state);
 }
 
-export const StateStore: IStateStore & {addState: (state: string) => void} = {
+export const StateStore: IStateStore & {addState: (state: string, redirectUri: string) => void} = {
   store,
   verify,
   addState,

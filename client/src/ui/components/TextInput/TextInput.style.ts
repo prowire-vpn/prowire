@@ -18,6 +18,7 @@ export const Input = styled(TextInput)`
   padding: ${({theme}) => theme.spacing.s}px;
   padding-top: 20px;
   width: 100%;
+  color: ${({theme}) => theme.textColors.secondary};
 `;
 
 interface LabelProps {

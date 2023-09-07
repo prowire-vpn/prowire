@@ -13,6 +13,9 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		755A8B4E2AA12E5800795D58 /* RCTCryptoModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 755A8B4D2AA12E5800795D58 /* RCTCryptoModule.m */; };
+		755A8B552AA1DEEF00795D58 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 755A8B542AA1DEEF00795D58 /* NetworkExtension.framework */; };
+		755A8B592AA1DEEF00795D58 /* PacketTunnelProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 755A8B582AA1DEEF00795D58 /* PacketTunnelProvider.m */; };
+		755A8B5E2AA1DEEF00795D58 /* Prowire.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 755A8B532AA1DEEF00795D58 /* Prowire.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7699B88040F8A987B510C191 /* libPods-client-clientTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-client-clientTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -25,7 +28,28 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = client;
 		};
+		755A8B5C2AA1DEEF00795D58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 755A8B522AA1DEEF00795D58;
+			remoteInfo = Prowire;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		755A8B5F2AA1DEEF00795D58 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				755A8B5E2AA1DEEF00795D58 /* Prowire.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00E356EE1AD99517003FC87E /* clientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +68,12 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-client.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-client.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		755A8B4C2AA12E0A00795D58 /* RCTCryptoModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RCTCryptoModule.h; path = client/RCTCryptoModule.h; sourceTree = "<group>"; };
 		755A8B4D2AA12E5800795D58 /* RCTCryptoModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTCryptoModule.m; path = client/RCTCryptoModule.m; sourceTree = "<group>"; };
+		755A8B532AA1DEEF00795D58 /* Prowire.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Prowire.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		755A8B542AA1DEEF00795D58 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		755A8B572AA1DEEF00795D58 /* PacketTunnelProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PacketTunnelProvider.h; sourceTree = "<group>"; };
+		755A8B582AA1DEEF00795D58 /* PacketTunnelProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PacketTunnelProvider.m; sourceTree = "<group>"; };
+		755A8B5A2AA1DEEF00795D58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		755A8B5B2AA1DEEF00795D58 /* Prowire.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Prowire.entitlements; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = client/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-client-clientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-client-clientTests.release.xcconfig"; path = "Target Support Files/Pods-client-clientTests/Pods-client-clientTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -63,6 +93,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C80B921A6F3F58F76C31292 /* libPods-client.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		755A8B502AA1DEEF00795D58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				755A8B552AA1DEEF00795D58 /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,8 +145,20 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-client.a */,
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-client-clientTests.a */,
+				755A8B542AA1DEEF00795D58 /* NetworkExtension.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		755A8B562AA1DEEF00795D58 /* Prowire */ = {
+			isa = PBXGroup;
+			children = (
+				755A8B572AA1DEEF00795D58 /* PacketTunnelProvider.h */,
+				755A8B582AA1DEEF00795D58 /* PacketTunnelProvider.m */,
+				755A8B5A2AA1DEEF00795D58 /* Info.plist */,
+				755A8B5B2AA1DEEF00795D58 /* Prowire.entitlements */,
+			);
+			path = Prowire;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -124,6 +174,7 @@
 				13B07FAE1A68108700A75B9A /* client */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* clientTests */,
+				755A8B562AA1DEEF00795D58 /* Prowire */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -138,6 +189,7 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* client.app */,
 				00E356EE1AD99517003FC87E /* clientTests.xctest */,
+				755A8B532AA1DEEF00795D58 /* Prowire.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -189,15 +241,34 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				755A8B5F2AA1DEEF00795D58 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				755A8B5D2AA1DEEF00795D58 /* PBXTargetDependency */,
 			);
 			name = client;
 			productName = client;
 			productReference = 13B07F961A680F5B00A75B9A /* client.app */;
 			productType = "com.apple.product-type.application";
+		};
+		755A8B522AA1DEEF00795D58 /* Prowire */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 755A8B622AA1DEEF00795D58 /* Build configuration list for PBXNativeTarget "Prowire" */;
+			buildPhases = (
+				755A8B4F2AA1DEEF00795D58 /* Sources */,
+				755A8B502AA1DEEF00795D58 /* Frameworks */,
+				755A8B512AA1DEEF00795D58 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Prowire;
+			productName = Prowire;
+			productReference = 755A8B532AA1DEEF00795D58 /* Prowire.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -213,6 +284,9 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1120;
+					};
+					755A8B522AA1DEEF00795D58 = {
+						CreatedOnToolsVersion = 14.2;
 					};
 				};
 			};
@@ -231,6 +305,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* client */,
 				00E356ED1AD99517003FC87E /* clientTests */,
+				755A8B522AA1DEEF00795D58 /* Prowire */,
 			);
 		};
 /* End PBXProject section */
@@ -249,6 +324,13 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		755A8B512AA1DEEF00795D58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +505,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		755A8B4F2AA1DEEF00795D58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				755A8B592AA1DEEF00795D58 /* PacketTunnelProvider.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -430,6 +520,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* client */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		755A8B5D2AA1DEEF00795D58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 755A8B522AA1DEEF00795D58 /* Prowire */;
+			targetProxy = 755A8B5C2AA1DEEF00795D58 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -534,6 +629,76 @@
 				PRODUCT_NAME = client;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		755A8B602AA1DEEF00795D58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = Prowire/Prowire.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Prowire/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Prowire;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.client.Prowire;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		755A8B612AA1DEEF00795D58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = Prowire/Prowire.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Prowire/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Prowire;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.client.Prowire;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -693,6 +858,15 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		755A8B622AA1DEEF00795D58 /* Build configuration list for PBXNativeTarget "Prowire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				755A8B602AA1DEEF00795D58 /* Debug */,
+				755A8B612AA1DEEF00795D58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

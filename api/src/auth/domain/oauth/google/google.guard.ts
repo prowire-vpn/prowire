@@ -6,10 +6,14 @@ import {StartGoogleFlowQueryDto} from 'auth/presentation/google.controller.dto';
 import {plainToClass} from 'class-transformer';
 import {OAuthService} from 'auth/domain/oauth/oauth.service';
 import {StateStore} from 'auth/infrastructure';
+import {ConfigService} from '@nestjs/config';
 
 @Injectable()
 export class GoogleOAuthGuard extends AuthGuard('google') implements CanActivate {
-  constructor(protected oAuthService: OAuthService) {
+  constructor(
+    protected readonly oAuthService: OAuthService,
+    protected readonly configService: ConfigService,
+  ) {
     super({
       accessType: 'offline',
     });
@@ -24,7 +28,13 @@ export class GoogleOAuthGuardInit extends GoogleOAuthGuard {
     const errors = validateSync(query);
     if (errors.length)
       throw new BadRequestException({error: errors.map(({constraints}) => constraints)});
-    StateStore.addState(query.state);
+
+    const allowedRedirectUris = this.configService.getOrThrow<Array<string>>(
+      'AUTHORIZED_REDIRECT_URIS',
+    );
+    if (!allowedRedirectUris.includes(query.redirect_uri)) throw new Error();
+
+    StateStore.addState(query.state, query.redirect_uri);
     this.oAuthService.startOAuthSession(query);
     return super.canActivate(context);
   }
