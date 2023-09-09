@@ -3,7 +3,8 @@
     "baseUrl": "./src",
     "paths": {
       "test": ["../test"],
-      "assets": ["../assets"],
+      "test/*": ["../test/*"],
+      "assets": ["../assets"]
     },
     "jsx": "react",
     "target": "ESNext",
@@ -25,7 +26,7 @@
     "resolveJsonModule": true,
     "declaration": false,
     "isolatedModules": true,
-    "types": ["vite/client"],
+    "types": ["node", "jest", "vite/client"]
   },
-  "include": ["src", "test"],
+  "include": ["src", "test"]
 }

@@ -6,16 +6,10 @@ module.exports = {
   ...defaults,
   preset: 'react-native',
   testEnvironment: 'jsdom',
-  testMatch: [
-    '<rootDir>/src/**/*.test.ts(x)?',
-    '<rootDir>/desktop/**/*.test.ts',
-  ],
+  testMatch: ['<rootDir>/**/*.test.ts(x)?'],
   roots: ['<rootDir>'],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
-    prefix: '<rootDir>/src',
-  }),
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {prefix: '<rootDir>/src'}),
   modulePaths: [compilerOptions.baseUrl],
-  setupFiles: ['<rootDir>/src/test/setup.ts'],
   transform: {
     '^.+\\.jsx$': 'babel-jest',
     '^.+\\.tsx?$': ['ts-jest', {isolatedModules: true}],
