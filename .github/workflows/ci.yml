@@ -33,4 +33,4 @@ jobs:
         run: npm ci --workspaces
       - name: Build test tools
         run: npm run build -w pki
-      - run: npm run test --workspaces
+      - run: npm run test --if-present --workspaces
