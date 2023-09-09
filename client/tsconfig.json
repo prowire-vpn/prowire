@@ -1,0 +1,26 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "assets/*": ["../assets/*"]
+    },
+    "target": "ESNext",
+    "jsx": "react",
+    "allowJs": true,
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": false,
+    "strict": true,
+    "lib": ["ES2020", "DOM"],
+    "forceConsistentCasingInFileNames": true
+  },
+  "files": ["types/assets.d.ts", "types/styled.d.ts", "forge.config.ts"],
+  "include": ["src", "desktop", "webpack.*.ts"]
+}
