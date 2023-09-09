@@ -17,8 +17,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: npm ci --workspaces
-      - run: npm run build --workspaces
+      - name: Install dependencies
+        run: npm ci --workspaces
+      - name: Build
+        run: npm run build --workspaces
   
   test:
     runs-on: ubuntu-latest
@@ -27,5 +29,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: npm ci --workspaces
+      - name: Install dependencies
+        run: npm ci --workspaces
+      - name: Build test tools
+        run: npm run build -w pki
       - run: npm run test --workspaces

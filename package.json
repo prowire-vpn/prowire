@@ -20,7 +20,8 @@
     "api",
     "server",
     "management",
-    "client"
+    "client",
+    "pki"
   ],
   "dependencies": {
     "@react-navigation/native": "^6.1.7",
