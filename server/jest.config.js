@@ -22,6 +22,4 @@ module.exports = {
   roots: ['<rootDir>'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {prefix: '<rootDir>/src'}),
   modulePaths: [compilerOptions.baseUrl],
-  globalSetup: '<rootDir>/test/globalSetup.ts',
-  globalTeardown: '<rootDir>/test/globalTeardown.ts',
 };
