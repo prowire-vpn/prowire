@@ -10,11 +10,12 @@ export class AccessTokenService {
   public options: SignOptions;
 
   constructor(private configService: ConfigService) {
+    const serverId = configService.get<string>('SERVER_ID');
     this.secret = configService.getOrThrow<string>('ACCESS_TOKEN_SECRET');
     this.options = {
       expiresIn: configService.get<string>('ACCESS_TOKEN_EXPIRATION', '1d'),
-      issuer: configService.getOrThrow<string>('SERVER_ID'),
-      audience: [configService.getOrThrow<string>('SERVER_ID')],
+      issuer: serverId,
+      audience: serverId ? [serverId] : undefined,
     };
   }
 
