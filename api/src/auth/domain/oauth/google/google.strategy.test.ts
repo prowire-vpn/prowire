@@ -7,8 +7,7 @@ import {Profile} from 'passport-google-oauth20';
 import {build} from 'test';
 import {EmailAddress, User} from 'organization/domain';
 import {Client} from 'auth/domain/client.entity';
-import {NoVerifiedEmailError} from './google.strategy.error';
-import {UnauthorizedException} from '@nestjs/common';
+import {NoVerifiedEmailError, UserNotFoundError} from './google.strategy.error';
 
 describe('GoogleStrategy', () => {
   let accessToken: string;
@@ -86,7 +85,7 @@ describe('GoogleStrategy', () => {
 
       await expect(
         googleStrategy.validate(accessToken, refreshToken, profile),
-      ).rejects.toThrowError(UnauthorizedException);
+      ).rejects.toThrowError(UserNotFoundError);
     });
   });
 });
