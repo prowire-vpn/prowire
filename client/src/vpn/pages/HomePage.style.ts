@@ -26,7 +26,7 @@ export const Content = styled.View`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 `;
 
 export const Title = styled(Typography)`
