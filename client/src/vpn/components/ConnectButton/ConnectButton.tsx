@@ -1,39 +1,32 @@
+import Color from 'color';
 import * as React from 'react';
-import {useCallback, useEffect} from 'react';
-import {Root} from './ConnectButton.style';
+import {useCallback} from 'react';
+import {Dimensions} from 'react-native';
+import {useTheme} from 'styled-components/native';
+import {Root, Button} from './ConnectButton.style';
 import PowerIcon from 'assets/icons/power.svg';
 import {Typography} from 'ui/components';
 import {useServerConnect, useStartVpn, useStopVpn} from 'vpn/data';
-import {useVpn, useVpnDispatch} from 'vpn/state';
+import {useVpn} from 'vpn/state';
 
 export function ConnectButton() {
   const {
     publicKey,
     privateKey,
-    ca,
-    certificate,
-    mode,
-    protocol,
-    servers,
+
     state,
   } = useVpn();
-  const dispatch = useVpnDispatch();
+
+  const {mutate: startVpn} = useStartVpn();
+
+  const {mutate: stopVpn} = useStopVpn();
 
   const {mutate: fetchConfig} = useServerConnect(publicKey ?? '', {
     onSuccess: data => {
-      dispatch({type: 'start', payload: data});
-    },
-  });
-
-  const {mutate: startVpn} = useStartVpn({
-    onSuccess: () => {
-      console.log('Connected');
-    },
-  });
-
-  const {mutate: stopVpn} = useStopVpn({
-    onSuccess: () => {
-      console.log('Disconnected');
+      if (!publicKey || !privateKey) {
+        throw new Error('No keys');
+      }
+      startVpn({...data, publicKey, privateKey});
     },
   });
 
@@ -45,52 +38,30 @@ export function ConnectButton() {
     stopVpn();
   }, [fetchConfig, stopVpn, state]);
 
-  useEffect(() => {
-    if (
-      !!publicKey &&
-      !!privateKey &&
-      !!ca &&
-      !!certificate &&
-      !!mode &&
-      !!protocol &&
-      servers.length > 0
-    ) {
-      startVpn({
-        privateKey,
-        publicKey,
-        ca,
-        certificate,
-        mode,
-        protocol,
-        servers,
-      });
-    }
-  }, [
-    startVpn,
-    publicKey,
-    privateKey,
-    ca,
-    certificate,
-    mode,
-    protocol,
-    servers,
-  ]);
-
   let buttonText = 'Start';
-  if (state === 'connected') {
+  if (state !== 'disconnected') {
     buttonText = 'Stop';
   }
-  if (state === 'connecting') {
-    buttonText = 'Connecting...';
-  }
-  if (state === 'disconnecting') {
-    buttonText = 'Disconnecting...';
-  }
+
+  const theme = useTheme();
 
   return (
-    <Root onPress={onPress}>
-      <PowerIcon />
-      <Typography>{buttonText}</Typography>
+    <Root
+      colors={[
+        Color(theme.colors.primary).lighten(0.5).string(),
+        theme.colors.white,
+        Color(theme.colors.primary).lighten(0.5).string(),
+      ]}>
+      <Button
+        onPress={onPress}
+        android_ripple={{
+          color: Color(theme.colors.primary).lighten(0.5).string(),
+          borderless: true,
+          radius: Math.round(Dimensions.get('window').width / 4),
+        }}>
+        <PowerIcon />
+        <Typography>{buttonText}</Typography>
+      </Button>
     </Root>
   );
 }

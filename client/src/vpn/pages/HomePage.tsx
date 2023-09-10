@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Root, Header, Content, Title, Logo} from './HomePage.style';
 import {LogoutButton} from 'auth/components';
-import {ConnectButton} from 'vpn/components';
+import {ConnectButton, StatusHeader} from 'vpn/components';
 
 export function HomePage() {
   return (
@@ -11,6 +11,7 @@ export function HomePage() {
         <Title align="center">Prowire VPN</Title>
       </Header>
       <Content>
+        <StatusHeader />
         <ConnectButton />
       </Content>
       <Logo />
