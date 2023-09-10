@@ -1,0 +1,39 @@
+name: Continuous integration
+on:
+  # Run on every pull request targeting main
+  pull_request:
+    branches:  
+      - main
+  # Run on every push to main
+  push:
+    branches:  
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm ci --workspaces
+      - name: Build
+        run: npm run build --workspaces
+  
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm ci --workspaces
+      - name: Build test tools
+        run: npm run build -w pki
+      - name: Test
+        run: npm run test --if-present --workspaces
