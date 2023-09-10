@@ -1,10 +1,11 @@
 const {pathsToModuleNameMapper, defaults} = require('ts-jest');
 const {compilerOptions} = require('./tsconfig');
+const {transform} = require('react-native/jest-preset');
 
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   ...defaults,
-  preset: 'react-native',
+  preset: 'jest-expo',
   testEnvironment: 'jsdom',
   testMatch: [
     '<rootDir>/src/**/*.test.ts(x)?',
@@ -17,8 +18,12 @@ module.exports = {
   modulePaths: [compilerOptions.baseUrl],
   setupFiles: ['<rootDir>/src/test/setup.ts'],
   transform: {
+    ...transform,
     '^.+\\.jsx$': 'babel-jest',
     '^.+\\.tsx?$': ['ts-jest', {isolatedModules: true}],
   },
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
+  transformIgnorePatterns: [
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
+  ],
 };
