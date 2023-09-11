@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite'
 import tsconfig_paths from 'vite-tsconfig-paths'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
-  plugins: [tsconfig_paths()],
+  plugins: [react(), tsconfig_paths()],
   resolve: {
     alias: {
       assets: '../assets'

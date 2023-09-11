@@ -5,7 +5,7 @@ import {validateSync} from 'class-validator';
 import {StartGoogleFlowQueryDto} from 'auth/presentation/google.controller.dto';
 import {plainToClass} from 'class-transformer';
 import {OAuthService} from 'auth/domain/oauth/oauth.service';
-import {StateStore} from 'auth/infrastructure';
+import {StateStore} from 'auth/infrastructure/StateStore';
 import {ConfigService} from '@nestjs/config';
 
 @Injectable()

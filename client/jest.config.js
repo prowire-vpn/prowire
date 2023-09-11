@@ -19,8 +19,7 @@ module.exports = {
   setupFiles: ['<rootDir>/src/test/setup.ts'],
   transform: {
     ...transform,
-    '^.+\\.jsx$': 'babel-jest',
-    '^.+\\.tsx?$': ['ts-jest', {isolatedModules: true}],
+    "^.+\\.(t|j)sx?$": ["@swc/jest"],
   },
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
   transformIgnorePatterns: [
