@@ -22,10 +22,7 @@ export const rules: Required<ModuleOptions>['rules'] = [
     test: /\.tsx?$/,
     exclude: /(node_modules|\.webpack)/,
     use: {
-      loader: 'ts-loader',
-      options: {
-        transpileOnly: false,
-      },
+      loader: 'swc-loader',
     },
   },
 ];
