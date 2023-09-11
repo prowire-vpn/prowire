@@ -22,4 +22,7 @@ module.exports = {
   roots: ['<rootDir>'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {prefix: '<rootDir>/src'}),
   modulePaths: [compilerOptions.baseUrl],
+  transform: {
+    "^.+\\.(t|j)sx?$": ["@swc/jest"]
+  }
 };

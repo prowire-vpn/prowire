@@ -38,6 +38,8 @@
   },
   "devDependencies": {
     "@prowire-vpn/api": "^1.0.0",
+    "@swc/core": "^1.3.83",
+    "@swc/jest": "^0.2.29",
     "@types/jest": "^29.2.3",
     "@types/node": "^18.11.9",
     "@types/tmp": "^0.2.3",
