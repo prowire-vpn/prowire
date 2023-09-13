@@ -1,6 +1,6 @@
 import {Test} from '@nestjs/testing';
 import {LeaderService} from './leader.service';
-import {LeaderRepository} from 'app/infrastructure';
+import {LeaderRepository} from 'leader/infrastructure';
 import {EventEmitter2} from '@nestjs/event-emitter';
 import {BecameLeaderEvent, LostLeadershipEvent} from './leader.events';
 

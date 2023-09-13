@@ -10,6 +10,12 @@ export class ServerSchemaClass {
   @Prop({type: Boolean, required: true, default: false})
   public connected!: boolean;
 
+  @Prop({type: Date, required: false})
+  public connectedAt?: Date;
+
+  @Prop({type: Date, required: false})
+  public lastSeenAt?: Date;
+
   @Prop({type: Boolean, required: true, default: false})
   public active!: boolean;
 
@@ -35,6 +41,8 @@ ServerSchema.methods.toDomain = function (): Server {
   return new Server({
     name: this.name,
     connected: this.connected,
+    connectedAt: this.connectedAt,
+    lastSeenAt: this.lastSeenAt,
     active: this.active,
     ip: this.ip,
     port: this.port,
@@ -46,6 +54,8 @@ ServerSchema.statics.fromDomain = function (server: Server): UpdateQuery<Server>
   return {
     name: server.name,
     connected: server.connected,
+    connectedAt: server.connectedAt,
+    lastSeenAt: server.lastSeenAt,
     active: server.active,
     ip: server.ip,
     port: server.port,
