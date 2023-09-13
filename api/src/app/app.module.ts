@@ -11,8 +11,6 @@ import {ServerModule} from 'server';
 import {LoggerMiddleware} from './logger.middleware';
 import {HealthController} from './presentation';
 import {RedisModule} from '@liaoliaots/nestjs-redis';
-import {LeaderService} from './domain';
-import {LeaderRepository} from './infrastructure';
 import {ScheduleModule} from '@nestjs/schedule';
 
 @Module({
@@ -48,11 +46,7 @@ import {ScheduleModule} from '@nestjs/schedule';
     OrganizationModule,
     ServerModule,
   ],
-  providers: [
-    {provide: APP_PIPE, useValue: new ValidationPipe({transform: true})},
-    LeaderRepository,
-    LeaderService,
-  ],
+  providers: [{provide: APP_PIPE, useValue: new ValidationPipe({transform: true})}],
   controllers: [HealthController],
 })
 export class AppModule implements NestModule {

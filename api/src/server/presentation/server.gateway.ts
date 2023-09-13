@@ -14,6 +14,7 @@ import {StartServerEvent, StopServerEvent} from './server.gateway.dto';
 import {ServerService, Server, VpnConfig} from 'server/domain';
 import * as Joi from 'joi';
 import {WebSocketMessage} from './server.gateway.dto';
+import {Interval} from '@nestjs/schedule';
 
 const headerSchema = Joi.object({
   'x-prowire-server-name': Joi.string().required(),
@@ -26,7 +27,7 @@ interface ExtendedWebSocket extends WebSocket {
   name: string;
 }
 
-@WebSocketGateway({transports: ['websocket']})
+@WebSocketGateway({transports: ['websocket'], pingInterval: 1_000, pingTimeout: 3_000})
 export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private clients: {[name: string]: WebSocket} = {};
 
@@ -45,6 +46,13 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
     socket.name = severData.name;
     this.storeSocket(severData.name, socket);
     this.logger.log(`VPN server connected [${severData.name}]`);
+
+    /** Listen to health-checks and ensures servers are healthy */
+    socket.on('pong', () => {
+      this.serverService.healthy(severData.name).catch((error) => {
+        this.logger.error(error);
+      });
+    });
 
     await this.serverService.connected(severData);
   }
@@ -98,6 +106,14 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
       return;
     }
     socket.send(message.serialize());
+  }
+
+  /** Every second we send a ping to all connected instances to ensure they are still active */
+  @Interval(1_000)
+  private sendPing(): void {
+    Object.values(this.clients).forEach((client) => {
+      client.ping();
+    });
   }
 
   @SubscribeMessage('server-ready')

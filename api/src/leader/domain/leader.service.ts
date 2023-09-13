@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {Interval} from '@nestjs/schedule';
-import {LeaderRepository} from 'app/infrastructure';
+import {LeaderRepository} from 'leader/infrastructure';
 import {EventEmitter2} from '@nestjs/event-emitter';
 import {BecameLeaderEvent, LostLeadershipEvent} from './leader.events';
 

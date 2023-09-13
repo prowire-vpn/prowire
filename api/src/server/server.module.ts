@@ -10,6 +10,7 @@ import {
   VpnConfigRepository,
 } from './infrastructure';
 import {ServerGateway, ServerController} from './presentation';
+import {LeaderModule} from 'leader';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import {ServerGateway, ServerController} from './presentation';
       {name: ServerSchemaClass.name, schema: ServerSchema},
       {name: VpnConfigSchemaClass.name, schema: VpnConfigSchema},
     ]),
+    LeaderModule,
   ],
   controllers: [ServerController],
   providers: [

@@ -3,6 +3,11 @@ import {ServerModel, ServerSchemaClass} from './server.schema';
 import {InjectModel} from '@nestjs/mongoose';
 import {Server} from 'server/domain/server.entity';
 
+interface FindServersQuery {
+  connected?: boolean;
+  active?: boolean;
+}
+
 @Injectable()
 export class ServerRepository {
   constructor(@InjectModel(ServerSchemaClass.name) private serverModel: ServerModel) {}
@@ -24,8 +29,8 @@ export class ServerRepository {
     return server && server.toDomain();
   }
 
-  async find(): Promise<Server[]> {
-    const servers = await this.serverModel.find();
+  async find(query: FindServersQuery = {}): Promise<Server[]> {
+    const servers = await this.serverModel.find(query);
     return servers.map((server) => server.toDomain());
   }
 }

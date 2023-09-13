@@ -5,18 +5,23 @@ import {ServerNotFoundError} from './server.service.error';
 import {PkiService} from './pki.service';
 import {VpnConfigService} from './vpnConfig.service';
 import {ServerGateway} from 'server/presentation/server.gateway';
+import {Interval} from '@nestjs/schedule';
+import {LeaderService} from 'leader/domain';
+import {isBefore, subSeconds} from 'date-fns';
 
 @Injectable()
 export class ServerService {
   constructor(
-    private serverRepository: ServerRepository,
-    private pkiService: PkiService,
-    private vpnConfigService: VpnConfigService,
-    @Inject(forwardRef(() => ServerGateway)) private serverGateway: ServerGateway,
+    private readonly serverRepository: ServerRepository,
+    private readonly pkiService: PkiService,
+    private readonly vpnConfigService: VpnConfigService,
+    @Inject(forwardRef(() => ServerGateway)) private readonly serverGateway: ServerGateway,
+    private readonly leaderService: LeaderService,
   ) {}
 
   public async connected(data: Omit<ServerConstructor, 'connected' | 'active'>): Promise<Server> {
-    const server = new Server({...data, connected: true, active: false});
+    const server = new Server({...data, connected: true, active: false, connectedAt: new Date()});
+    server.healthy();
     await this.serverRepository.persist(server);
     await this.start(server);
     return server;
@@ -26,6 +31,14 @@ export class ServerService {
     const server = await this.serverRepository.get(name);
     if (!server) throw new ServerNotFoundError(name);
     server.active = true;
+    return await this.serverRepository.persist(server);
+  }
+
+  public async healthy(name: string): Promise<Server> {
+    const server = await this.serverRepository.get(name);
+    if (!server) throw new ServerNotFoundError(name);
+    if (!server.connected) return await this.connected(server);
+    server.healthy();
     return await this.serverRepository.persist(server);
   }
 
@@ -39,8 +52,7 @@ export class ServerService {
   public async disconnected(name: string): Promise<Server> {
     const server = await this.serverRepository.get(name);
     if (!server) throw new ServerNotFoundError(name);
-    server.connected = false;
-    server.active = false;
+    server.disconnected();
     return this.serverRepository.persist(server);
   }
 
@@ -62,5 +74,25 @@ export class ServerService {
       {server: true},
     );
     this.serverGateway.sendStartMessage(server, vpnConfig, certificate, ca);
+  }
+
+  @Interval(1_000)
+  private async checkHealth() {
+    if (!this.leaderService.isLeader) return;
+    const servers = await this.serverRepository.find({connected: true});
+    const now = new Date();
+    const unhealthy: Array<Server> = [];
+    for (const server of servers) {
+      if (!server.lastSeenAt || isBefore(server.lastSeenAt, subSeconds(now, 5))) {
+        unhealthy.push(server);
+      }
+    }
+
+    await Promise.all(
+      unhealthy.map((server) => {
+        server.disconnected();
+        return this.serverRepository.persist(server);
+      }),
+    );
   }
 }
