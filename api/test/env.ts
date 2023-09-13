@@ -20,4 +20,5 @@ process.env = {
   VPN_SERVER_SECRET: faker.datatype.uuid(),
   CA_CERTIFICATE: `${certsDir}/ca.crt`,
   CA_PRIVATE_KEY: `${certsDir}/ca.key`,
+  REDIS_HOST: faker.internet.ip(),
 };
