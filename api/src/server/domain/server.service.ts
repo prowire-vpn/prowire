@@ -37,6 +37,7 @@ export class ServerService {
   public async healthy(name: string): Promise<Server> {
     const server = await this.serverRepository.get(name);
     if (!server) throw new ServerNotFoundError(name);
+    if (!server.connected) return await this.connected(server);
     server.healthy();
     return await this.serverRepository.persist(server);
   }
