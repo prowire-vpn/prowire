@@ -1,6 +1,14 @@
 export type ServerConstructor = Pick<
   Server,
-  'name' | 'connected' | 'active' | 'ip' | 'port' | 'publicKey' | 'connectedAt' | 'lastSeenAt'
+  | 'name'
+  | 'connected'
+  | 'active'
+  | 'ip'
+  | 'port'
+  | 'publicKey'
+  | 'connectedAt'
+  | 'lastSeenAt'
+  | 'disconnectedAt'
 >;
 
 export class Server {
@@ -8,6 +16,7 @@ export class Server {
   public connected: boolean;
   public connectedAt?: Date;
   public lastSeenAt?: Date;
+  public disconnectedAt?: Date;
   public active: boolean;
   public ip: string;
   public port: number;
@@ -18,6 +27,7 @@ export class Server {
     this.connected = init.connected;
     this.connectedAt = init.connectedAt;
     this.lastSeenAt = init.lastSeenAt;
+    this.disconnectedAt = init.disconnectedAt;
     this.active = init.active;
     this.ip = init.ip;
     this.port = init.port;
@@ -29,6 +39,7 @@ export class Server {
     this.connected = false;
     this.connectedAt = undefined;
     this.lastSeenAt = undefined;
+    this.disconnectedAt = new Date();
   }
 
   public healthy() {

@@ -8,6 +8,8 @@ export class ServerDto {
   public active: boolean;
   public ip: string;
   public port: number;
+  public connectedAt?: Date;
+  public disconnectedAt?: Date;
 
   public constructor(server: Server) {
     this.name = server.name;
@@ -15,6 +17,8 @@ export class ServerDto {
     this.active = server.active;
     this.ip = server.ip;
     this.port = server.port;
+    this.connectedAt = server.connectedAt;
+    this.disconnectedAt = server.disconnectedAt;
   }
 }
 

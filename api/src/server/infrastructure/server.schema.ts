@@ -16,6 +16,9 @@ export class ServerSchemaClass {
   @Prop({type: Date, required: false})
   public lastSeenAt?: Date;
 
+  @Prop({type: Date, required: false})
+  public disconnectedAt?: Date;
+
   @Prop({type: Boolean, required: true, default: false})
   public active!: boolean;
 
@@ -43,6 +46,7 @@ ServerSchema.methods.toDomain = function (): Server {
     connected: this.connected,
     connectedAt: this.connectedAt,
     lastSeenAt: this.lastSeenAt,
+    disconnectedAt: this.disconnectedAt,
     active: this.active,
     ip: this.ip,
     port: this.port,
