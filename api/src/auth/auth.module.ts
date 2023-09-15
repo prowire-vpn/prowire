@@ -12,7 +12,12 @@ import {
 } from './domain';
 import {GoogleController, RefreshTokenController, AuthController} from './presentation';
 import {OrganizationModule} from 'organization';
-import {OAuthSessionRepository, OAuthSessionClass, OAuthSessionSchema} from './infrastructure';
+import {
+  OAuthSessionRepository,
+  OAuthSessionClass,
+  OAuthSessionSchema,
+  StateStore,
+} from './infrastructure';
 import {MongooseModule} from '@nestjs/mongoose';
 
 @Module({
@@ -39,6 +44,7 @@ import {MongooseModule} from '@nestjs/mongoose';
     RefreshTokenCookieStrategy,
     RefreshTokenBodyStrategy,
     OAuthSessionRepository,
+    StateStore,
   ],
 })
 export class AuthModule {}

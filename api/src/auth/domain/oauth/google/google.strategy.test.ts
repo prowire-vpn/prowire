@@ -8,6 +8,8 @@ import {build} from 'test';
 import {EmailAddress, User} from 'organization/domain';
 import {Client} from 'auth/domain/client.entity';
 import {NoVerifiedEmailError, UserNotFoundError} from './google.strategy.error';
+import {StateStore} from 'auth/infrastructure';
+import {StateStoreStoreCallback, VerifyCallback} from 'passport-oauth2';
 
 describe('GoogleStrategy', () => {
   let accessToken: string;
@@ -17,6 +19,7 @@ describe('GoogleStrategy', () => {
 
   let googleStrategy: GoogleStrategy;
   let mockOAuthService: Partial<OAuthService>;
+  let mockStateStore: Partial<StateStore>;
 
   beforeEach(async () => {
     accessToken = faker.datatype.uuid();
@@ -39,12 +42,25 @@ describe('GoogleStrategy', () => {
       login: jest.fn(async () => user),
     };
 
+    mockStateStore = {
+      store: jest.fn(async (_req: Request, cb: StateStoreStoreCallback) =>
+        cb(null, 'state'),
+      ) as unknown as StateStore['store'],
+      verify: jest.fn(async (_req: Request, state: string, cb: VerifyCallback) =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        cb(null, true, state),
+      ) as unknown as StateStore['verify'],
+    };
+
     const moduleRef = await Test.createTestingModule({
       imports: [ConfigModule.forRoot()],
-      providers: [GoogleStrategy, OAuthService, ConfigService],
+      providers: [GoogleStrategy, OAuthService, ConfigService, StateStore],
     })
       .overrideProvider(OAuthService)
       .useValue(mockOAuthService)
+      .overrideProvider(StateStore)
+      .useValue(mockStateStore)
       .compile();
 
     googleStrategy = moduleRef.get<GoogleStrategy>(GoogleStrategy);
