@@ -1,11 +1,5 @@
 import {faker} from '@faker-js/faker';
 import {randomBytes} from 'crypto';
-import {generatePki} from '@prowire-vpn/pki';
-import {dirSync, setGracefulCleanup} from 'tmp';
-
-setGracefulCleanup();
-const certsDir = dirSync({unsafeCleanup: true}).name;
-generatePki({dir: certsDir});
 
 process.env = {
   API_URL: faker.internet.url(),
@@ -18,7 +12,7 @@ process.env = {
   ACCESS_TOKEN_SECRET: faker.datatype.uuid(),
   REFRESH_TOKEN_KEY_BASE64: randomBytes(32).toString('base64'),
   VPN_SERVER_SECRET: faker.datatype.uuid(),
-  CA_CERTIFICATE: `${certsDir}/ca.crt`,
-  CA_PRIVATE_KEY: `${certsDir}/ca.key`,
+  CA_CERTIFICATE: faker.system.filePath(),
+  CA_PRIVATE_KEY: faker.system.filePath(),
   REDIS_HOST: faker.internet.ip(),
 };

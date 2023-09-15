@@ -85,6 +85,7 @@
     "jest-environment-node": "^29.4.3",
     "mongodb-memory-server": "^8.11.5",
     "prettier": "^2.7.1",
+    "redis-memory-server": "^0.7.0",
     "supertest": "^6.3.1",
     "tmp": "^0.2.1",
     "ts-jest": "^29.0.3",

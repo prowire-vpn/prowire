@@ -10,14 +10,18 @@ import {StateStore} from 'auth/infrastructure';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor(private configService: ConfigService, private oAuthService: OAuthService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly oAuthService: OAuthService,
+    private readonly stateStore: StateStore,
+  ) {
     const options: StrategyOptions = {
       clientID: configService.getOrThrow<string>('GOOGLE_CLIENT_ID'),
       clientSecret: configService.getOrThrow<string>('GOOGLE_CLIENT_SECRET'),
       callbackURL: `${configService.getOrThrow<string>('API_URL')}/auth/google/redirect`,
       scope: ['email', 'profile'],
       state: true,
-      store: StateStore,
+      store: stateStore,
     };
     super(options);
   }

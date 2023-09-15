@@ -22,6 +22,13 @@ export class GoogleOAuthGuard extends AuthGuard('google') implements CanActivate
 
 @Injectable()
 export class GoogleOAuthGuardInit extends GoogleOAuthGuard {
+  constructor(
+    protected readonly stateStore: StateStore,
+    protected readonly oAuthService: OAuthService,
+    protected readonly configService: ConfigService,
+  ) {
+    super(oAuthService, configService);
+  }
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
     const query = plainToClass(StartGoogleFlowQueryDto, request.query);
@@ -34,7 +41,7 @@ export class GoogleOAuthGuardInit extends GoogleOAuthGuard {
     );
     if (!allowedRedirectUris.includes(query.redirect_uri)) throw new Error();
 
-    StateStore.addState(query.state, query.redirect_uri);
+    this.stateStore.addState(query.state, query.redirect_uri);
     this.oAuthService.startOAuthSession(query);
     return super.canActivate(context);
   }
