@@ -1,4 +1,4 @@
-import {Injectable, Inject, forwardRef} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {ServerRepository} from 'server/infrastructure/server.repository';
 import {Server, ServerConstructor} from './server.entity';
 import {ServerNotFoundError} from './server.service.error';
@@ -17,7 +17,7 @@ export class ServerService {
     private readonly serverRepository: ServerRepository,
     private readonly pkiService: PkiService,
     private readonly vpnConfigService: VpnConfigService,
-    @Inject(forwardRef(() => ServerGateway)) private readonly serverGateway: ServerGateway,
+    private readonly serverGateway: ServerGateway,
     private readonly leaderService: LeaderService,
   ) {}
 
