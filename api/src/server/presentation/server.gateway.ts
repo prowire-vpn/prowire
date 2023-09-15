@@ -6,15 +6,22 @@ import {
   OnGatewayDisconnect,
   ConnectedSocket,
 } from '@nestjs/websockets';
-import {Inject, forwardRef} from '@nestjs/common';
 import {WebSocket} from 'ws';
 import {IncomingMessage} from 'http';
 import {Logger} from '@nestjs/common';
 import {StartServerEvent, StopServerEvent} from './server.gateway.dto';
-import {ServerService, Server, VpnConfig} from 'server/domain';
+import {Server, VpnConfig} from 'server/domain';
 import * as Joi from 'joi';
 import {WebSocketMessage} from './server.gateway.dto';
 import {Interval} from '@nestjs/schedule';
+import {
+  ServerHealthyEvent,
+  ServerConnectedEvent,
+  ServerDisconnectedEvent,
+  ServerReadyEvent,
+  ServerStoppedEvent,
+} from 'server/domain/server.events';
+import {EventEmitter2} from '@nestjs/event-emitter';
 
 const headerSchema = Joi.object({
   'x-prowire-server-name': Joi.string().required(),
@@ -23,7 +30,7 @@ const headerSchema = Joi.object({
   'x-prowire-server-public-key': Joi.string().base64().required(),
 });
 
-interface ExtendedWebSocket extends WebSocket {
+export interface ExtendedWebSocket extends WebSocket {
   name: string;
 }
 
@@ -33,41 +40,44 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private readonly logger = new Logger(ServerGateway.name);
 
-  constructor(
-    @Inject(forwardRef(() => ServerService)) private readonly serverService: ServerService,
-  ) {}
+  constructor(private readonly eventEmitter: EventEmitter2) {}
+
+  public get clientCount(): number {
+    return Object.keys(this.clients).length;
+  }
 
   public async handleConnection(
     socket: ExtendedWebSocket,
     request: IncomingMessage,
   ): Promise<void> {
-    const severData = this.getServerDataFromRequest(request);
-    if (!severData) return socket.close();
-    socket.name = severData.name;
-    this.storeSocket(severData.name, socket);
-    this.logger.log(`VPN server connected [${severData.name}]`);
+    const serverData = this.getServerDataFromRequest(request);
+    if (!serverData) return socket.close();
+    socket.name = serverData.name;
+    this.storeSocket(serverData.name, socket);
+    this.logger.log(`VPN server connected [${serverData.name}]`);
 
     /** Listen to health-checks and ensures servers are healthy */
     socket.on('pong', () => {
-      this.serverService.healthy(severData.name).catch((error) => {
-        this.logger.error(error);
-      });
+      this.eventEmitter.emit(ServerHealthyEvent.namespace, new ServerHealthyEvent(serverData.name));
     });
 
-    await this.serverService.connected(severData);
+    this.eventEmitter.emit(ServerConnectedEvent.namespace, new ServerConnectedEvent(serverData));
   }
 
   public async handleDisconnect(socket: ExtendedWebSocket): Promise<void> {
     if (!socket.name) throw new Error('Socket name not set');
     this.logger.log(`VPN server disconnected [${socket.name}]`);
-    await this.serverService.disconnected(socket.name);
+    this.eventEmitter.emit(
+      ServerDisconnectedEvent.namespace,
+      new ServerDisconnectedEvent(socket.name),
+    );
     this.removeSocket(socket.name);
   }
 
   private getServerDataFromRequest(request: IncomingMessage) {
     const {error, value} = headerSchema.validate(request.headers, {allowUnknown: true});
     if (error) {
-      this.logger.error(error);
+      this.logger.warn(error);
       return;
     }
 
@@ -117,17 +127,17 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('server-ready')
-  async serverReady(@ConnectedSocket() client: ExtendedWebSocket): Promise<void> {
-    await this.serverService.ready(client.name);
+  private async serverReady(@ConnectedSocket() client: ExtendedWebSocket): Promise<void> {
+    this.eventEmitter.emit(ServerReadyEvent.namespace, new ServerReadyEvent(client.name));
   }
 
   @SubscribeMessage('server-stop')
-  async serverStopped(@ConnectedSocket() client: ExtendedWebSocket): Promise<void> {
-    await this.serverService.stopped(client.name);
+  private async serverStopped(@ConnectedSocket() client: ExtendedWebSocket): Promise<void> {
+    this.eventEmitter.emit(ServerStoppedEvent.namespace, new ServerStoppedEvent(client.name));
   }
 
   @SubscribeMessage('byte-count')
-  byteCount(@MessageBody() data: string): void {
+  private byteCount(@MessageBody() data: string): void {
     console.log('byte-count');
     console.log(data);
   }

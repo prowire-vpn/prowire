@@ -45,4 +45,12 @@ export class Server {
   public healthy() {
     this.lastSeenAt = new Date();
   }
+
+  public ready() {
+    this.active = true;
+  }
+
+  public stopped() {
+    this.active = false;
+  }
 }
