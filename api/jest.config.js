@@ -4,7 +4,7 @@ const {compilerOptions} = require('./tsconfig');
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   ...defaults,
-  preset: 'ts-jest',
+  // preset: 'node',
   testEnvironment: '<rootDir>/test/redis/environment.ts',
   testMatch: ['<rootDir>/**/*.test.ts'],
   roots: ['<rootDir>'],

@@ -9,6 +9,8 @@ import {Interval} from '@nestjs/schedule';
 import {LeaderService} from 'leader/domain';
 import {isBefore, subSeconds} from 'date-fns';
 
+export type ServerConnectedData = Omit<ServerConstructor, 'connected' | 'active'>;
+
 @Injectable()
 export class ServerService {
   constructor(
@@ -18,43 +20,6 @@ export class ServerService {
     @Inject(forwardRef(() => ServerGateway)) private readonly serverGateway: ServerGateway,
     private readonly leaderService: LeaderService,
   ) {}
-
-  public async connected(data: Omit<ServerConstructor, 'connected' | 'active'>): Promise<Server> {
-    const server = new Server({...data, connected: true, active: false, connectedAt: new Date()});
-    server.healthy();
-    await this.serverRepository.persist(server);
-    await this.start(server);
-    return server;
-  }
-
-  public async ready(name: string): Promise<Server> {
-    const server = await this.serverRepository.get(name);
-    if (!server) throw new ServerNotFoundError(name);
-    server.active = true;
-    return await this.serverRepository.persist(server);
-  }
-
-  public async healthy(name: string): Promise<Server> {
-    const server = await this.serverRepository.get(name);
-    if (!server) throw new ServerNotFoundError(name);
-    if (!server.connected) return await this.connected(server);
-    server.healthy();
-    return await this.serverRepository.persist(server);
-  }
-
-  public async stopped(name: string): Promise<Server> {
-    const server = await this.serverRepository.get(name);
-    if (!server) throw new ServerNotFoundError(name);
-    server.active = false;
-    return await this.serverRepository.persist(server);
-  }
-
-  public async disconnected(name: string): Promise<Server> {
-    const server = await this.serverRepository.get(name);
-    if (!server) throw new ServerNotFoundError(name);
-    server.disconnected();
-    return this.serverRepository.persist(server);
-  }
 
   public async get(name: string): Promise<Server> {
     const server = await this.serverRepository.get(name);
