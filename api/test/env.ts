@@ -3,7 +3,6 @@ import {randomBytes} from 'crypto';
 
 process.env = {
   API_URL: faker.internet.url(),
-  ADMIN_PANEL_URL: faker.internet.url(),
   MONGO_CONNECTION_STRING: faker.internet.url(),
   AUTHORIZED_REDIRECT_URIS: `${faker.internet.url()},${faker.internet.url()}`,
   GOOGLE_CLIENT_ID: faker.datatype.uuid(),
