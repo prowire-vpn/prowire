@@ -23,6 +23,14 @@ jobs:
       - name: Build
         run: npm run build --workspaces
   
+  build_docker:
+    name: Build containers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build containers
+        run: docker compose build
+  
   test:
     name: Test
     runs-on: ubuntu-latest

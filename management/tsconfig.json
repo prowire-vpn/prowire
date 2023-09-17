@@ -28,5 +28,5 @@
     "isolatedModules": true,
     "types": ["node", "jest", "vite/client"]
   },
-  "include": ["src", "test"]
+  "include": ["src", "scripts", "test"]
 }

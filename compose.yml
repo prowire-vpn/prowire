@@ -13,12 +13,22 @@ services:
       timeout: 10s
       retries: 10
 
+  redis:
+    image: redis:7.2
+    healthcheck:
+      test: redis-cli ping
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
   api:
     build:
       context: ./
       dockerfile: ./api/Dockerfile
     depends_on:
       mongo:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     ports:
       - "${API_PUBLIC_PORT:-54844}:${API_PORT:-54844}"
@@ -35,6 +45,9 @@ services:
       - MONGO_USER
       - MONGO_PASSWORD
       - MONGO_DATABASE
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_PASSWORD
       - AUTHORIZED_REDIRECT_URIS=${SERVER_CERTIFICATE:-prowire://auth/redirect,http://localhost:8080/auth/return}
       - GOOGLE_CLIENT_ID
       - GOOGLE_CLIENT_SECRET
