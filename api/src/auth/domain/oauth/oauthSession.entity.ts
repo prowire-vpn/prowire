@@ -4,6 +4,7 @@ import {Client} from 'auth/domain/client.entity';
 import {Base} from 'app/domain';
 import {ID} from 'types';
 import {CodeAlreadyIssuedError, CodeNotIssuedError} from './oauthSession.entity.error';
+import {IdentityProvider} from 'organization/domain';
 
 export interface OAuthSessionConstructor {
   id?: ID<OAuthSession>;
@@ -15,6 +16,7 @@ export interface OAuthSessionConstructor {
   code?: string;
   code_issued_at?: Date;
   code_used?: boolean;
+  provider: IdentityProvider;
 }
 
 export class OAuthSession extends Base {
@@ -26,6 +28,7 @@ export class OAuthSession extends Base {
   code?: string;
   code_issued_at?: Date;
   code_used: boolean;
+  provider: IdentityProvider;
 
   constructor(data: OAuthSessionConstructor) {
     super(data);
@@ -37,6 +40,7 @@ export class OAuthSession extends Base {
     this.code = data.code;
     this.code_issued_at = data.code_issued_at;
     this.code_used = data.code_used ?? false;
+    this.provider = data.provider;
     this.initialized = true;
   }
 
@@ -68,6 +72,7 @@ export class OAuthSession extends Base {
     const url = new URL(this.redirect_uri);
     url.searchParams.append('state', this.state);
     url.searchParams.append('code', this.code);
+    url.searchParams.append('provider', this.provider);
     return url.toString();
   }
 

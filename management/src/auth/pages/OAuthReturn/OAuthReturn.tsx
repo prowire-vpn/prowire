@@ -3,7 +3,8 @@ import {Suspense, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {TokenExchanger} from 'auth/components';
 import {useGetState, clearState} from 'auth/data';
-import {useAuthenticated} from 'auth/hooks';
+import {useAuthenticated, useStartAuth} from 'auth/hooks';
+import {IdentityProvider} from 'auth/models';
 import {useAuthDispatch} from 'auth/state';
 import {FullPageLoader} from 'base/components/FullPageLoader';
 
@@ -13,6 +14,7 @@ export function OAuthReturn() {
   const dispatch = useAuthDispatch();
   const navigate = useNavigate();
   const {data: savedState, isSuccess} = useGetState();
+  const startAuth = useStartAuth();
 
   useEffect(() => {
     if (isSuccess && !savedState) {
@@ -26,38 +28,41 @@ export function OAuthReturn() {
 
   useEffect(() => {
     if (!savedState) return;
-    const url = new URL(window.location.href);
 
-    const code = url.searchParams.get('code');
-    const state = url.searchParams.get('state');
+    try {
+      const url = new URL(window.location.href);
+      const error = url.searchParams.get('error');
+      const providerName = url.searchParams.get('provider');
 
-    if (!code) {
+      if (!providerName) throw new Error('No provider in redirect');
+
+      const provider = IdentityProvider.getProviderByName(providerName);
+
+      if (!provider) throw new Error(`Unknown identity provider: ${providerName}`);
+
+      if (provider && error === 'no-refresh-token-provided') {
+        startAuth(provider, true);
+        return;
+      }
+
+      if (error) throw new Error(`Could not authenticate: ${error}`);
+
+      const code = url.searchParams.get('code');
+      const state = url.searchParams.get('state');
+
+      if (!code) throw new Error('No code in redirect');
+      if (!state) throw new Error('No state in redirect');
+      if (savedState !== state) throw new Error('State does not match');
+      clearState();
+      dispatch({type: 'setCode', payload: code});
+    } catch (error) {
       dispatch({
         type: 'error',
-        payload: new Error('No code in redirect'),
+        payload: error,
       });
       navigate('/auth');
-      return;
     }
-    if (!state) {
-      dispatch({
-        type: 'error',
-        payload: new Error('No state in redirect'),
-      });
-      navigate('/auth');
-      return;
-    }
-    if (savedState !== state) {
-      dispatch({
-        type: 'error',
-        payload: new Error('State does not match'),
-      });
-      navigate('/auth');
-      return;
-    }
-    clearState();
-    dispatch({type: 'setCode', payload: code});
-  }, [dispatch, navigate, savedState]);
+  }, [dispatch, navigate, savedState, startAuth]);
 
   return (
     <Suspense fallback={<FullPageLoader />}>

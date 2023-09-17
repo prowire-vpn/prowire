@@ -42,7 +42,7 @@ export class GoogleOAuthGuardInit extends GoogleOAuthGuard {
     if (!allowedRedirectUris.includes(query.redirect_uri)) throw new Error();
 
     this.stateStore.addState(query.state, query.redirect_uri);
-    this.oAuthService.startOAuthSession(query);
+    this.oAuthService.startOAuthSession({...query, provider: 'google'});
     return super.canActivate(context);
   }
 
