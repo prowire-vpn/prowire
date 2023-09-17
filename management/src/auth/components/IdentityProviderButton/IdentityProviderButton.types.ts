@@ -1,4 +1,4 @@
-import {IdentityProvider} from 'auth/const';
+import {IdentityProvider} from 'auth/models';
 
 /** Props definition for the IdentityProviderButton component */
 export interface IdentityProviderButtonProps {

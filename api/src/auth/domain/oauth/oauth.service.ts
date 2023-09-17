@@ -49,7 +49,7 @@ export class OAuthService {
   }
 
   async startOAuthSession(
-    data: Pick<OAuthSessionConstructor, 'state' | 'code_challenge' | 'redirect_uri'>,
+    data: Pick<OAuthSessionConstructor, 'state' | 'code_challenge' | 'redirect_uri' | 'provider'>,
   ): Promise<OAuthSession> {
     const session = new OAuthSession(data);
     await this.sessionRepository.persist(session);

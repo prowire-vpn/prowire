@@ -28,6 +28,9 @@ export class OAuthSessionClass extends BaseSchema<OAuthSession> {
 
   @Prop({type: Boolean, required: false})
   public code_used?: boolean;
+
+  @Prop({type: String, required: true})
+  public provider!: string;
 }
 
 export type OAuthSessionDocument = HydratedDocument<OAuthSessionClass>;
@@ -47,6 +50,7 @@ const mapper = new Mapper<OAuthSession, OAuthSessionClass>([
   ['code', 'code'],
   ['code_issued_at', 'code_issued_at'],
   ['code_used', 'code_used'],
+  ['provider', 'provider'],
 ]);
 
 OAuthSessionSchema.method('toDomain', function (): OAuthSession {

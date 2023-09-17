@@ -9,6 +9,7 @@ export const oauthSessionFactory = {
       state: faker.random.alphaNumeric(32),
       code_challenge: faker.random.alphaNumeric(32),
       redirect_uri: faker.internet.url(),
+      provider: 'google',
       ...overrides,
     });
   },

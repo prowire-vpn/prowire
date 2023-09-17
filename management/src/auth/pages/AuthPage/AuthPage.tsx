@@ -2,8 +2,8 @@ import {Heading, Flex, Stack, Image, Text} from '@chakra-ui/react';
 import * as React from 'react';
 import logo from '../../../../assets/logo_monochrome.svg';
 import {IdentityProviderButton} from 'auth/components/IdentityProviderButton';
-import {IdentityProviders} from 'auth/const';
 import {useAuthenticated} from 'auth/hooks';
+import {IdentityProvider} from 'auth/models';
 import {useAuth} from 'auth/state';
 
 /** Main authentication page when the user is not authenticated */
@@ -17,11 +17,16 @@ export function AuthPage() {
       {error ? (
         <Text marginBottom={8} color="red">
           Something went wrong, please try again
+          {error instanceof Error ? (
+            <>
+              <br /> {error.message}
+            </>
+          ) : null}
         </Text>
       ) : null}
       <Stack direction="row" spacing="4">
-        {IdentityProviders.map((provider) => (
-          <IdentityProviderButton provider={provider} key={provider} />
+        {IdentityProvider.providers.map((provider) => (
+          <IdentityProviderButton provider={provider} key={provider.name} />
         ))}
       </Stack>
       <Image src={logo} alt="Prowire Logo" marginTop={8} width="50%" maxWidth={150} opacity={0.1} />

@@ -85,15 +85,16 @@ describe('OAuthSession', () => {
       expect(() => session.redirectionUrl).toThrowError(CodeNotIssuedError);
     });
 
-    it('should generate an url with the code and the state', () => {
+    it('should generate an url with the code, the state, and the provider', () => {
       const session = build('oauthSession', {
         redirect_uri: 'https://cool-site.com',
         code: 'code',
         state: 'state',
+        provider: 'google',
       });
 
       expect(session.redirectionUrl).toBe(
-        `https://cool-site.com/?state=${session.state}&code=${session.code}`,
+        `https://cool-site.com/?state=${session.state}&code=${session.code}&provider=${session.provider}`,
       );
     });
   });

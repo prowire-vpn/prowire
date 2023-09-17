@@ -9,6 +9,7 @@ module.exports = {
   roots: ['<rootDir>'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {prefix: '<rootDir>/src'}),
   modulePaths: [compilerOptions.baseUrl],
+  setupFilesAfterEnv: ['<rootDir>/test/mocks/localStorage.ts'],
   transform: {
     "^.+\\.(t|j)sx?$": ["@swc/jest"],
     "^.+\\.svg$": "jest-transform-stub"
