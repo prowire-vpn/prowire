@@ -1,10 +1,11 @@
 import {Injectable, Logger} from '@nestjs/common';
-import {Telnet} from 'telnet-client';
+import {Telnet, SendOptions} from 'telnet-client';
 import {setTimeout} from 'timers/promises';
 import {existsSync} from 'fs';
 import {ShutdownService} from 'lifecycle';
 import {messages, ServerReadyEvent} from './telnet.message';
 import {EventEmitter2} from '@nestjs/event-emitter';
+import {Client} from 'open_vpn/domain/client.entity';
 
 @Injectable()
 export class TelnetManager {
@@ -12,6 +13,9 @@ export class TelnetManager {
   public readonly TELNET_SOCKET_PATH = '/tmp/prowire-openvpn';
 
   private readonly logger = new Logger(TelnetManager.name);
+
+  private BufferedMessage?: (typeof messages)[number];
+  private bufferedMessageContent: Array<string> = [];
 
   public constructor(
     private readonly shutdownService: ShutdownService,
@@ -56,16 +60,26 @@ export class TelnetManager {
     await this.telnet?.destroy();
   }
 
-  private onConnect(): void {
+  public async authorizeClient(client: Client): Promise<void> {
+    await this.send(`client-auth ${client.cid} ${client.kid}\nEND`);
+  }
+
+  private send(command: string, options?: SendOptions): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.telnet
+        ?.send(command, {
+          ors: '\r\n',
+          waitfor: 'SUCCESS: ',
+          ...options,
+        })
+        .then(resolve)
+        .catch(reject);
+    });
+  }
+
+  private async onConnect(): Promise<void> {
     this.eventEmitter.emit(ServerReadyEvent.eventName);
-    this.telnet
-      ?.send('bytecount 1', {
-        ors: '\r\n',
-        waitfor: 'SUCCESS: bytecount interval changed',
-      })
-      .catch((error) => {
-        this.logger.error(error);
-      });
+    await this.send('bytecount 10', {waitFor: 'SUCCESS: bytecount interval changed'});
   }
 
   private onError(error: Error): void {
@@ -82,13 +96,33 @@ export class TelnetManager {
   }
 
   private onData(data: Buffer) {
-    const byteCountRegex = /BYTECOUNT:(\d+),(\d+)/;
-    const successRegex = /CONNECTED,SUCCESS,([0-9.]+),([0-9.]+),(\d+)/;
-    const reconnectingRegex = /RECONNECTING,([a-z-])/;
     const content = data.toString();
-    messages.forEach((Message) => {
-      if (Message.validate(content))
-        this.eventEmitter.emit(Message.eventName, new Message(content));
-    });
+    this.logger.verbose('Received message from OpenVPN server', content);
+
+    // If we are currently buffering a message, we need to check if the new data completes it
+    if (this.BufferedMessage) {
+      this.bufferedMessageContent.push(content);
+      if (this.BufferedMessage.findEnd(content)) {
+        this.eventEmitter.emit(
+          this.BufferedMessage.eventName,
+          new this.BufferedMessage(this.bufferedMessageContent.join('\n')),
+        );
+        this.BufferedMessage = undefined;
+        this.bufferedMessageContent = [];
+      }
+      return;
+    }
+
+    for (const Message of messages) {
+      if (Message.findStart(content)) {
+        // When the message is always expected to be a single line, we can build it immediately
+        if (Message.findEnd(content))
+          return this.eventEmitter.emit(Message.eventName, new Message(content));
+
+        // When the message is expected to be multiple lines, we need to wait for the end
+        this.BufferedMessage = Message;
+        this.bufferedMessageContent = [content];
+      }
+    }
   }
 }

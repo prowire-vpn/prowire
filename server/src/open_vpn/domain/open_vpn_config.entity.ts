@@ -63,7 +63,6 @@ export class OpenVpnConfig {
     configFile.push('<key>', this.key.trim(), '</key>');
     // CA certificate
     configFile.push('<ca>', this.ca.trim(), '</ca>');
-    configFile.push('verb 6');
     return configFile.join('\n');
   }
 }

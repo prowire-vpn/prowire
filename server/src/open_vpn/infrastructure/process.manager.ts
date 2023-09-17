@@ -55,6 +55,8 @@ export class ProcessManager implements OnModuleDestroy {
         'unix',
         // Send telnet events for each connection
         '--management-up-down',
+        '--management-client-auth',
+        '--auth-user-pass-optional',
       ],
       {
         detached: false,

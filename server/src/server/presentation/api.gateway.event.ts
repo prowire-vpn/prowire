@@ -1,3 +1,3 @@
 export class ApiGatewayConnected {
-  public static eventName: 'api-gateway-connected';
+  public static readonly eventName: 'api-gateway-connected';
 }
