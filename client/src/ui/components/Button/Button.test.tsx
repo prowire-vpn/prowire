@@ -11,7 +11,9 @@ describe('Button', () => {
   });
 
   it('should display given text', async () => {
+    console.log('A');
     render(<Button text={text} />);
+    console.log('B');
     await screen.findByText(text);
   });
 

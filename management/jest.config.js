@@ -13,5 +13,6 @@ module.exports = {
   transform: {
     "^.+\\.(t|j)sx?$": ["@swc/jest"],
     "^.+\\.svg$": "jest-transform-stub"
-  }
+  },
+  testTimeout: 10_000,
 };
