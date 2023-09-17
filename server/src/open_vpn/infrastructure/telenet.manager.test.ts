@@ -2,6 +2,7 @@ import {TelnetManager} from './telnet.manager';
 import {Test} from '@nestjs/testing';
 import {EventEmitter2} from '@nestjs/event-emitter';
 import {ShutdownService} from 'lifecycle';
+import {Client} from 'open_vpn/domain/client.entity';
 
 describe('TelnetManager', () => {
   let telnetManager: TelnetManager;
@@ -110,9 +111,7 @@ describe('TelnetManager', () => {
 
       expect(mockEventEmitter.emit).toHaveBeenCalledWith('client-connect', {
         type: 'CONNECT',
-        cid: '0',
-        kid: '1',
-        userId: '6506ee77a70089e2e9d3b700',
+        client: new Client({cid: '0', kid: '1', userId: '6506ee77a70089e2e9d3b700'}),
       });
     });
   });
