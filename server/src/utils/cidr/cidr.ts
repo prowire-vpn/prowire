@@ -5,7 +5,7 @@ const CIDR_REGEX = /^((?:[0-9]{1,3}\.){3}[0-9]{1,3})(?:\/([0-9]|[1-2][0-9]|3[0-2
 /** */
 export function cidrToNetMask(cidr: string): IpWithMask {
   const match = cidr.match(CIDR_REGEX);
-  if (!match) throw Error('Given value is not a valid CIDR');
+  if (!match) throw new Error('Given value is not a valid CIDR');
   return {
     ip: match[1],
     mask: createNetMask(parseInt(match[2])),

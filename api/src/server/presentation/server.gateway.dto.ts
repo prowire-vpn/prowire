@@ -1,4 +1,4 @@
-import {VpnConfig} from 'server/domain';
+import {VpnConfig} from 'server/domain/vpnConfig.entity';
 import {serialize} from 'bson';
 
 export abstract class WebSocketMessage {
@@ -10,12 +10,12 @@ export abstract class WebSocketMessage {
     this.payload = payload;
   }
 
-  serialize(): Buffer {
+  public serialize(): Buffer {
     return serialize({type: this.type, payload: this.payload});
   }
 }
 
-class StartServerEventPayload {
+class StartServerMessagePayload {
   public readonly certificate: string;
   public readonly ca: string;
   public readonly protocol: string;
@@ -44,12 +44,12 @@ class StartServerEventPayload {
   }
 }
 
-export class StartServerEvent extends WebSocketMessage {
-  public readonly type = 'start';
-  public readonly payload!: StartServerEventPayload;
+export class StartServerMessage extends WebSocketMessage {
+  public static readonly type = 'start';
+  public readonly payload!: StartServerMessagePayload;
 
   constructor(config: VpnConfig, certificate: string, ca: string) {
-    super('start', new StartServerEventPayload(config, certificate, ca));
+    super(StartServerMessage.type, new StartServerMessagePayload(config, certificate, ca));
   }
 
   serialize(): Buffer {
@@ -60,9 +60,88 @@ export class StartServerEvent extends WebSocketMessage {
   }
 }
 
-export class StopServerEvent extends WebSocketMessage {
-  public readonly type = 'stop';
+export class StopServerMessage extends WebSocketMessage {
+  public static readonly type = 'stop';
   constructor() {
-    super('stop', undefined);
+    super(StopServerMessage.type, undefined);
+  }
+}
+
+export class ServerReadyMessage extends WebSocketMessage {
+  public static readonly type = 'server-ready';
+  constructor() {
+    super(ServerReadyMessage.type, undefined);
+  }
+}
+
+export class ServerStoppedMessage extends WebSocketMessage {
+  public static readonly type = 'server-stopped';
+  constructor() {
+    super(ServerStoppedMessage.type, undefined);
+  }
+}
+
+export class ClientConnectMessage extends WebSocketMessage {
+  public static readonly type = 'client-connect';
+  public readonly payload!: string;
+
+  constructor(userId: string) {
+    super(ClientConnectMessage.type, userId);
+  }
+}
+
+class ClientAuthorizeMessagePayload {
+  userId: string;
+
+  constructor(userId: string) {
+    this.userId = userId;
+  }
+}
+
+export class ClientAuthorizeMessage extends WebSocketMessage {
+  public static readonly type = 'client-authorize';
+  public readonly payload!: ClientAuthorizeMessagePayload;
+
+  constructor(userId: string) {
+    super(ClientConnectMessage.type, new ClientAuthorizeMessagePayload(userId));
+  }
+}
+
+class ClientDisconnectedMessagePayload {
+  userId: string;
+
+  constructor(userId: string) {
+    this.userId = userId;
+  }
+}
+
+export class ClientDisconnectedMessage extends WebSocketMessage {
+  public static readonly type = 'client-disconnected';
+  public readonly payload!: ClientDisconnectedMessagePayload;
+
+  constructor(userId: string) {
+    super(ClientDisconnectedMessage.type, new ClientDisconnectedMessagePayload(userId));
+  }
+}
+
+class ClientAddressAssignedMessagePayload {
+  userId: string;
+  address: string;
+
+  constructor(userId: string, address: string) {
+    this.userId = userId;
+    this.address = address;
+  }
+}
+
+export class ClientAddressAssignedMessage extends WebSocketMessage {
+  public static readonly type = 'client-address-assigned';
+  public readonly payload!: ClientAddressAssignedMessagePayload;
+
+  constructor(userId: string, address: string) {
+    super(
+      ClientAddressAssignedMessage.type,
+      new ClientAddressAssignedMessagePayload(userId, address),
+    );
   }
 }

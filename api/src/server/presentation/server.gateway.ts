@@ -1,6 +1,4 @@
 import {
-  SubscribeMessage,
-  MessageBody,
   WebSocketGateway,
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -9,8 +7,7 @@ import {
 import {WebSocket} from 'ws';
 import {IncomingMessage} from 'http';
 import {Logger} from '@nestjs/common';
-import {StartServerEvent, StopServerEvent} from './server.gateway.dto';
-import {Server, VpnConfig} from 'server/domain';
+import {Server} from 'server/domain/server.entity';
 import * as Joi from 'joi';
 import {WebSocketMessage} from './server.gateway.dto';
 import {Interval} from '@nestjs/schedule';
@@ -18,10 +15,10 @@ import {
   ServerHealthyEvent,
   ServerConnectedEvent,
   ServerDisconnectedEvent,
-  ServerReadyEvent,
-  ServerStoppedEvent,
 } from 'server/domain/server.events';
 import {EventEmitter2} from '@nestjs/event-emitter';
+import {RawData} from 'ws';
+import {deserialize} from 'bson';
 
 const headerSchema = Joi.object({
   'x-prowire-server-name': Joi.string().required(),
@@ -34,9 +31,18 @@ export interface ExtendedWebSocket extends WebSocket {
   name: string;
 }
 
+/** Function that does some business logic on a message */
+export type HandlerFunction = (serverName: string, message: WebSocketMessage['payload']) => void;
+
+/** Mapping of all registered message handlers */
+export interface MessageHandlersMap {
+  [type: string]: Array<HandlerFunction>;
+}
+
 @WebSocketGateway({transports: ['websocket'], pingInterval: 1_000, pingTimeout: 3_000})
 export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private clients: {[name: string]: WebSocket} = {};
+  private handlers: MessageHandlersMap = {};
 
   private readonly logger = new Logger(ServerGateway.name);
 
@@ -50,16 +56,19 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
     socket: ExtendedWebSocket,
     request: IncomingMessage,
   ): Promise<void> {
+    this.logger.debug(`VPN server attempting to connect`);
     const serverData = this.getServerDataFromRequest(request);
     if (!serverData) return socket.close();
     socket.name = serverData.name;
     this.storeSocket(serverData.name, socket);
     this.logger.log(`VPN server connected [${serverData.name}]`);
 
-    /** Listen to health-checks and ensures servers are healthy */
+    // Listen to health-checks and ensures servers are healthy
     socket.on('pong', () => {
       this.eventEmitter.emit(ServerHealthyEvent.namespace, new ServerHealthyEvent(serverData.name));
     });
+
+    socket.on('message', (data) => this.onMessage(data, socket));
 
     this.eventEmitter.emit(ServerConnectedEvent.namespace, new ServerConnectedEvent(serverData));
   }
@@ -72,6 +81,11 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
       new ServerDisconnectedEvent(socket.name),
     );
     this.removeSocket(socket.name);
+  }
+
+  public async disconnectServer(server: Server): Promise<void> {
+    const socket = this.getSocket(server.name);
+    socket?.close();
   }
 
   private getServerDataFromRequest(request: IncomingMessage) {
@@ -101,20 +115,17 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return this.clients[name];
   }
 
-  public sendStartMessage(server: Server, vpnConfig: VpnConfig, certificate: string, ca: string) {
-    this.sendMessage(server, new StartServerEvent(vpnConfig, certificate, ca));
-  }
-
-  public sendStopMessage(server: Server) {
-    this.sendMessage(server, new StopServerEvent());
-  }
-
-  private sendMessage(server: Server, message: WebSocketMessage) {
-    const socket = this.getSocket(server.name);
+  public sendMessage(server: string | Server, message: WebSocketMessage): void {
+    const serverName = typeof server === 'string' ? server : server.name;
+    const socket = this.getSocket(serverName);
     if (!socket) {
-      this.logger.error(`Could not find socket for server ${server.name}`);
+      this.logger.error(`Could not find socket for server ${serverName}`);
       return;
     }
+    this.logger.verbose(
+      `Sending message of type "${message.type}" to "${serverName}"`,
+      message.payload,
+    );
     socket.send(message.serialize());
   }
 
@@ -126,19 +137,46 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
-  @SubscribeMessage('server-ready')
-  private async serverReady(@ConnectedSocket() client: ExtendedWebSocket): Promise<void> {
-    this.eventEmitter.emit(ServerReadyEvent.namespace, new ServerReadyEvent(client.name));
+  /** Function called when a message is received from the API */
+  private onMessage(data: RawData, @ConnectedSocket() client: ExtendedWebSocket): void {
+    // If we receive an array, we process each message independently
+    if (data instanceof Array) {
+      data.forEach((element) => {
+        this.onMessage(element, client);
+      });
+      return;
+    }
+    try {
+      // Parse the message
+      let message: WebSocketMessage;
+      try {
+        message = deserialize(data) as WebSocketMessage;
+      } catch (error) {
+        throw new Error('Could not parse incoming message as BSON');
+      }
+
+      // Check that the message type is handled
+      if (!(message.type in this.handlers))
+        throw new Error(`Message with type "${message.type}" is not handled by this server`);
+
+      this.logger.verbose(
+        `Received message of type "${message.type}" from "${client.name}"`,
+        message.payload,
+      );
+
+      // Pass the message to all the related handlers
+      this.handlers[message.type].forEach((handler) => {
+        handler(client.name, message.payload);
+      });
+    } catch (error: unknown) {
+      this.logger.error(error);
+    }
   }
 
-  @SubscribeMessage('server-stop')
-  private async serverStopped(@ConnectedSocket() client: ExtendedWebSocket): Promise<void> {
-    this.eventEmitter.emit(ServerStoppedEvent.namespace, new ServerStoppedEvent(client.name));
-  }
-
-  @SubscribeMessage('byte-count')
-  private byteCount(@MessageBody() data: string): void {
-    console.log('byte-count');
-    console.log(data);
+  /** Add a message handler to the chain */
+  public registerHandler(type: string, handler: HandlerFunction): void {
+    if (!this.handlers[type]) this.handlers[type] = [];
+    this.logger.debug(`Registering message handler "${handler.name}" for "${type}"`);
+    this.handlers[type].push(handler);
   }
 }

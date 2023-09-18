@@ -1,5 +1,5 @@
 import {Module} from '@nestjs/common';
-import {ServerService, VpnConfigService, PkiService, ServerListener} from './domain';
+import {ServerService, VpnConfigService, PkiService} from './domain';
 import {MongooseModule} from '@nestjs/mongoose';
 import {
   ServerSchemaClass,
@@ -9,7 +9,7 @@ import {
   VpnConfigSchema,
   VpnConfigRepository,
 } from './infrastructure';
-import {ServerGateway, ServerController} from './presentation';
+import {ServerGateway, ServerController, ServerMessenger} from './presentation';
 import {LeaderModule} from 'leader';
 
 @Module({
@@ -28,7 +28,7 @@ import {LeaderModule} from 'leader';
     VpnConfigService,
     VpnConfigRepository,
     PkiService,
-    ServerListener,
+    ServerMessenger,
   ],
   exports: [ServerService],
 })

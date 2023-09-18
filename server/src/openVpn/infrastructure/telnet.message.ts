@@ -1,4 +1,4 @@
-import {Client} from 'open_vpn/domain/client.entity';
+import {Client} from 'openVpn/domain/client.entity';
 
 export class ServerReadyEvent {
   public static readonly eventName = 'server-ready';
@@ -8,7 +8,7 @@ export class ServerStopEvent {
   public static readonly eventName = 'server-stop';
 }
 
-export abstract class TelnetMessage {
+export abstract class TelnetEvent {
   public static readonly startRegex: RegExp;
   public static readonly endRegex?: RegExp;
   public static readonly eventName: string;
@@ -23,7 +23,7 @@ export abstract class TelnetMessage {
   }
 }
 
-export class ByteCountMessage extends TelnetMessage {
+export class ByteCountEvent extends TelnetEvent {
   public static readonly startRegex = />BYTECOUNT:(\d+),(\d+)/;
   public static readonly eventName = 'bytecount';
 
@@ -32,14 +32,14 @@ export class ByteCountMessage extends TelnetMessage {
 
   constructor(message: string) {
     super();
-    const match = ByteCountMessage.startRegex.exec(message);
+    const match = ByteCountEvent.startRegex.exec(message);
     if (!match) throw new Error('Cloud not find ByteCount information in message');
     this.bytesIn = parseInt(match[1], 10);
     this.bytesOut = parseInt(match[2], 10);
   }
 }
 
-export class ClientByteCountMessage extends TelnetMessage {
+export class ClientByteCountEvent extends TelnetEvent {
   public static readonly startRegex = />BYTECOUNT_CLI:(\d+),(\d+),(\d+)/;
   public static readonly eventName = 'bytecount-cli';
 
@@ -49,7 +49,7 @@ export class ClientByteCountMessage extends TelnetMessage {
 
   constructor(message: string) {
     super();
-    const match = ClientByteCountMessage.startRegex.exec(message);
+    const match = ClientByteCountEvent.startRegex.exec(message);
     if (!match) throw new Error('Cloud not find ByteCount information in message');
     this.cid = match[1];
     this.bytesIn = parseInt(match[2], 10);
@@ -57,7 +57,7 @@ export class ClientByteCountMessage extends TelnetMessage {
   }
 }
 
-export class ClientConnectMessage extends TelnetMessage {
+export class ClientConnectEvent extends TelnetEvent {
   public static readonly startRegex = />CLIENT:(CONNECT|REAUTH),(\d+),(\d+)/;
   public static readonly endRegex = />CLIENT:ENV,END/;
   public static readonly eventName = 'client-connect';
@@ -68,19 +68,19 @@ export class ClientConnectMessage extends TelnetMessage {
 
   constructor(message: string) {
     super();
-    const headerMatch = ClientConnectMessage.startRegex.exec(message);
+    const headerMatch = ClientConnectEvent.startRegex.exec(message);
     if (!headerMatch) throw new Error('Could not find header in message');
     this.type = headerMatch[1] === 'CONNECT' ? 'CONNECT' : 'REAUTH';
     const cid = headerMatch[2];
     const kid = headerMatch[3];
-    const userIdMatch = ClientConnectMessage.userIdRegex.exec(message);
+    const userIdMatch = ClientConnectEvent.userIdRegex.exec(message);
     if (!userIdMatch) throw new Error('Could not find userId in message');
     const userId = userIdMatch[1];
     this.client = new Client({kid, cid, userId});
   }
 }
 
-export class ClientDisconnectMessage extends TelnetMessage {
+export class ClientDisconnectEvent extends TelnetEvent {
   public static readonly startRegex = />CLIENT:DISCONNECT,(\d+)/;
   public static readonly endRegex = />CLIENT:ENV,END/;
   public static readonly eventName = 'client-disconnect';
@@ -89,13 +89,13 @@ export class ClientDisconnectMessage extends TelnetMessage {
 
   constructor(message: string) {
     super();
-    const match = ClientDisconnectMessage.startRegex.exec(message);
+    const match = ClientDisconnectEvent.startRegex.exec(message);
     if (!match) throw new Error('Could not parse message');
     this.cid = match[1];
   }
 }
 
-export class ClientAddressMessage extends TelnetMessage {
+export class ClientAddressEvent extends TelnetEvent {
   public static readonly startRegex = />CLIENT:ADDRESS,(\d+),([0-9a-f:.]+),1/;
   public static readonly endRegex = />CLIENT:ENV,END/;
   public static readonly eventName = 'client-address';
@@ -105,7 +105,7 @@ export class ClientAddressMessage extends TelnetMessage {
 
   constructor(message: string) {
     super();
-    const match = ClientAddressMessage.startRegex.exec(message);
+    const match = ClientAddressEvent.startRegex.exec(message);
     if (!match) throw new Error('Could not parse message');
     this.cid = match[1];
     this.address = match[2];
@@ -113,9 +113,9 @@ export class ClientAddressMessage extends TelnetMessage {
 }
 
 export const messages = [
-  ByteCountMessage,
-  ClientByteCountMessage,
-  ClientConnectMessage,
-  ClientDisconnectMessage,
-  ClientAddressMessage,
+  ByteCountEvent,
+  ClientByteCountEvent,
+  ClientConnectEvent,
+  ClientDisconnectEvent,
+  ClientAddressEvent,
 ];

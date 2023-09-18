@@ -4,10 +4,9 @@ import {Server, ServerConstructor} from './server.entity';
 import {ServerNotFoundError} from './server.service.error';
 import {PkiService} from './pki.service';
 import {VpnConfigService} from './vpnConfig.service';
-import {ServerGateway} from 'server/presentation/server.gateway';
-import {Interval} from '@nestjs/schedule';
 import {LeaderService} from 'leader/domain';
 import {isBefore, subSeconds} from 'date-fns';
+import {VpnConfig} from './vpnConfig.entity';
 
 export type ServerConnectedData = Omit<ServerConstructor, 'connected' | 'active'>;
 
@@ -17,7 +16,6 @@ export class ServerService {
     private readonly serverRepository: ServerRepository,
     private readonly pkiService: PkiService,
     private readonly vpnConfigService: VpnConfigService,
-    private readonly serverGateway: ServerGateway,
     private readonly leaderService: LeaderService,
   ) {}
 
@@ -31,19 +29,21 @@ export class ServerService {
     return await this.serverRepository.find();
   }
 
-  public async start(server: Server): Promise<void> {
-    const vpnConfig = await this.vpnConfigService.get();
+  public async getVpnConfig(
+    server: Server,
+  ): Promise<{config: VpnConfig; certificate: string; ca: string}> {
+    const config = await this.vpnConfigService.get();
     const {certificate, ca} = await this.pkiService.generateCertificate(
       server.publicKey,
       server.name,
       {server: true},
     );
-    this.serverGateway.sendStartMessage(server, vpnConfig, certificate, ca);
+
+    return {config, certificate, ca};
   }
 
-  @Interval(1_000)
-  private async checkHealth() {
-    if (!this.leaderService.isLeader) return;
+  public async getUnhealthyServers(): Promise<Server[]> {
+    if (!this.leaderService.isLeader) return [];
     const servers = await this.serverRepository.find({connected: true});
     const now = new Date();
     const unhealthy: Array<Server> = [];
@@ -52,12 +52,46 @@ export class ServerService {
         unhealthy.push(server);
       }
     }
+    return unhealthy;
+  }
 
-    await Promise.all(
-      unhealthy.map((server) => {
-        server.disconnected();
-        return this.serverRepository.persist(server);
-      }),
-    );
+  public async setServerDisconnected(server: Server): Promise<void> {
+    server.disconnected();
+    await this.serverRepository.persist(server);
+  }
+
+  public async setServerHealthy(name: string): Promise<void> {
+    const server = await this.get(name);
+    server.healthy();
+    await this.serverRepository.persist(server);
+  }
+
+  public async setServerReady(name: string): Promise<Server> {
+    const server = await this.get(name);
+    server.ready();
+    return await this.serverRepository.persist(server);
+  }
+
+  public async setServerStopped(name: string): Promise<Server> {
+    const server = await this.get(name);
+    server.stopped();
+    return await this.serverRepository.persist(server);
+  }
+
+  public async setServerConnected(data: ServerConnectedData): Promise<Server> {
+    const server = new Server({
+      ...data,
+      connected: true,
+      active: false,
+      connectedAt: new Date(),
+    });
+    server.healthy();
+    return await this.serverRepository.persist(server);
+  }
+
+  /** A client has connected to a server and needs to retrieve his configuration and be authorized */
+  public async connectClient(userId: string) {
+    // TODO retrieve the client specific configuration
+    // TODO authorize the client
   }
 }

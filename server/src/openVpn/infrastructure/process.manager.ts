@@ -1,6 +1,6 @@
 import {spawn} from 'child_process';
 import {Injectable, Logger, OnModuleDestroy} from '@nestjs/common';
-import {OpenVpnConfig} from 'open_vpn/domain';
+import {OpenVpnConfig} from 'openVpn/domain';
 import {writeToTmpFile} from 'utils';
 import {TelnetManager} from './telnet.manager';
 import {ServerStopEvent} from './telnet.message';
