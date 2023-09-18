@@ -45,7 +45,7 @@ export abstract class ThirdPartyIdentity {
 
   public toRegistrationData(): RegisterUserInfo {
     if (!this.name || !this.accessToken)
-      throw Error(
+      throw new Error(
         "Missing data for registration, ensure you call 'hasDataForAccountCreation' first",
       );
     return {

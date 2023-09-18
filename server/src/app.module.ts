@@ -2,7 +2,7 @@ import {Module} from '@nestjs/common';
 import {ConfigSchema} from './config';
 import {ConfigModule} from '@nestjs/config';
 import {ServerModule} from './server';
-import {OpenVpnModule} from './open_vpn';
+import {OpenVpnModule} from './openVpn';
 import {EventEmitterModule} from '@nestjs/event-emitter';
 
 @Module({

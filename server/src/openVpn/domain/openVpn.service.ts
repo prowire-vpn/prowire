@@ -1,19 +1,16 @@
 import {ConfigService} from '@nestjs/config';
 import {Injectable, Logger} from '@nestjs/common';
 import {OnEvent, EventEmitter2} from '@nestjs/event-emitter';
-import {ProcessManager, TelnetManager} from 'open_vpn/infrastructure';
-import {OpenVpnConfig} from './open_vpn_config.entity';
-import {UpdateOpenVpnOptions} from './open_vpn.service.interface';
+import {ProcessManager, TelnetManager} from 'openVpn/infrastructure';
+import {OpenVpnConfig} from './openVpnConfig.entity';
+import {UpdateOpenVpnOptions} from './openVpn.service.interface';
 import {PkiService} from 'server/domain';
 import {ApiGatewayConnected} from 'server/presentation/api.gateway.event';
 import {
   ServerReadyEvent,
-  ClientConnectMessage,
-  ClientDisconnectMessage,
-  ByteCountMessage,
-  ClientByteCountMessage,
-  ClientAddressMessage,
-} from 'open_vpn/infrastructure/telnet.message';
+  ByteCountEvent,
+  ClientByteCountEvent,
+} from 'openVpn/infrastructure/telnet.message';
 import {Client} from './client.entity';
 
 @Injectable()
@@ -50,34 +47,37 @@ export class OpenVpnService {
       this.eventEmitter.emit(ServerReadyEvent.eventName, new ServerReadyEvent());
   }
 
-  @OnEvent(ClientConnectMessage.eventName)
-  private onClientConnect(event: ClientConnectMessage): void {
-    this.logger.log(`Client connected [cid: ${event.client.cid}, userId: ${event.client.userId}]`);
-    this.telnetManager.authorizeClient(event.client);
+  public clientConnected(client: Client): void {
+    this.logger.log(`Client connected [cid: ${client.cid}, userId: ${client.userId}]`);
+    this.telnetManager.authorizeClient(client);
   }
 
-  @OnEvent(ClientDisconnectMessage.eventName)
-  private onClientDisconnect(event: ClientDisconnectMessage): void {
-    this.logger.log(`Client disconnected [cid: ${event.cid}]`);
-    Client.removeClientByCid(event.cid);
+  public clientDisconnected(cid: string): Client {
+    this.logger.log(`Client disconnected [cid: ${cid}]`);
+    const client = Client.getByCid(cid);
+    if (!client) throw new Error(`Client with cid ${cid} not found after disconnect`);
+    Client.removeByCid(cid);
+    return client;
   }
 
-  @OnEvent(ByteCountMessage.eventName)
-  private onByteCount(event: ByteCountMessage): void {
+  @OnEvent(ByteCountEvent.eventName)
+  private onByteCount(event: ByteCountEvent): void {
     this.logger.debug(`Received global byte count [in: ${event.bytesIn}, out: ${event.bytesOut}`);
   }
 
-  @OnEvent(ClientByteCountMessage.eventName)
-  private onClientByteCount(event: ClientByteCountMessage): void {
+  @OnEvent(ClientByteCountEvent.eventName)
+  private onClientByteCount(event: ClientByteCountEvent): void {
     this.logger.debug(
       `Received client byte count [cid: ${event.cid}, in: ${event.bytesIn}, out: ${event.bytesOut}`,
     );
   }
 
-  @OnEvent(ClientAddressMessage.eventName)
-  private onClientAddress(event: ClientAddressMessage): void {
-    Client.updateAddress(event.cid, event.address);
-    this.logger.debug(`Address assigned to client [cid: ${event.cid}, address: ${event.address}`);
+  public clientAddressAssigned(cid: string, address: string): Client {
+    const client = Client.getByCid(cid);
+    if (!client) throw new Error(`Client with cid ${cid} not found after disconnect`);
+    client.assignAddress(address);
+    this.logger.debug(`Address assigned to client [cid: ${cid}, address: ${address}`);
+    return client;
   }
 
   public stop(): void {

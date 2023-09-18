@@ -26,8 +26,12 @@ export class Client {
     Client.clients.push(client);
   }
 
-  public static removeClientByCid(cid: string): void {
+  public static removeByCid(cid: string): void {
     Client.clients = Client.clients.filter((client) => client.cid !== cid);
+  }
+
+  public static getByCid(cid: string): Client | undefined {
+    return Client.clients.find((client) => client.cid === cid);
   }
 
   public static updateByteCount(cid: string, bytesIn: number, bytesOut: number): Client {
@@ -38,10 +42,8 @@ export class Client {
     return client;
   }
 
-  public static updateAddress(cid: string, address: string): Client {
-    const client = Client.clients.find((client) => client.cid === cid);
-    if (!client) throw new Error(`Client with cid ${cid} not found`);
-    client.address = address;
-    return client;
+  public assignAddress(address: string): Client {
+    this.address = address;
+    return this;
   }
 }

@@ -5,7 +5,7 @@ import {existsSync} from 'fs';
 import {ShutdownService} from 'lifecycle';
 import {messages, ServerReadyEvent} from './telnet.message';
 import {EventEmitter2} from '@nestjs/event-emitter';
-import {Client} from 'open_vpn/domain/client.entity';
+import {Client} from 'openVpn/domain/client.entity';
 
 @Injectable()
 export class TelnetManager {

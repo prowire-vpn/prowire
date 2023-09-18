@@ -2,7 +2,7 @@ import {TelnetManager} from './telnet.manager';
 import {Test} from '@nestjs/testing';
 import {EventEmitter2} from '@nestjs/event-emitter';
 import {ShutdownService} from 'lifecycle';
-import {Client} from 'open_vpn/domain/client.entity';
+import {Client} from 'openVpn/domain/client.entity';
 
 describe('TelnetManager', () => {
   let telnetManager: TelnetManager;
@@ -48,7 +48,6 @@ describe('TelnetManager', () => {
       >CLIENT:ENV,password=
       >CLIENT:ENV,untrusted_port=59580
       >CLIENT:ENV,untrusted_ip=82.64.71.34
-      >CLIENT:ENV,common_name=client:6506ee77a70089e2e9d3b700
       >CLIENT:ENV,username=
       >CLIENT:ENV,IV_PLAT_VER=30_11_x86_google_goldfish_x86_sdk_gphone_x86_arm
       >CLIENT:ENV,IV_SSO=openurl,webauth,crtext
@@ -103,6 +102,7 @@ describe('TelnetManager', () => {
       >CLIENT:ENV,dev=tun0
       >CLIENT:ENV,dev_type=tun
       >CLIENT:ENV,redirect_gateway=0
+      >CLIENT:ENV,common_name=client:6506ee77a70089e2e9d3b700
       >CLIENT:ENV,END
       `;
 

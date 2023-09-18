@@ -4,6 +4,7 @@ import {Test} from '@nestjs/testing';
 import {IncomingMessage} from 'http';
 import {EventEmitter2} from '@nestjs/event-emitter';
 import {faker} from '@faker-js/faker';
+import {serialize} from 'bson';
 
 describe('ServerGateway', () => {
   let serverGateway: ServerGateway;
@@ -35,6 +36,7 @@ describe('ServerGateway', () => {
     socket = {
       close: jest.fn(),
       on: jest.fn(),
+      name,
     } as unknown as ExtendedWebSocket;
 
     mockEventEmitter = {
@@ -133,6 +135,64 @@ describe('ServerGateway', () => {
       await serverGateway.handleDisconnect(socket);
 
       expect(serverGateway.clientCount).toEqual(0);
+    });
+  });
+
+  describe('onMessage', () => {
+    it('should call a registered listener', () => {
+      const listener = jest.fn();
+      const type = faker.lorem.slug();
+      const payload = faker.lorem.paragraph();
+      const message = serialize({type, payload});
+
+      serverGateway.registerHandler(type, listener);
+      serverGateway['onMessage'](message, socket);
+
+      expect(listener).toHaveBeenCalledWith(name, payload);
+    });
+
+    it('should not call a listener registered on another topic', () => {
+      const listener = jest.fn();
+      const type = faker.lorem.slug();
+      const payload = faker.lorem.paragraph();
+      const message = serialize({type: 'wrong', payload});
+
+      serverGateway.registerHandler(type, listener);
+      serverGateway.registerHandler('wrong', () => ({}));
+      serverGateway['onMessage'](message, socket);
+
+      expect(listener).not.toHaveBeenCalled();
+    });
+
+    it('should call multiple registered listener', () => {
+      const listener1 = jest.fn();
+      const listener2 = jest.fn();
+      const type = faker.lorem.slug();
+      const payload = faker.lorem.paragraph();
+      const message = serialize({type, payload});
+
+      serverGateway.registerHandler(type, listener1);
+      serverGateway.registerHandler(type, listener2);
+      serverGateway['onMessage'](message, socket);
+
+      expect(listener1).toHaveBeenCalledWith(name, payload);
+      expect(listener2).toHaveBeenCalledWith(name, payload);
+    });
+
+    it('should pass an array of messages in multiple calls to the listener', () => {
+      const listener = jest.fn();
+      const type = faker.lorem.slug();
+      const payload1 = faker.lorem.paragraph();
+      const payload2 = faker.lorem.paragraph();
+      const message1 = serialize({type, payload: payload1});
+      const message2 = serialize({type, payload: payload2});
+
+      serverGateway.registerHandler(type, listener);
+      serverGateway['onMessage'](message1, socket);
+      serverGateway['onMessage'](message2, socket);
+
+      expect(listener).toHaveBeenCalledWith(name, payload1);
+      expect(listener).toHaveBeenCalledWith(name, payload2);
     });
   });
 });

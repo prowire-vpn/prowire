@@ -14,13 +14,3 @@ export class ServerDisconnectedEvent {
   public static readonly namespace = 'server.disconnected';
   constructor(public readonly name: string) {}
 }
-
-export class ServerReadyEvent {
-  public static readonly namespace = 'server.ready';
-  constructor(public readonly name: string) {}
-}
-
-export class ServerStoppedEvent {
-  public static readonly namespace = 'server.stopped';
-  constructor(public readonly name: string) {}
-}

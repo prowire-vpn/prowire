@@ -24,6 +24,8 @@ RUN npm run build -w pki -w api -w server
 # Ship compiled sources. This allows us to remove unnecessary sources and dependencies
 FROM node:18-alpine AS prod
 
+WORKDIR /prowire
+
 # Install OpenVPN and dependencies
 RUN apk add --update openvpn iptables tcpdump
 
@@ -32,6 +34,7 @@ RUN echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.d/ipv4.conf
 RUN sysctl -p /etc/sysctl.d/ipv4.conf
 
 COPY --from=dependency /prowire/node_modules ./node_modules
+COPY --from=build /prowire/api/dist ./api/dist
 COPY --from=build /prowire/server/dist ./server/dist
 COPY ./package*.json ./
 COPY ./pki/package*.json ./pki/
