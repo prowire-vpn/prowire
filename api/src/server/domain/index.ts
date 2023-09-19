@@ -5,3 +5,5 @@ export * from './vpnConfig.entity';
 export * from './vpnConfig.service';
 export * from './pki.service';
 export * from './server.events';
+export * from './clientSession.entity';
+export * from './clientSession.service';

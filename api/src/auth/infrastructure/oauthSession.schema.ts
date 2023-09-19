@@ -42,15 +42,15 @@ export const OAuthSessionSchema = SchemaFactory.createForClass(OAuthSessionClass
 
 const mapper = new Mapper<OAuthSession, OAuthSessionClass>([
   {domainKey: 'id', storageKey: '_id', toDomain: (value) => value?.toString()},
-  ['userId', 'userId'],
-  ['started_at', 'started_at'],
-  ['state', 'state'],
-  ['code_challenge', 'code_challenge'],
-  ['redirect_uri', 'redirect_uri'],
-  ['code', 'code'],
-  ['code_issued_at', 'code_issued_at'],
-  ['code_used', 'code_used'],
-  ['provider', 'provider'],
+  'userId',
+  'started_at',
+  'state',
+  'code_challenge',
+  'redirect_uri',
+  'code',
+  'code_issued_at',
+  'code_used',
+  'provider',
 ]);
 
 OAuthSessionSchema.method('toDomain', function (): OAuthSession {

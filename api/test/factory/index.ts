@@ -1,6 +1,6 @@
 import {userFactory} from './user/user';
 import {clientFactory, accessTokenFactory, refreshTokenFactory, oauthSessionFactory} from './auth';
-import {vpnConfigFactory} from './server';
+import {vpnConfigFactory, vpnSessionFactory} from './server';
 
 const factoryMap = {
   user: userFactory,
@@ -8,6 +8,7 @@ const factoryMap = {
   accessToken: accessTokenFactory,
   refreshToken: refreshTokenFactory,
   vpnConfig: vpnConfigFactory,
+  vpnSession: vpnSessionFactory,
   oauthSession: oauthSessionFactory,
 };
 type EntityName = keyof typeof factoryMap;

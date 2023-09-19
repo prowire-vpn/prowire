@@ -88,10 +88,4 @@ export class ServerService {
     server.healthy();
     return await this.serverRepository.persist(server);
   }
-
-  /** A client has connected to a server and needs to retrieve his configuration and be authorized */
-  public async connectClient(userId: string) {
-    // TODO retrieve the client specific configuration
-    // TODO authorize the client
-  }
 }

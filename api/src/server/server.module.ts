@@ -1,5 +1,5 @@
 import {Module} from '@nestjs/common';
-import {ServerService, VpnConfigService, PkiService} from './domain';
+import {ServerService, VpnConfigService, PkiService, VpnClientSessionService} from './domain';
 import {MongooseModule} from '@nestjs/mongoose';
 import {
   ServerSchemaClass,
@@ -8,8 +8,16 @@ import {
   VpnConfigSchemaClass,
   VpnConfigSchema,
   VpnConfigRepository,
+  VpnClientSessionRepository,
+  VpnClientSessionSchemaClass,
+  VpnClientSessionSchema,
 } from './infrastructure';
-import {ServerGateway, ServerController, ServerMessenger} from './presentation';
+import {
+  ServerGateway,
+  ServerController,
+  ServerMessenger,
+  ClientSessionMessenger,
+} from './presentation';
 import {LeaderModule} from 'leader';
 
 @Module({
@@ -17,6 +25,7 @@ import {LeaderModule} from 'leader';
     MongooseModule.forFeature([
       {name: ServerSchemaClass.name, schema: ServerSchema},
       {name: VpnConfigSchemaClass.name, schema: VpnConfigSchema},
+      {name: VpnClientSessionSchemaClass.name, schema: VpnClientSessionSchema},
     ]),
     LeaderModule,
   ],
@@ -29,6 +38,9 @@ import {LeaderModule} from 'leader';
     VpnConfigRepository,
     PkiService,
     ServerMessenger,
+    VpnClientSessionService,
+    VpnClientSessionRepository,
+    ClientSessionMessenger,
   ],
   exports: [ServerService],
 })
