@@ -19,9 +19,9 @@ const IdentitySchema = SchemaFactory.createForClass(IdentitySchemaClass);
 
 const identityMapper = new Mapper<Identity, IdentitySchemaClass>([
   {domainKey: 'id', storageKey: '_id', toDomain: (value) => value?.toString()},
-  ['provider', 'provider'],
-  ['accessToken', 'accessToken'],
-  ['refreshToken', 'refreshToken'],
+  'provider',
+  'accessToken',
+  'refreshToken',
 ]);
 
 @Schema()
@@ -51,10 +51,10 @@ export const UserSchema = SchemaFactory.createForClass(UserSchemaClass);
 
 const mapper = new Mapper<User, UserSchemaClass>([
   {domainKey: 'id', storageKey: '_id', toDomain: (value) => value?.toString()},
-  ['name', 'name'],
+  'name',
   {domainKey: 'email', storageKey: 'email', toDomain: (value) => new EmailAddress(value as string)},
-  ['avatar', 'avatar'],
-  ['admin', 'admin'],
+  'avatar',
+  'admin',
   {arrayMapper: identityMapper, domainKey: 'identities', storageKey: 'identities'},
 ]);
 

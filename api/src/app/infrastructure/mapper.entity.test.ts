@@ -16,19 +16,48 @@ export class ChildSchema extends BaseSchema<Child> {
 }
 
 class Parent extends Base {
-  constructor(public name: string, id?: string, public child?: Child, public children?: Child[]) {
+  constructor(
+    public name: string,
+    id?: string,
+    public child?: Child,
+    public children?: Child[],
+    public address?: string,
+  ) {
     super({id});
     this.initialized = true;
   }
 }
 
 export class ParentSchema extends BaseSchema<Parent> {
-  constructor(public fullName: string, public kid?: ChildSchema, public family?: ChildSchema[]) {
+  constructor(
+    public fullName: string,
+    public kid?: ChildSchema,
+    public family?: ChildSchema[],
+    public address?: string,
+  ) {
     super();
   }
 }
 
 describe('Mapper', () => {
+  describe('Basic mapping', () => {
+    it('should map from domain without transformation when provided a string', () => {
+      const mapper = new Mapper<Parent, ParentSchema>(['address']);
+      const parent = new Parent('John', undefined, undefined, undefined, '10 Downing street');
+
+      const result = mapper.fromDomain(parent);
+      expect(result).toHaveProperty('address', '10 Downing street');
+    });
+
+    it('should map to domain without transformation when provided a string', () => {
+      const mapper = new Mapper<Parent, ParentSchema>(['address']);
+      const parent = new ParentSchema('John', undefined, undefined, '10 Downing street');
+
+      const result = mapper.toDomain(parent);
+      expect(result).toHaveProperty('address', '10 Downing street');
+    });
+  });
+
   describe('Tuple mapping', () => {
     it('should map from domain without transformation when provided a tuple', () => {
       const mapper = new Mapper<Parent, ParentSchema>([['name', 'fullName']]);

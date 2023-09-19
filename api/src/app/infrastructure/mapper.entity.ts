@@ -21,7 +21,9 @@ interface MappingObject<
   fromDomain?: (instance: Domain[DK]) => Storage[SK];
 }
 export type Mapping<Domain extends Base, Storage extends BaseSchema<Domain>> = Array<
-  MappingTuple<Domain, Storage> | MappingObject<Domain, Storage, keyof Domain, keyof Storage>
+  | (keyof Domain & keyof Storage)
+  | MappingTuple<Domain, Storage>
+  | MappingObject<Domain, Storage, keyof Domain, keyof Storage>
 >;
 
 export class Mapper<Domain extends Base = any, Storage extends BaseSchema<Domain> = any> {
@@ -29,7 +31,13 @@ export class Mapper<Domain extends Base = any, Storage extends BaseSchema<Domain
 
   constructor(private readonly mapping: Mapping<Domain, Storage>) {
     this.domainToStorageMap = mapping.reduce((acc, mapping) => {
-      if (Array.isArray(mapping)) {
+      if (
+        typeof mapping === 'string' ||
+        typeof mapping === 'number' ||
+        typeof mapping === 'symbol'
+      ) {
+        acc[mapping] = mapping;
+      } else if (Array.isArray(mapping)) {
         const [domain, storage] = mapping;
         acc[domain] = storage;
       } else {
@@ -42,7 +50,14 @@ export class Mapper<Domain extends Base = any, Storage extends BaseSchema<Domain
 
   public toDomain(document: Storage): Record<keyof Domain, any> {
     return this.mapping.reduce((acc, mapping) => {
-      if (Array.isArray(mapping)) {
+      if (
+        typeof mapping === 'string' ||
+        typeof mapping === 'number' ||
+        typeof mapping === 'symbol'
+      ) {
+        acc[mapping] = document[mapping];
+        return acc;
+      } else if (Array.isArray(mapping)) {
         const [domain, storage] = mapping;
         acc[domain] = document[storage];
         return acc;
@@ -65,7 +80,14 @@ export class Mapper<Domain extends Base = any, Storage extends BaseSchema<Domain
 
   public fromDomain(instance: Domain): Record<keyof Storage, any> {
     return this.mapping.reduce((acc, mapping) => {
-      if (Array.isArray(mapping)) {
+      if (
+        typeof mapping === 'string' ||
+        typeof mapping === 'number' ||
+        typeof mapping === 'symbol'
+      ) {
+        acc[mapping] = instance[mapping];
+        return acc;
+      } else if (Array.isArray(mapping)) {
         const [domain, storage] = mapping;
         acc[storage] = instance[domain];
         return acc;

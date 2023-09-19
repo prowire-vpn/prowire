@@ -5,15 +5,7 @@ import {
   ServerDisconnectedEvent,
   ServerHealthyEvent,
 } from 'server/domain/server.events';
-import {
-  ServerReadyMessage,
-  ServerStoppedMessage,
-  ClientConnectMessage,
-  ClientAuthorizeMessage,
-  ClientDisconnectedMessage,
-  ClientAddressAssignedMessage,
-  StartServerMessage,
-} from './server.gateway.dto';
+import {ServerReadyMessage, ServerStoppedMessage, StartServerMessage} from './server.gateway.dto';
 import {OnEvent} from '@nestjs/event-emitter';
 import {Injectable, Logger} from '@nestjs/common';
 import {Interval} from '@nestjs/schedule';
@@ -31,50 +23,16 @@ export class ServerMessenger {
       ServerStoppedMessage.type,
       this.handleServerStoppedMessage.bind(this),
     );
-    this.serverGateway.registerHandler(
-      ClientConnectMessage.type,
-      this.handleClientConnectMessage.bind(this),
-    );
-    this.serverGateway.registerHandler(
-      ClientAddressAssignedMessage.type,
-      this.handleClientAddressAssignedMessage.bind(this),
-    );
   }
 
   /** The server informs us that it is ready to serve traffic */
-  private async handleReadyMessage(serverName: string): Promise<void> {
-    await this.serverService.setServerReady(serverName);
+  private async handleReadyMessage(serverId: string): Promise<void> {
+    await this.serverService.setServerReady(serverId);
   }
 
   /** The server informs us that it has stopped serving traffic */
-  private async handleServerStoppedMessage(serverName: string): Promise<void> {
-    await this.serverService.setServerStopped(serverName);
-  }
-
-  /** The server informs us that a use is attempting to connect */
-  private handleClientConnectMessage(serverName: string, payload: unknown): void {
-    const userId = payload as ClientConnectMessage['payload'];
-    this.serverService.connectClient(userId);
-    this.serverGateway.sendMessage(serverName, new ClientAuthorizeMessage(userId));
-  }
-
-  /** The server informs us that a user has disconnected */
-  public async handleClientDisconnectedMessage(
-    serverName: string,
-    payload: unknown,
-  ): Promise<void> {
-    const {userId} = payload as ClientDisconnectedMessage['payload'];
-    await this.serverService.get(userId);
-    this.logger.log(`Client disconnected: ${userId}`);
-  }
-
-  /** The server informs us that a user has been assigned an IP address */
-  public async handleClientAddressAssignedMessage(
-    serverName: string,
-    payload: unknown,
-  ): Promise<void> {
-    const {userId, address} = payload as ClientAddressAssignedMessage['payload'];
-    this.logger.log(`Client assigned address: ${userId} ${address}`);
+  private async handleServerStoppedMessage(serverId: string): Promise<void> {
+    await this.serverService.setServerStopped(serverId);
   }
 
   /** A server has connected to the API */

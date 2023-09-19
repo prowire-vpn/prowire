@@ -85,16 +85,16 @@ export class ClientConnectMessage extends WebSocketMessage {
   public static readonly type = 'client-connect';
   public readonly payload!: string;
 
-  constructor(userId: string) {
-    super(ClientConnectMessage.type, userId);
+  constructor(sessionId: string) {
+    super(ClientConnectMessage.type, sessionId);
   }
 }
 
 class ClientAuthorizeMessagePayload {
-  userId: string;
+  sessionId: string;
 
-  constructor(userId: string) {
-    this.userId = userId;
+  constructor(sessionId: string) {
+    this.sessionId = sessionId;
   }
 }
 
@@ -102,16 +102,16 @@ export class ClientAuthorizeMessage extends WebSocketMessage {
   public static readonly type = 'client-authorize';
   public readonly payload!: ClientAuthorizeMessagePayload;
 
-  constructor(userId: string) {
-    super(ClientConnectMessage.type, new ClientAuthorizeMessagePayload(userId));
+  constructor(sessionId: string) {
+    super(ClientConnectMessage.type, new ClientAuthorizeMessagePayload(sessionId));
   }
 }
 
 class ClientDisconnectedMessagePayload {
-  userId: string;
+  sessionId: string;
 
-  constructor(userId: string) {
-    this.userId = userId;
+  constructor(sessionId: string) {
+    this.sessionId = sessionId;
   }
 }
 
@@ -119,17 +119,17 @@ export class ClientDisconnectedMessage extends WebSocketMessage {
   public static readonly type = 'client-disconnected';
   public readonly payload!: ClientDisconnectedMessagePayload;
 
-  constructor(userId: string) {
-    super(ClientDisconnectedMessage.type, new ClientDisconnectedMessagePayload(userId));
+  constructor(sessionId: string) {
+    super(ClientDisconnectedMessage.type, new ClientDisconnectedMessagePayload(sessionId));
   }
 }
 
 class ClientAddressAssignedMessagePayload {
-  userId: string;
+  sessionId: string;
   address: string;
 
-  constructor(userId: string, address: string) {
-    this.userId = userId;
+  constructor(sessionId: string, address: string) {
+    this.sessionId = sessionId;
     this.address = address;
   }
 }

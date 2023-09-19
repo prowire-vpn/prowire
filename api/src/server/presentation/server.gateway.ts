@@ -52,6 +52,7 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return Object.keys(this.clients).length;
   }
 
+  /** Triggered when a new client connects */
   public async handleConnection(
     socket: ExtendedWebSocket,
     request: IncomingMessage,
@@ -73,6 +74,7 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.eventEmitter.emit(ServerConnectedEvent.namespace, new ServerConnectedEvent(serverData));
   }
 
+  /** Triggered when a client disconnects */
   public async handleDisconnect(socket: ExtendedWebSocket): Promise<void> {
     if (!socket.name) throw new Error('Socket name not set');
     this.logger.log(`VPN server disconnected [${socket.name}]`);
@@ -83,11 +85,13 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.removeSocket(socket.name);
   }
 
+  /** Force disconnect a client */
   public async disconnectServer(server: Server): Promise<void> {
     const socket = this.getSocket(server.name);
     socket?.close();
   }
 
+  /** Parses the header of the client request to extract connection information */
   private getServerDataFromRequest(request: IncomingMessage) {
     const {error, value} = headerSchema.validate(request.headers, {allowUnknown: true});
     if (error) {
@@ -115,6 +119,7 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return this.clients[name];
   }
 
+  /** Send a message to a connected client */
   public sendMessage(server: string | Server, message: WebSocketMessage): void {
     const serverName = typeof server === 'string' ? server : server.name;
     const socket = this.getSocket(serverName);
