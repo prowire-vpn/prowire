@@ -26,4 +26,22 @@ export class VpnClientSessionRepository {
     if (!session) return null;
     return session.toDomain();
   }
+
+  async findByUserId(
+    userId: string,
+    {limit, page}: {limit: number; page: number},
+  ): Promise<{sessions: VpnClientSession[]; total: number}> {
+    if (page < 0) throw new Error('page must be greater than or equal to 0');
+    if (limit < 1) throw new Error('limit must be greater than or equal to 1');
+    const [sessions, total] = await Promise.all([
+      this.sessionModel
+        .find({userId})
+        .sort({createdAt: -1})
+        .limit(limit)
+        .skip(page * limit)
+        .exec(),
+      this.sessionModel.countDocuments({userId}).exec(),
+    ]);
+    return {sessions: sessions.map((session) => session.toDomain()), total};
+  }
 }

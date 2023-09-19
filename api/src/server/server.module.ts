@@ -16,7 +16,8 @@ import {
   ServerGateway,
   ServerController,
   ServerMessenger,
-  ClientSessionMessenger,
+  VpnClientSessionMessenger,
+  VpnClientSessionController,
 } from './presentation';
 import {LeaderModule} from 'leader';
 
@@ -40,7 +41,8 @@ import {LeaderModule} from 'leader';
     ServerMessenger,
     VpnClientSessionService,
     VpnClientSessionRepository,
-    ClientSessionMessenger,
+    VpnClientSessionController,
+    VpnClientSessionMessenger,
   ],
   exports: [ServerService],
 })

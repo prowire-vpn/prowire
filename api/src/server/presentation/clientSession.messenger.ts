@@ -10,8 +10,8 @@ import {
 import {Injectable, Logger} from '@nestjs/common';
 
 @Injectable()
-export class ClientSessionMessenger {
-  private readonly logger = new Logger(ClientSessionMessenger.name);
+export class VpnClientSessionMessenger {
+  private readonly logger = new Logger(VpnClientSessionMessenger.name);
 
   constructor(
     private readonly serverGateway: ServerGateway,
