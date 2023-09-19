@@ -71,7 +71,7 @@
     "axios": "^1.2.0",
     "byte-base64": "^1.1.0",
     "crypto-js": "^4.1.1",
-    "date-fns": "^2.29.3",
+    "date-fns": "^2.30.0",
     "envalid": "^7.3.0",
     "framer-motion": "^10.3.1",
     "jsonwebtoken": "^9.0.1",

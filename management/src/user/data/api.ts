@@ -4,6 +4,7 @@ import {
   GetUserByIdResponseBodyDto,
   CreateUserResponseBodyDto,
   CreateUserRequestBodyDto,
+  ListUserClientSessionResponseBodyDto,
 } from '@prowire-vpn/api';
 import {QueryFunctionContext} from 'react-query';
 import {client} from 'base/data';
@@ -32,5 +33,15 @@ export async function postUserGenerator(
   user: Omit<CreateUserRequestBodyDto, 'email'> & {email: string},
 ): Promise<CreateUserResponseBodyDto> {
   const {data} = await client.post<CreateUserResponseBodyDto>(`/user`, user);
+  return data;
+}
+
+export async function listUserClientSessions({
+  queryKey,
+}: QueryFunctionContext): Promise<ListUserClientSessionResponseBodyDto> {
+  const userId = queryKey[1] as string;
+  const {data} = await client.get<ListUserClientSessionResponseBodyDto>(
+    `/server/client-session/user/${userId}`,
+  );
   return data;
 }

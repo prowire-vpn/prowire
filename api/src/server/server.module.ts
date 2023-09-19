@@ -30,7 +30,7 @@ import {LeaderModule} from 'leader';
     ]),
     LeaderModule,
   ],
-  controllers: [ServerController],
+  controllers: [ServerController, VpnClientSessionController],
   providers: [
     ServerService,
     ServerGateway,
@@ -41,7 +41,6 @@ import {LeaderModule} from 'leader';
     ServerMessenger,
     VpnClientSessionService,
     VpnClientSessionRepository,
-    VpnClientSessionController,
     VpnClientSessionMessenger,
   ],
   exports: [ServerService],

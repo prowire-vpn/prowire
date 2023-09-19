@@ -16,8 +16,9 @@ export function UserListTable({
       <Table>
         <Thead>
           <Tr>
-            <Th>Avatar</Th>
             <Th>Name</Th>
+            <Th>Email</Th>
+            <Th>Actions</Th>
           </Tr>
         </Thead>
         <Tbody>
