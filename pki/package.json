@@ -4,6 +4,7 @@
   "description": "Utility to generate Public Key Infrastructure resource files",
   "main": "dist/index.js",
   "bin": {
+    "@prowire-vpn/pki": "dist/cli.js",
     "prowire-pki": "dist/cli.js"
   },
   "devDependencies": {

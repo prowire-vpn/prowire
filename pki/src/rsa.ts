@@ -1,4 +1,4 @@
-import { pki } from "node-forge";
+import {pki} from 'node-forge';
 
 export function generateKeyPair() {
   const keyPair = pki.rsa.generateKeyPair(2048);

@@ -1,4 +1,4 @@
-import { pki, md } from "node-forge";
+import {pki, md} from 'node-forge';
 
 /** Options ot generate fake certificates */
 interface generateCertsOptions {
@@ -16,7 +16,7 @@ let serialNumber = 0;
 
 export function generateCertificate(
   attributes: Array<pki.CertificateField>,
-  options: generateCertsOptions
+  options: generateCertsOptions,
 ) {
   const cert = pki.createCertificate();
   cert.publicKey = options.identityKey;
@@ -37,11 +37,11 @@ export function generateCertificate(
 function getExtensions(options: generateCertsOptions): Array<unknown> {
   return [
     {
-      name: "basicConstraints",
+      name: 'basicConstraints',
       cA: options.ca === true,
     },
     {
-      name: "keyUsage",
+      name: 'keyUsage',
       keyCertSign: true,
       digitalSignature: true,
       nonRepudiation: true,
@@ -49,7 +49,7 @@ function getExtensions(options: generateCertsOptions): Array<unknown> {
       dataEncipherment: true,
     },
     {
-      name: "extKeyUsage",
+      name: 'extKeyUsage',
       serverAuth: true,
       clientAuth: true,
       codeSigning: true,
@@ -57,7 +57,7 @@ function getExtensions(options: generateCertsOptions): Array<unknown> {
       timeStamping: true,
     },
     {
-      name: "nsCertType",
+      name: 'nsCertType',
       client: true,
       server: true,
       email: true,
@@ -67,20 +67,20 @@ function getExtensions(options: generateCertsOptions): Array<unknown> {
       objCA: true,
     },
     {
-      name: "subjectAltName",
+      name: 'subjectAltName',
       altNames: [
         {
           type: 2,
-          value: "localhost",
+          value: 'localhost',
         },
         {
           type: 7,
-          ip: "127.0.0.1",
+          ip: '127.0.0.1',
         },
       ],
     },
     {
-      name: "subjectKeyIdentifier",
+      name: 'subjectKeyIdentifier',
     },
   ];
 }

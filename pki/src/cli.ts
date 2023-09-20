@@ -1,30 +1,40 @@
-import yargs from "yargs";
-import { hideBin } from "yargs/helpers";
-import { generatePki } from "./index";
+#!/usr/bin/env node
+
+import yargs from 'yargs';
+import {hideBin} from 'yargs/helpers';
+import {generatePki} from './index';
 
 async function parseArgs() {
   const argv = await yargs(hideBin(process.argv))
-    .usage("Usage: $0 [options]")
-    .example("$0 --dir ./certs", "generate certificates in ./certs")
-    .options({
-      d: {
-        type: "string",
-        alias: "dir",
+    .usage('Usage: $0 [options] <dir>')
+    .example('$0 ./certs', 'generate PKI files in ./certs')
+    .command('$0 <dir>', 'generate PKI files in <dir>', (yargs) => {
+      yargs.positional('dir', {
+        describe: 'Directory in which the files should be stored',
         demandOption: true,
-        nargs: 1,
-        describe: "Directory to which store the files",
-      },
+        type: 'string',
+      });
     })
-    .help("h")
-    .alias("h", "help").argv;
-  return { dir: argv.d };
+    .positional('dir', {
+      describe: 'Directory in which the files should be stored',
+      demandOption: true,
+      type: 'string',
+    })
+    .option('mock', {
+      describe: 'Generate mock files for testing (fast)',
+      type: 'boolean',
+      default: false,
+    })
+    .help('h')
+    .alias('h', 'help').argv;
+  return argv;
 }
 
 async function run() {
   const args = await parseArgs();
-  console.log("Generating certificates...");
+  console.log('Generating PKI files...');
   const dir = await generatePki(args);
-  console.log(`Certificates generated in ${dir}`);
+  console.log(`PKI files generated in ${dir}`);
 }
 
 run().catch((err) => {
