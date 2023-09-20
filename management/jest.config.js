@@ -11,8 +11,9 @@ module.exports = {
   modulePaths: [compilerOptions.baseUrl],
   setupFilesAfterEnv: ['<rootDir>/test/mocks/localStorage.ts'],
   transform: {
-    "^.+\\.(t|j)sx?$": ["@swc/jest"],
-    "^.+\\.svg$": "jest-transform-stub"
+    '^.+\\.(t|j)sx?$': ['@swc/jest'],
+    '^.+\\.svg$': 'jest-transform-stub',
   },
+  transformIgnorePatterns: ['node_modules/(?!pretty-bytes)'],
   testTimeout: 10_000,
 };

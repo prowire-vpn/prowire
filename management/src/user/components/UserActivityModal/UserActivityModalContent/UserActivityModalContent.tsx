@@ -22,7 +22,7 @@ export function UserActivityModalContent({user}: UserActivityModalContentProps) 
             <Th></Th>
           </Tr>
         </Thead>
-        <Accordion as={Tbody} allowMultiple allowToggle>
+        <Accordion as={Tbody} allowMultiple>
           {data && data.sessions.length > 0 ? (
             data.sessions.map((session) => <UserActivityRow session={session} key={session.id} />)
           ) : (

@@ -1,12 +1,12 @@
 import {AccordionItem} from '@chakra-ui/react';
-import {VpnClientSessionDto} from '@prowire-vpn/api';
 import * as React from 'react';
 import {Fragment} from 'react';
 import {UserActivityRowContent} from './UserActivityRowContent';
 import {UserActivityRowTitle} from './UserActivityRowTitle';
+import {UserClientSession} from 'user/data';
 
 export interface UserActivityRowProps {
-  session: VpnClientSessionDto;
+  session: UserClientSession;
 }
 
 export function UserActivityRow({session}: UserActivityRowProps) {

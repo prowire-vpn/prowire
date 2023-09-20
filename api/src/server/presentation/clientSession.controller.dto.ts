@@ -2,18 +2,18 @@ import {VpnClientSession} from 'server/domain/clientSession.entity';
 import {IResult} from 'ua-parser-js';
 
 export class VpnClientSessionDto {
-  id: string;
-  userId: string;
-  device: IResult;
-  connectingAddress: string;
-  createdAt: string;
-  connectedAt?: string;
-  addressAssignedAt?: string;
-  disconnectedAt?: string;
-  serverId?: string;
-  assignedAddress?: string;
-  bytesIn?: number;
-  bytesOut?: number;
+  public readonly id: string;
+  public readonly userId: string;
+  public readonly device: IResult;
+  public readonly connectingAddress: string;
+  public readonly createdAt: string;
+  public readonly connectedAt?: string;
+  public readonly addressAssignedAt?: string;
+  public readonly disconnectedAt?: string;
+  public readonly serverId?: string;
+  public readonly assignedAddress?: string;
+  public readonly bytesIn: number;
+  public readonly bytesOut: number;
 
   constructor(session: VpnClientSession) {
     this.id = session.id;
