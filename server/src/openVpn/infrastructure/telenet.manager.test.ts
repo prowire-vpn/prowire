@@ -111,7 +111,10 @@ describe('TelnetManager', () => {
 
       expect(mockEventEmitter.emit).toHaveBeenCalledWith('client-connect', {
         type: 'CONNECT',
-        client: new Client({cid: '0', kid: '1', userId: '6506ee77a70089e2e9d3b700'}),
+        client: {
+          ...new Client({cid: '0', kid: '1', userId: '6506ee77a70089e2e9d3b700'}),
+          connectedAt: expect.any(Date),
+        },
       });
     });
   });
