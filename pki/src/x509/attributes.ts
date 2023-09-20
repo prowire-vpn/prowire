@@ -1,48 +1,50 @@
-import { pki } from "node-forge";
+#!/usr/bin/env node
+
+import {pki} from 'node-forge';
 
 export const baseAttributes: Array<pki.CertificateField> = [
   {
-    name: "countryName",
-    value: "FR",
+    name: 'countryName',
+    value: 'FR',
   },
   {
-    shortName: "ST",
-    value: "Paris",
+    shortName: 'ST',
+    value: 'Paris',
   },
   {
-    name: "localityName",
-    value: "Paris",
+    name: 'localityName',
+    value: 'Paris',
   },
   {
-    name: "organizationName",
-    value: "Prowire",
+    name: 'organizationName',
+    value: 'Prowire',
   },
   {
-    shortName: "OU",
-    value: "Prowire Certificate Authority",
+    shortName: 'OU',
+    value: 'Prowire Certificate Authority',
   },
 ];
 
 export const caAttributes: Array<pki.CertificateField> = [
   {
-    name: "commonName",
-    value: "root",
+    name: 'commonName',
+    value: 'root',
   },
   ...baseAttributes,
 ];
 
 export const serverAttributes: Array<pki.CertificateField> = [
   {
-    name: "commonName",
-    value: "server",
+    name: 'commonName',
+    value: 'server',
   },
   ...baseAttributes,
 ];
 
 export const clientAttributes: Array<pki.CertificateField> = [
   {
-    name: "commonName",
-    value: "client",
+    name: 'commonName',
+    value: 'client',
   },
   ...baseAttributes,
 ];

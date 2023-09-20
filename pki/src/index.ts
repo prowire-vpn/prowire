@@ -1,15 +1,28 @@
-import { generateKeyPair } from "./rsa";
-import { generateCertificate } from "./x509";
-import { caAttributes, serverAttributes, clientAttributes } from "./x509";
-import { writeFileSync, mkdirSync, existsSync } from "fs";
-import { resolve } from "path";
-import { generateDiffieHellmanParameters } from "./dh";
+import {generateKeyPair} from './rsa';
+import {generateCertificate} from './x509';
+import {caAttributes, serverAttributes, clientAttributes} from './x509';
+import {writeFileSync, mkdirSync, existsSync} from 'fs';
+import {resolve} from 'path';
+import {generateDiffieHellmanParameters} from './dh';
+import {generateMocks} from './mock';
 
 interface GeneratePkiOptions {
   dir: string;
+  mock?: boolean;
 }
 
 export async function generatePki(options: GeneratePkiOptions) {
+  const {dir, mock} = options;
+  // Create directory if it does not exist
+  if (!existsSync(dir)) {
+    mkdirSync(dir, {recursive: true});
+  }
+
+  if (mock) {
+    generateMocks(dir);
+    return dir;
+  }
+
   const caKeys = generateKeyPair();
   const clientKeys = generateKeyPair();
   const serverKeys = generateKeyPair();
@@ -29,17 +42,12 @@ export async function generatePki(options: GeneratePkiOptions) {
 
   const dhParams = await generateDiffieHellmanParameters();
 
-  const { dir } = options;
-  // Create directory if it does not exist
-  if (!existsSync(dir)) {
-    mkdirSync(dir, { recursive: true });
-  }
-  writeFileSync(resolve(dir, "ca.crt"), caCertificate);
-  writeFileSync(resolve(dir, "ca.key"), caKeys.privateKeyPem);
-  writeFileSync(resolve(dir, "client.crt"), clientCertificate);
-  writeFileSync(resolve(dir, "client.key"), clientKeys.privateKeyPem);
-  writeFileSync(resolve(dir, "server.crt"), serverCertificate);
-  writeFileSync(resolve(dir, "server.key"), serverKeys.privateKeyPem);
-  writeFileSync(resolve(dir, "dh.pem"), dhParams);
+  writeFileSync(resolve(dir, 'ca.crt'), caCertificate);
+  writeFileSync(resolve(dir, 'ca.key'), caKeys.privateKeyPem);
+  writeFileSync(resolve(dir, 'client.crt'), clientCertificate);
+  writeFileSync(resolve(dir, 'client.key'), clientKeys.privateKeyPem);
+  writeFileSync(resolve(dir, 'server.crt'), serverCertificate);
+  writeFileSync(resolve(dir, 'server.key'), serverKeys.privateKeyPem);
+  writeFileSync(resolve(dir, 'dh.pem'), dhParams);
   return dir;
 }
