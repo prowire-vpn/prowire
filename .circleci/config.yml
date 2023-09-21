@@ -12,13 +12,19 @@ jobs:
     steps:
       - checkout
       - node/install
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Install node dependencies
           command: npm ci --workspaces
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
       - persist_to_workspace:
           root: .
           paths:
-            - .npmrc
             - node_modules
   build_node:
     docker:
