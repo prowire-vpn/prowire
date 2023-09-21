@@ -10,6 +10,7 @@
     "test": "jest",
     "start:desktop": "electron-forge start",
     "start:mobile": "react-native start --port 8081",
+    "build:android": "bundle exec fastlane android build",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish"

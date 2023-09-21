@@ -21,11 +21,27 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version-file: .node-version
       - name: Install dependencies
         run: npm ci --workspaces
       - name: Build
         run: npm run build --workspaces
+  
+  build_android:
+    name: Build Android apps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Install dependencies
+        run: npm ci -w client
+      - name: Build
+        run: npm run build:android
 
   build_docker:
     name: Build containers
@@ -42,7 +58,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version-file: .node-version
       - name: Install dependencies
         run: npm ci --workspaces
       - name: Build test tools
