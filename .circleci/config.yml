@@ -72,9 +72,7 @@ jobs:
           version: $(cat client/.ruby-version)
       - run:
           name: Build android application
-          command: |
-            cd client
-            bundle exec fastlane android build
+          command: npm run build:android -w client
 
   build_containers:
     docker:
