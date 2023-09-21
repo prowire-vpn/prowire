@@ -1,0 +1,36 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+fastlane_require 'dotenv'
+
+before_all do
+  Dotenv.overload '.env'
+end
+
+platform :android do
+  desc "Build the app"
+  lane :build  do
+    gradle(task: 'clean', project_dir: './android')
+    gradle(task: 'assemble', build_type: 'Release', project_dir: './android')
+  end
+
+  desc "Get the latest version number from Firebase App Distribution and increment it by 1"
+  lane :increment_app_distribution_version do
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: ENV['FIREBASE_ANDROID_APP_ID'],
+      firebase_cli_token: ENV['FIREBASE_CLI_TOKEN'],
+  )
+  increment_version_code({ version_code: latest_release[:buildVersion].to_i + 1 })
+  end
+
+  desc "Publish the app to Firebase App Distribution"
+  lane :preview do
+    increment_app_distribution_version
+    build
+    firebase_app_distribution(
+      app: ENV['FIREBASE_ANDROID_APP_ID'],
+      firebase_cli_token: ENV['FIREBASE_CLI_TOKEN'],
+      groups: 'developers',
+    )
+  end
+end

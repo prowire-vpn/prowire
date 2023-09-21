@@ -1,4 +1,4 @@
-package com.client;
+package io.prowire.client;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.NativeModule;
