@@ -75,7 +75,7 @@ jobs:
           version: $(cat .ruby-version)
       - run:
           name: Install bundler
-          command: gem update --system && gem uninstall bundler && gem install bundler
+          command: rvm gem install 
       - run:
           name: Build android application
           command: npm run build:android -w client
