@@ -71,8 +71,18 @@ jobs:
       - ruby/install:
           version: $(cat .ruby-version)
       - run:
+          name: Ruby version
+          command: |
+            ruby -v
+            bundle exec ruby -v
+      - run:
           name: Install bundler
-          command: rvm gem install 
+          command: rvm gem install
+      - run:
+          name: Ruby version
+          command: |
+            ruby -v
+            bundle exec ruby -v
       - run:
           name: Build android application
           command: npm run build:android -w client
