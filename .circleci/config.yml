@@ -55,6 +55,9 @@ jobs:
           at: .
       - node/install
       - run:
+          name: Install OpenSSL
+          command: apt-get update && apt-get install -y openssl
+      - run:
           name: Test node applications
           command: npm run test --if-present --workspaces
 
@@ -66,6 +69,9 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
+      - run:
+          name: Install OpenSSL
+          command: apt-get update && apt-get install -y openssl
       - ruby/install:
           version: $(cat .ruby-version)
       - run:
