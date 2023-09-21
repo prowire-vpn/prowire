@@ -69,7 +69,7 @@ jobs:
           at: .
       - node/install
       - ruby/install:
-          version: $(cat .ruby-version)
+          version: $(cat client/.ruby-version)
       - run:
           name: Build android application
           command: |
