@@ -8,6 +8,7 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "test": "jest",
+    "build:android": "bundle exec fastlane android build",
     "start:desktop": "electron-forge start",
     "start:mobile": "react-native start --port 8081",
     "package": "electron-forge package",
