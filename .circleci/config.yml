@@ -1,0 +1,91 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.1.0
+  ruby: circleci/ruby@2.1.0
+
+jobs:
+  install_dependencies:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - checkout
+      - node/install
+      - run:
+          name: Install node dependencies
+          command: npm ci --workspaces
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .npmrc
+            - node_modules
+    build_node:
+      docker:
+        - image: cimg/base:current
+      steps:
+        - checkout
+        - attach_workspace:
+            at: .
+        - node/install
+        - run:
+            name: Build node applications
+            command: npm run build --workspaces
+        - persist_to_workspace:
+          root: .
+          paths:
+            - api/dist
+            - management/dist
+            - pki/dist
+            - server/dist
+
+    test_node:
+      docker:
+        - image: cimg/base:current
+      steps:
+        - checkout
+        - attach_workspace:
+            at: .
+        - node/install
+        - run:
+            name: Test node applications
+            command: npm run test --if-present --workspaces
+
+    build_android:
+      docker:
+        - image: cimg/android:2023.09
+      steps:
+        - checkout
+        - attach_workspace:
+            at: .
+        - node/install
+        - ruby/install
+        - run:
+            name: Build android application
+            command: npm run build:android -w client
+
+    build_containers:
+      docker:
+        - image: cimg/base:current
+      steps:
+        - checkout
+        - run:
+            name: Build containers
+            command: docker compose build
+
+
+workflows:
+  build_and_test:
+    jobs:
+      - install-dependencies
+      - build_node:
+          requires:
+            - install_dependencies
+      - test_node:
+          requires:
+            - build_node
+      - build_android:
+          requires:
+            - build_node
+  containers:
+    jobs:
+      - build_containers
