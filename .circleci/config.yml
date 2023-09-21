@@ -19,18 +19,18 @@ jobs:
           paths:
             - .npmrc
             - node_modules
-    build_node:
-      docker:
-        - image: cimg/base:current
-      steps:
-        - checkout
-        - attach_workspace:
-            at: .
-        - node/install
-        - run:
-            name: Build node applications
-            command: npm run build --workspaces
-        - persist_to_workspace:
+  build_node:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - run:
+          name: Build node applications
+          command: npm run build --workspaces
+      - persist_to_workspace:
           root: .
           paths:
             - api/dist
@@ -38,40 +38,39 @@ jobs:
             - pki/dist
             - server/dist
 
-    test_node:
-      docker:
-        - image: cimg/base:current
-      steps:
-        - checkout
-        - attach_workspace:
-            at: .
-        - node/install
-        - run:
-            name: Test node applications
-            command: npm run test --if-present --workspaces
+  test_node:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - run:
+          name: Test node applications
+          command: npm run test --if-present --workspaces
 
-    build_android:
-      docker:
-        - image: cimg/android:2023.09
-      steps:
-        - checkout
-        - attach_workspace:
-            at: .
-        - node/install
-        - ruby/install
-        - run:
-            name: Build android application
-            command: npm run build:android -w client
+  build_android:
+    docker:
+      - image: cimg/android:2023.09
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - ruby/install
+      - run:
+          name: Build android application
+          command: npm run build:android -w client
 
-    build_containers:
-      docker:
-        - image: cimg/base:current
-      steps:
-        - checkout
-        - run:
-            name: Build containers
-            command: docker compose build
-
+  build_containers:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - checkout
+      - run:
+          name: Build containers
+          command: docker compose build
 
 workflows:
   build_and_test:
