@@ -6,6 +6,7 @@ This backend is designed to have stateless instances, but it relies on [MongoDB]
 
 ## Developing
 
+> [!IMPORTANT]
 > All commands are to be executed from the monorepo root unless stated otherwise.
 
 This is a [Node.JS](https://nodejs.org/en) project, built using [NestJS](https://nestjs.com/).
@@ -50,7 +51,7 @@ Once you have the third party softwares running, you should setup the environmen
 - Copy the `api/.env.example` file to `api/.env`.
 - Customise the `api/.env` file with the necessary data.
 
-#### Running locally
+### Running locally
 
 To run locally use the following command
 
@@ -64,9 +65,9 @@ When developing it can be useful to have hot-reloading on file change.
 npm run watch -w api
 ```
 
-#### Executing tests
+### Executing tests
 
-Tests are executed using [Jest](https://jestjs.io/). They can be executed using the following command
+Tests are executed using [Jest](https://jestjs.io/). They can be executed using the following command.
 
 ```bash
 npm run test -w api
