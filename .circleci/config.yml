@@ -63,6 +63,9 @@ jobs:
       - ruby/install:
           version: $(cat .ruby-version)
       - run:
+          name: Install bundler
+          command: gem install bundler
+      - run:
           name: Build android application
           command: npm run build:android -w client
 
