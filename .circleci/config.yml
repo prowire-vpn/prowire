@@ -8,6 +8,7 @@ jobs:
   install_dependencies:
     docker:
       - image: cimg/base:current
+    resource_class: medium
     steps:
       - checkout
       - node/install
@@ -22,6 +23,7 @@ jobs:
   build_node:
     docker:
       - image: cimg/base:current
+    resource_class: medium
     steps:
       - checkout
       - attach_workspace:
