@@ -40,6 +40,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+          ruby-version: .ruby-version
       - name: Install dependencies
         run: npm ci -w client
       - name: Build
