@@ -76,7 +76,7 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - install-dependencies
+      - install_dependencies
       - build_node:
           requires:
             - install_dependencies
