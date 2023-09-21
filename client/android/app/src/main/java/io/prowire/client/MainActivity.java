@@ -1,4 +1,4 @@
-package com.client;
+package io.prowire.client;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
