@@ -68,7 +68,7 @@ jobs:
 
   build_containers:
     docker:
-      - image: docker:dind
+      - image: cimg/base:current
     steps:
       - checkout
       - run:
