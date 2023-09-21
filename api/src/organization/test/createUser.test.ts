@@ -9,6 +9,10 @@ import {CreateUserResponseBodyDto} from 'organization/presentation';
 import {UserModel, UserSchemaClass} from 'organization/infrastructure';
 import {getModelToken} from '@nestjs/mongoose';
 
+/**
+ * Tests UserRepository class
+ * @group integration
+ */
 describe('OrganizationModule', () => {
   let user: User;
   let accessToken: AccessToken;

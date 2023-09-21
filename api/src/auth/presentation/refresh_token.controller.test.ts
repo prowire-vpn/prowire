@@ -6,6 +6,10 @@ import {INestApplication} from '@nestjs/common';
 import {build, create} from 'test';
 import {User} from 'organization/domain';
 
+/**
+ * Tests UserRepository class
+ * @group integration
+ */
 describe('AuthModule', () => {
   let user: User;
   let refreshToken: RefreshToken;

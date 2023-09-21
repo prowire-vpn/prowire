@@ -1,4 +1,3 @@
-import {MongooseModule, getModelToken} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {
   VpnConfigRepository,
@@ -7,19 +6,31 @@ import {
   VpnConfigModel,
 } from 'server/infrastructure';
 import {build, buildMany, create} from 'test/factory';
-import {MongoMemoryServer} from 'mongodb-memory-server';
+import {ConfigModule, ConfigService} from '@nestjs/config';
+import {MongooseModule, getModelToken} from '@nestjs/mongoose';
 
+/**
+ * Tests VpnClientSessionRepository class
+ * @group integration
+ */
 describe('VpnConfigRepository', () => {
   let module: TestingModule;
-  let mongod: MongoMemoryServer;
   let vpnConfigRepository: VpnConfigRepository;
   let vpnConfigModel: VpnConfigModel;
 
   beforeEach(async () => {
-    mongod = await MongoMemoryServer.create();
     module = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot(mongod.getUri()),
+        MongooseModule.forRootAsync({
+          imports: [ConfigModule],
+          inject: [ConfigService],
+          useFactory: (configService: ConfigService) => ({
+            uri: configService.getOrThrow<string>('MONGO_CONNECTION_STRING'),
+            user: configService.get<string>('MONGO_USER'),
+            pass: configService.get<string>('MONGO_PASSWORD'),
+            dbName: configService.get<string>('MONGO_DATABASE'),
+          }),
+        }),
         MongooseModule.forFeature([{name: VpnConfigSchemaClass.name, schema: VpnConfigSchema}]),
       ],
       providers: [VpnConfigRepository],
@@ -30,7 +41,6 @@ describe('VpnConfigRepository', () => {
 
   afterEach(async () => {
     await module.close();
-    await mongod.stop();
   });
 
   describe('persist', () => {

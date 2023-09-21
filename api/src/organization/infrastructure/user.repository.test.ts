@@ -2,21 +2,32 @@ import {MongooseModule, getModelToken} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {UserRepository, UserSchemaClass, UserSchema, UserModel} from 'organization/infrastructure';
 import {build, create} from 'test/factory';
-import {MongoMemoryServer} from 'mongodb-memory-server';
 import {faker} from '@faker-js/faker';
 import {EmailAddress} from 'organization/domain';
+import {ConfigModule, ConfigService} from '@nestjs/config';
 
+/**
+ * Tests UserRepository class
+ * @group integration
+ */
 describe('UserRepository', () => {
   let module: TestingModule;
-  let mongod: MongoMemoryServer;
   let userRepository: UserRepository;
   let userModel: UserModel;
 
   beforeEach(async () => {
-    mongod = await MongoMemoryServer.create();
     module = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot(mongod.getUri()),
+        MongooseModule.forRootAsync({
+          imports: [ConfigModule],
+          inject: [ConfigService],
+          useFactory: (configService: ConfigService) => ({
+            uri: configService.getOrThrow<string>('MONGO_CONNECTION_STRING'),
+            user: configService.get<string>('MONGO_USER'),
+            pass: configService.get<string>('MONGO_PASSWORD'),
+            dbName: configService.get<string>('MONGO_DATABASE'),
+          }),
+        }),
         MongooseModule.forFeature([{name: UserSchemaClass.name, schema: UserSchema}]),
       ],
       providers: [UserRepository],
@@ -27,7 +38,6 @@ describe('UserRepository', () => {
 
   afterEach(async () => {
     await module.close();
-    await mongod.stop();
   });
 
   describe('persist', () => {
