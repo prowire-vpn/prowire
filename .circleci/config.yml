@@ -91,6 +91,9 @@ jobs:
           name: Ruby version npm
           command: npm run ruby -w client
       - run:
+          name: GemLock
+          command: ls -lsa && ls -lsa client
+      - run:
           name: Install build dependencies
           command: sudo apt-get update && sudo apt-get install -y ninja-build
       - run:
