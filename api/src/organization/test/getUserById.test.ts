@@ -7,6 +7,10 @@ import {build, create} from 'test';
 import {User} from 'organization/domain';
 import {GetUserByIdResponseBodyDto} from 'organization/presentation';
 
+/**
+ * Tests UserRepository class
+ * @group integration
+ */
 describe('OrganizationModule', () => {
   let user: User;
   let accessToken: AccessToken;

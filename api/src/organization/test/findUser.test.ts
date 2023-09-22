@@ -7,6 +7,10 @@ import {build, createMany} from 'test';
 import {User} from 'organization/domain';
 import {FindUsersResponseBodyDto} from 'organization/presentation';
 
+/**
+ * Tests UserRepository class
+ * @group integration
+ */
 describe('OrganizationModule', () => {
   let users: Array<User>;
   let accessToken: AccessToken;

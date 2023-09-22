@@ -1,0 +1,114 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.1.0
+  ruby: circleci/ruby@2.1.0
+
+jobs:
+  install_dependencies:
+    docker:
+      - image: cimg/base:current
+    resource_class: medium
+    steps:
+      - checkout
+      - node/install
+      - restore_cache:
+          keys:
+            - node-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install node dependencies
+          command: npm ci --workspaces
+      - save_cache:
+          key: node-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+  build_node:
+    docker:
+      - image: cimg/base:current
+    resource_class: medium
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - run:
+          name: Build node applications
+          command: npm run build --workspaces
+      - persist_to_workspace:
+          root: .
+          paths:
+            - api/dist
+            - management/dist
+            - pki/dist
+            - server/dist
+
+  test_node:
+    docker:
+      - image: cimg/base:current
+    resource_class: large
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - run:
+          name: Test node applications
+          command: npm run test --if-present --workspaces
+          environment:
+            MONGOMS_SYSTEM_BINARY: /usr/bin/mongod
+
+  build_android:
+    docker:
+      - image: cimg/android:2023.09
+    resource_class: large
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - run:
+          name: Uninstall Ruby
+          command: sudo apt-get remove ruby-full
+      - ruby/install:
+          version: $(cat .ruby-version)
+      - ruby/install-deps:
+          app-dir: client
+          include-branch-in-cache-key: false
+      - run:
+          name: Install build dependencies
+          command: sudo apt-get update && sudo apt-get install -y ninja-build
+      - run:
+          name: Build android application
+          command: npm run build:android -w client
+
+  build_containers:
+    docker:
+      - image: cimg/base:current
+    resource_class: large
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build containers
+          command: docker compose build
+
+workflows:
+  build_and_test:
+    jobs:
+      - install_dependencies
+      - build_node:
+          requires:
+            - install_dependencies
+      - test_node:
+          requires:
+            - build_node
+      - build_android:
+          requires:
+            - build_node
+  containers:
+    jobs:
+      - build_containers

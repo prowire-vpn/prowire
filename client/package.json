@@ -8,11 +8,14 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "test": "jest",
+    "prebuild:android": "bundle install",
+    "build:android": "bundle exec fastlane android build",
     "start:desktop": "electron-forge start",
     "start:mobile": "react-native start --port 8081",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish"
+    "publish": "electron-forge publish",
+    "ruby": "ruby -v && bundle exec ruby -v"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.2",
