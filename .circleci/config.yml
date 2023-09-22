@@ -79,7 +79,7 @@ jobs:
       - save_cache:
           key: rvm-bin-{{ checksum ".ruby-version" }}
           paths:
-            - /home/circleci/.rvm
+            - /home/circleci/.rvm/gems
       - ruby/install-deps:
           gemfile: client/Gemfile
       - run:
