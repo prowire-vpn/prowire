@@ -83,7 +83,7 @@ jobs:
             - /home/circleci/.rvm/gemsets
             - /home/circleci/.rvm/rubies
       - ruby/install-deps:
-          gemfile: client/Gemfile
+          app-dir: client
       - run:
           name: Ruby version
           command: ruby -v
