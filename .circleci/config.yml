@@ -68,8 +68,6 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
-      - ruby/install:
-          version: $(cat .ruby-version)
       - run:
           name: Build android application
           command: npm run build:android -w client
