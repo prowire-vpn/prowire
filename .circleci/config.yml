@@ -68,6 +68,16 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
+      - ruby/install:
+          version: $(cat .ruby-version)
+      - ruby/install-deps:
+          gemfile: client/Gemfile
+      - run:
+          name: Ruby version
+          command: ruby -v
+      - run:
+          name: Ruby version npm
+          command: npm run ruby -w client
       - run:
           name: Install build dependencies
           command: sudo apt-get update && sudo apt-get install -y ninja-build
