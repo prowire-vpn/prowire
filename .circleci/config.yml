@@ -69,28 +69,13 @@ jobs:
           at: .
       - node/install
       - run:
-          name: Path
-          command: pwd
-      - restore_cache:
-          keys:
-            - rvm-bin-{{ checksum ".ruby-version" }}
+          name: Uninstall Ruby
+          command: sudo apt-get remove ruby-full
       - ruby/install:
           version: $(cat .ruby-version)
-      - save_cache:
-          key: rvm-bin-{{ checksum ".ruby-version" }}
-          paths:
-            - /home/circleci/.rvm
       - ruby/install-deps:
           app-dir: client
-      - run:
-          name: Ruby version
-          command: ruby -v
-      - run:
-          name: Ruby version npm
-          command: npm run ruby -w client
-      - run:
-          name: GemLock
-          command: ls -lsa && ls -lsa client
+          include-branch-in-cache-key: false
       - run:
           name: Install build dependencies
           command: sudo apt-get update && sudo apt-get install -y ninja-build
@@ -118,9 +103,9 @@ workflows:
       - test_node:
           requires:
             - build_node
-      - build_android
-          # requires:
-          #   - build_node
+      - build_android:
+          requires:
+            - build_node
   containers:
     jobs:
       - build_containers
