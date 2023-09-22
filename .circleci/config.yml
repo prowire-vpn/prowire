@@ -14,12 +14,12 @@ jobs:
       - node/install
       - restore_cache:
           keys:
-            - v1-deps-{{ checksum "package-lock.json" }}
+            - node-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Install node dependencies
           command: npm ci --workspaces
       - save_cache:
-          key: v1-deps-{{ checksum "package-lock.json" }}
+          key: node-deps-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - persist_to_workspace:
@@ -68,8 +68,18 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
+      - run:
+          name: Path
+          command: pwd
+      - restore_cache:
+          keys:
+            - rvm-bin-{{ checksum ".ruby-version" }}
       - ruby/install:
           version: $(cat .ruby-version)
+      - save_cache:
+          key: rvm-bin-{{ checksum ".ruby-version" }}
+          paths:
+            - /home/circleci/.rvm
       - ruby/install-deps:
           gemfile: client/Gemfile
       - run:
@@ -105,9 +115,9 @@ workflows:
       - test_node:
           requires:
             - build_node
-      - build_android:
-          requires:
-            - build_node
+      - build_android
+          # requires:
+          #   - build_node
   containers:
     jobs:
       - build_containers
