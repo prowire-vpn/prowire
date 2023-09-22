@@ -69,6 +69,9 @@ jobs:
           at: .
       - node/install
       - run:
+          name: Install build dependencies
+          command: apt-get update && apt-get install ninja-build
+      - run:
           name: Build android application
           command: npm run build:android -w client
 
