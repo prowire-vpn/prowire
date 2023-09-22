@@ -80,6 +80,8 @@ jobs:
           key: rvm-bin-{{ checksum ".ruby-version" }}
           paths:
             - /home/circleci/.rvm/gems
+            - /home/circleci/.rvm/gemsets
+            - /home/circleci/.rvm/rubies
       - ruby/install-deps:
           gemfile: client/Gemfile
       - run:
