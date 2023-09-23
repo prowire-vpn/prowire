@@ -25,10 +25,10 @@ jobs:
       - node/install
       - restore_cache:
           keys:
-            - node-deps-{{ checksum "package-lock.json" }}
+            - node-deps-{{ checksum "pnpm-lock.yaml" }}
       - node_dependencies
       - save_cache:
-          key: node-deps-{{ checksum "package-lock.json" }}
+          key: node-deps-{{ checksum "pnpm-lock.yaml" }}
           paths:
             - node_modules
       - persist_to_workspace:
