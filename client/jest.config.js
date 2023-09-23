@@ -1,8 +1,6 @@
 const {pathsToModuleNameMapper, defaults} = require('ts-jest');
 const {compilerOptions} = require('./tsconfig');
 const {transform} = require('react-native/jest-preset');
-console.log(require('react-native/jest-preset'));
-console.log(require('jest-expo/jest-preset'));
 
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
