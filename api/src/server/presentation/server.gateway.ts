@@ -1,7 +1,7 @@
 import {
   WebSocketGateway,
-  OnGatewayConnection,
-  OnGatewayDisconnect,
+  type OnGatewayConnection,
+  type OnGatewayDisconnect,
   ConnectedSocket,
 } from '@nestjs/websockets';
 import {WebSocket} from 'ws';
@@ -17,7 +17,7 @@ import {
   ServerDisconnectedEvent,
 } from 'server/domain/server.events';
 import {EventEmitter2} from '@nestjs/event-emitter';
-import {RawData} from 'ws';
+import {type RawData} from 'ws';
 import {deserialize} from 'bson';
 
 const headerSchema = Joi.object({

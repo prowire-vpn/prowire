@@ -4,9 +4,11 @@
   "description": "Prowire serve",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"./src/**/*.ts\" --ext .ts",
-    "build": "rm -rf  dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
-    "build:run": "sudo node -r dotenv/config ./dist/main.js",
+    "prebuild": "rm -rf dist",
+    "build": "swc src -d dist --ignore **/*.test.ts && npm run types:build && tsc-alias -p tsconfig.build.json",
+    "types:build": "tsc -p tsconfig.build.json --composite false --emitDeclarationOnly",
+    "types:check": "tsc -p tsconfig.test.json --noEmit",
+    "lint": "eslint .",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "watch": "ts-node-dev -r tsconfig-paths/register src/main.ts",
     "test": "jest"
@@ -25,6 +27,7 @@
     "@nestjs/common": "^9.2.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.2.0",
+    "@nestjs/event-emitter": "^1.4.1",
     "@nestjs/platform-express": "^9.2.0",
     "@nestjs/platform-ws": "^9.2.0",
     "@nestjs/websockets": "^9.2.0",
@@ -37,13 +40,17 @@
     "ws": "^8.11.0"
   },
   "devDependencies": {
-    "@prowire-vpn/api": "^1.0.0",
-    "@swc/core": "^1.3.83",
+    "@nestjs/testing": "^9.2.0",
+    "@prowire-vpn/api": "workspace:*",
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.87",
     "@swc/jest": "^0.2.29",
+    "@types/chai": "^4.3.6",
     "@types/jest": "^29.2.3",
-    "@types/node": "^18.11.9",
+    "@types/node": "^18.17.18",
     "@types/tmp": "^0.2.3",
     "@types/ws": "^8.5.3",
+    "chai": "^4.3.8",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -54,6 +61,6 @@
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.7.1",
     "tsconfig-paths": "^4.1.0",
-    "typescript": "^4.9.3"
+    "typescript": "^5.2.2"
   }
 }

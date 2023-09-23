@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {PropsWithChildren} from 'react';
+import {type PropsWithChildren} from 'react';
 import {AuthInit} from 'auth/components';
 import {FullPageLoader} from 'base/components';
 import {useGetClientConfig} from 'base/data';

@@ -11,7 +11,7 @@ import {
 import {Test} from '@nestjs/testing';
 import {build} from 'test';
 import {faker} from '@faker-js/faker';
-import {Response} from 'express';
+import {type Response} from 'express';
 import {ConfigService} from '@nestjs/config';
 
 describe('GoogleController', () => {

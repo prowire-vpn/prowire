@@ -1,6 +1,6 @@
-import {Injectable, CanActivate, ExecutionContext} from '@nestjs/common';
+import {Injectable, type CanActivate, type ExecutionContext} from '@nestjs/common';
 import {Reflector} from '@nestjs/core';
-import {Request} from 'express';
+import {type Request} from 'express';
 
 @Injectable()
 export class ClientRolesGuard implements CanActivate {

@@ -3,7 +3,7 @@ import {AccessTokenStrategy} from './access_token.strategy';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import {Test} from '@nestjs/testing';
 import {build} from 'test';
-import {AccessTokenPayload} from './access_token.entity.interface';
+import {type AccessTokenPayload} from './access_token.entity.interface';
 
 describe('AccessTokenStrategy', () => {
   let accessTokenStrategy: AccessTokenStrategy;

@@ -2,9 +2,9 @@ import {isBefore, addMinutes} from 'date-fns';
 import {randomBytes} from 'crypto';
 import {Client} from 'auth/domain/client.entity';
 import {Base} from 'app/domain';
-import {ID} from 'types';
+import {type ID} from 'types';
 import {CodeAlreadyIssuedError, CodeNotIssuedError} from './oauthSession.entity.error';
-import {IdentityProvider} from 'organization/domain';
+import {type IdentityProvider} from 'organization/domain';
 
 export interface OAuthSessionConstructor {
   id?: ID<OAuthSession>;

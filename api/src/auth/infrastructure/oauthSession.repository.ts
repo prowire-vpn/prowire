@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {OAuthSessionModel, OAuthSessionClass} from './oauthSession.schema';
+import {type OAuthSessionModel, OAuthSessionClass} from './oauthSession.schema';
 import {OAuthSession} from 'auth/domain/oauth/oauthSession.entity';
 
 interface OAuthSessionFindParams {

@@ -1,5 +1,5 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {HydratedDocument, Model, UpdateQuery} from 'mongoose';
+import {type HydratedDocument, Model, type UpdateQuery} from 'mongoose';
 import {Server} from 'server/domain/server.entity';
 
 @Schema({_id: false})

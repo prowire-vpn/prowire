@@ -10,7 +10,7 @@ import {
 } from './oauth.service.error';
 import {OauthAuthenticatedEvent} from './oauth.events';
 import {EventEmitter2} from '@nestjs/event-emitter';
-import {OAuthSession, OAuthSessionConstructor} from './oauthSession.entity';
+import {OAuthSession, type OAuthSessionConstructor} from './oauthSession.entity';
 import {OAuthSessionRepository} from 'auth/infrastructure';
 import {Client} from 'auth/domain/client.entity';
 import {createHash} from 'crypto';

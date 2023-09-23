@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {ServerModel, ServerSchemaClass} from './server.schema';
+import {type ServerModel, ServerSchemaClass} from './server.schema';
 import {InjectModel} from '@nestjs/mongoose';
 import {Server} from 'server/domain/server.entity';
 

@@ -1,6 +1,6 @@
-import {ClientType, ClientConstructor} from './client.entity.interface';
+import {type ClientType, type ClientConstructor} from './client.entity.interface';
 import {User} from 'organization/domain';
-import {AccessTokenPayload} from './access_token';
+import {type AccessTokenPayload} from './access_token';
 
 export class Client {
   type: ClientType = 'user';

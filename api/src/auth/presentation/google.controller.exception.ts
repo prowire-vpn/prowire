@@ -1,4 +1,9 @@
-import {BadRequestException, UnauthorizedException, Catch, ArgumentsHost} from '@nestjs/common';
+import {
+  BadRequestException,
+  UnauthorizedException,
+  Catch,
+  type ArgumentsHost,
+} from '@nestjs/common';
 import {
   NoVerifiedEmailError,
   NoRefreshTokenProvidedError,
@@ -10,7 +15,7 @@ import {
 } from 'auth/domain';
 import {ClientError} from 'app/domain';
 import {StateNotFoundError, StateAlreadyExistsError} from 'auth/infrastructure';
-import {Request, Response} from 'express';
+import {type Request, type Response} from 'express';
 import {BaseExceptionFilter} from '@nestjs/core';
 
 @Catch(StateAlreadyExistsError)

@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {KeyPair} from './pki.service.interface';
+import {type KeyPair} from './pki.service.interface';
 import {generateKeyPairSync} from 'crypto';
 
 @Injectable()

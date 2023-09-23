@@ -1,5 +1,5 @@
-import {createParamDecorator, ExecutionContext} from '@nestjs/common';
-import {Request} from 'express';
+import {createParamDecorator, type ExecutionContext} from '@nestjs/common';
+import {type Request} from 'express';
 import {Client as IClient} from 'auth/domain/client.entity';
 
 export const Client = createParamDecorator((data: unknown, ctx: ExecutionContext): IClient => {

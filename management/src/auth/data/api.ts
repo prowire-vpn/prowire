@@ -1,8 +1,8 @@
 import {
   AuthTokenRequestBodyDto,
-  AuthTokenResponseBodyDto,
+  type AuthTokenResponseBodyDto,
   RefreshTokenRequestBodyDto,
-  RefreshTokenResponseBodyDto,
+  type RefreshTokenResponseBodyDto,
 } from '@prowire-vpn/api';
 import {client} from 'base/data';
 

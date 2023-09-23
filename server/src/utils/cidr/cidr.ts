@@ -1,4 +1,4 @@
-import {IpWithMask} from './cidr.types';
+import {type IpWithMask} from './cidr.types';
 
 const CIDR_REGEX = /^((?:[0-9]{1,3}\.){3}[0-9]{1,3})(?:\/([0-9]|[1-2][0-9]|3[0-2]))?$/;
 

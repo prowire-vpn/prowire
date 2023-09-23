@@ -1,6 +1,6 @@
 import {randomUUID} from 'crypto';
-import {sign, Secret, Algorithm, SignOptions} from 'jsonwebtoken';
-import {AccessTokenPayload, AccessTokenOptions} from './access_token.entity.interface';
+import {sign, type Secret, type Algorithm, type SignOptions} from 'jsonwebtoken';
+import {type AccessTokenPayload, type AccessTokenOptions} from './access_token.entity.interface';
 import * as Joi from 'joi';
 import {InvalidAccessTokenPayloadError} from './access_token.entity.error';
 import {Client} from 'auth/domain/client.entity';

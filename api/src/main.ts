@@ -1,11 +1,11 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from 'app/app.module';
-import {ExpressAdapter, NestExpressApplication} from '@nestjs/platform-express';
+import {ExpressAdapter, type NestExpressApplication} from '@nestjs/platform-express';
 import {WsAdapter} from '@nestjs/platform-ws';
 import {ConfigService} from '@nestjs/config';
 import {readFile} from 'fs/promises';
-import express, {Express} from 'express';
-import https, {ServerOptions} from 'https';
+import express, {type Express} from 'express';
+import https, {type ServerOptions} from 'https';
 import http from 'http';
 import {Logger} from '@nestjs/common';
 

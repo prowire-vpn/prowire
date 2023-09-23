@@ -1,4 +1,9 @@
-import {Identity, IdentityProvider, IdentityConstructor, IdentityUpdater} from './identity.entity';
+import {
+  Identity,
+  type IdentityProvider,
+  type IdentityConstructor,
+  type IdentityUpdater,
+} from './identity.entity';
 import {EmailAddress} from './email.entity';
 import {IdentityExistsError} from './user.entity.error';
 import {Base} from 'app/domain';

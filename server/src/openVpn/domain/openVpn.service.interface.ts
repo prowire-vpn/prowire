@@ -1,3 +1,3 @@
-import {OpenVpnConfigConstructor} from './openVpnConfig.entity';
+import {type OpenVpnConfigConstructor} from './openVpnConfig.entity';
 
 export type UpdateOpenVpnOptions = Omit<OpenVpnConfigConstructor, 'port' | 'dhParam' | 'key'>;

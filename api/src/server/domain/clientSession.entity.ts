@@ -1,5 +1,5 @@
-import {Base, BaseConstructor} from 'app/domain';
-import {IResult as UserAgent} from 'ua-parser-js';
+import {Base, type BaseConstructor} from 'app/domain';
+import {type IResult as UserAgent} from 'ua-parser-js';
 
 export type VpnClientSessionConstructorOptions = BaseConstructor & {
   userId: string;

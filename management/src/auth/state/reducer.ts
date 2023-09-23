@@ -1,4 +1,4 @@
-import {AuthActions} from './action';
+import type {AuthActions} from './action';
 
 export interface AuthState {
   accessToken?: string;

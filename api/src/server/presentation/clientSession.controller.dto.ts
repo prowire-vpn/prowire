@@ -1,5 +1,5 @@
 import {VpnClientSession} from 'server/domain/clientSession.entity';
-import {IResult} from 'ua-parser-js';
+import {type IResult} from 'ua-parser-js';
 
 export class VpnClientSessionDto {
   public readonly id: string;

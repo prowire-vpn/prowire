@@ -1,4 +1,4 @@
-import {ConfigActions} from './action';
+import type {ConfigActions} from './action';
 
 export interface ConfigState {
   managementUrl?: string;

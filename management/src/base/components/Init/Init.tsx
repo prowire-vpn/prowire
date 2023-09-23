@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {PropsWithChildren, Suspense} from 'react';
+import {type PropsWithChildren, Suspense} from 'react';
 import {AuthInit} from 'auth/components';
 import {ConfigInit} from 'base/components/ConfigInit';
 import {FullPageLoader} from 'base/components/FullPageLoader';

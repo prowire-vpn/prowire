@@ -2,7 +2,7 @@ import {Button} from '@chakra-ui/react';
 import * as React from 'react';
 import {useCallback, useState} from 'react';
 import {FcGoogle} from 'react-icons/fc';
-import {IdentityProviderButtonProps} from './IdentityProviderButton.types';
+import type {IdentityProviderButtonProps} from './IdentityProviderButton.types';
 import {useStartAuth} from 'auth/hooks';
 
 /** Button used to initiate an identity provider authentication flow*/

@@ -1,4 +1,4 @@
-import {UserDocument} from 'organization/infrastructure/user.schema';
+import {type UserDocument} from 'organization/infrastructure/user.schema';
 import {sign} from 'jsonwebtoken';
 
 export function getAuthToken(user: UserDocument): string {

@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {ServerRepository} from 'server/infrastructure/server.repository';
-import {Server, ServerConstructor} from './server.entity';
+import {Server, type ServerConstructor} from './server.entity';
 import {ServerNotFoundError} from './server.service.error';
 import {PkiService} from './pki.service';
 import {VpnConfigService} from './vpnConfig.service';

@@ -1,6 +1,6 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
-import {NestExpressApplication} from '@nestjs/platform-express';
+import {type NestExpressApplication} from '@nestjs/platform-express';
 import {ShutdownService} from './lifecycle/shutdown.service';
 import {ConfigService} from '@nestjs/config';
 

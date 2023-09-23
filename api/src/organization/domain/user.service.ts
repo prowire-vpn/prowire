@@ -1,9 +1,9 @@
 import {Injectable} from '@nestjs/common';
-import {User, UserUpdater} from './user.entity';
+import {User, type UserUpdater} from './user.entity';
 import {UserRepository} from 'organization/infrastructure';
 import {EmailAlreadyRegisteredError, UserNotFoundError} from './user.service.error';
 import {EmailAddress} from './email.entity';
-import {RegisterUserInfo} from './user.service.interface';
+import {type RegisterUserInfo} from './user.service.interface';
 
 @Injectable()
 export class UserService {

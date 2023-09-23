@@ -1,5 +1,5 @@
 import {PassportStrategy} from '@nestjs/passport';
-import {Strategy, Profile, StrategyOptions} from 'passport-google-oauth20';
+import {Strategy, type Profile, type StrategyOptions} from 'passport-google-oauth20';
 import {ConfigService} from '@nestjs/config';
 import {Injectable} from '@nestjs/common';
 import {NoVerifiedEmailError, UserNotFoundError} from './google.strategy.error';

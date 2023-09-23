@@ -1,7 +1,7 @@
 import {ChakraProvider} from '@chakra-ui/react';
 import * as React from 'react';
 import {QueryClientProvider} from 'react-query';
-import {ProviderProps} from './Provider.types';
+import type {ProviderProps} from './Provider.types';
 import {AuthProvider} from 'auth/state';
 import {queryClient} from 'base/data';
 import {ConfigProvider} from 'base/state';

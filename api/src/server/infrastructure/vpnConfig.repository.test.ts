@@ -3,7 +3,7 @@ import {
   VpnConfigRepository,
   VpnConfigSchemaClass,
   VpnConfigSchema,
-  VpnConfigModel,
+  type VpnConfigModel,
 } from 'server/infrastructure';
 import {build, buildMany, create} from 'test/factory';
 import {ConfigModule, ConfigService} from '@nestjs/config';

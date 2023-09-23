@@ -6,9 +6,10 @@ module.exports = {
     node: false,
     browser: true,
   },
-  ignorePatterns: ["*.js"],
   parserOptions: {
-    project: [`${__dirname}/tsconfig.json`],
+    project: 'tsconfig.test.json',
+    tsconfigRootDir: __dirname,
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
@@ -58,11 +59,11 @@ module.exports = {
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,
-        project: [`${__dirname}/tsconfig.json`],
+        project: [`${__dirname}/tsconfig.test.json`],
       },
     },
     react: {
-      version: "detect"
-    }
+      version: 'detect',
+    },
   },
 };

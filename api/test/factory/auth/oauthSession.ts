@@ -1,5 +1,5 @@
-import {OAuthSessionClass, OAuthSessionModel as IOAuthSessionModel} from 'auth/infrastructure';
-import {OAuthSession, OAuthSessionConstructor} from 'auth/domain';
+import {OAuthSessionClass, type OAuthSessionModel as IOAuthSessionModel} from 'auth/infrastructure';
+import {OAuthSession, type OAuthSessionConstructor} from 'auth/domain';
 import {faker} from '@faker-js/faker';
 import {getModel} from 'test/utils';
 

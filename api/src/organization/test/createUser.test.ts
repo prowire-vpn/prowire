@@ -2,11 +2,11 @@ import request from 'supertest';
 import {Test, TestingModule} from '@nestjs/testing';
 import {AppModule} from 'app/app.module';
 import {AccessToken} from 'auth/domain';
-import {INestApplication} from '@nestjs/common';
+import {type INestApplication} from '@nestjs/common';
 import {build} from 'test';
 import {User} from 'organization/domain';
 import {CreateUserResponseBodyDto} from 'organization/presentation';
-import {UserModel, UserSchemaClass} from 'organization/infrastructure';
+import {type UserModel, UserSchemaClass} from 'organization/infrastructure';
 import {getModelToken} from '@nestjs/mongoose';
 
 /**

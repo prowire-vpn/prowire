@@ -1,4 +1,4 @@
-import {IdentityProvider} from './identity.entity';
+import {type IdentityProvider} from './identity.entity';
 import {User} from './user.entity';
 
 export class MissingIdentityCreationDataError extends Error {

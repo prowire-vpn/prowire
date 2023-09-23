@@ -3,7 +3,7 @@ import {Injectable, Logger} from '@nestjs/common';
 import {OnEvent, EventEmitter2} from '@nestjs/event-emitter';
 import {ProcessManager, TelnetManager} from 'openVpn/infrastructure';
 import {OpenVpnConfig} from './openVpnConfig.entity';
-import {UpdateOpenVpnOptions} from './openVpn.service.interface';
+import {type UpdateOpenVpnOptions} from './openVpn.service.interface';
 import {PkiService} from 'server/domain';
 import {ApiGatewayConnected} from 'server/presentation/api.gateway.event';
 import {

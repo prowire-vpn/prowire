@@ -1,9 +1,9 @@
 import {
-  RefreshTokenResponseBodyDto,
+  type RefreshTokenResponseBodyDto,
   AuthTokenRequestBodyDto,
-  AuthTokenResponseBodyDto,
+  type AuthTokenResponseBodyDto,
 } from '@prowire-vpn/api';
-import {useQuery, UseQueryOptions} from 'react-query';
+import {useQuery, type UseQueryOptions} from 'react-query';
 import {postRefresh, postToken} from 'auth/data/api';
 
 export function usePostRefresh(

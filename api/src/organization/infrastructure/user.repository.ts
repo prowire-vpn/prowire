@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {UserModel, UserSchemaClass} from './user.schema';
+import {type UserModel, UserSchemaClass} from './user.schema';
 import {User, EmailAddress} from 'organization/domain';
 import {isObjectIdOrHexString} from 'mongoose';
 

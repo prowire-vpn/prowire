@@ -1,5 +1,5 @@
 import {FindUsersResponseBodyDto, ListUserClientSessionResponseBodyDto} from '@prowire-vpn/api';
-import {useQuery, UseQueryOptions} from 'react-query';
+import {useQuery, type UseQueryOptions} from 'react-query';
 import {findUsers, listUserClientSessions} from 'user/data/api';
 import {UserClientSession} from 'user/data/models';
 

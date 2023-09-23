@@ -1,4 +1,4 @@
-import {Profile} from 'passport-google-oauth20';
+import {type Profile} from 'passport-google-oauth20';
 import {ClientError} from 'app/domain';
 
 export class NoVerifiedEmailError extends ClientError {

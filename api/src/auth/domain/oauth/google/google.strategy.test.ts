@@ -3,13 +3,14 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
 import {Test} from '@nestjs/testing';
 import {OAuthService} from 'auth/domain/oauth/oauth.service';
 import {faker} from '@faker-js/faker';
-import {Profile} from 'passport-google-oauth20';
+import {type Profile} from 'passport-google-oauth20';
 import {build} from 'test';
 import {EmailAddress, User} from 'organization/domain';
 import {Client} from 'auth/domain/client.entity';
 import {NoVerifiedEmailError, UserNotFoundError} from './google.strategy.error';
 import {StateStore} from 'auth/infrastructure';
-import {StateStoreStoreCallback, VerifyCallback} from 'passport-oauth2';
+import type {StateStoreStoreCallback, VerifyCallback} from 'passport-oauth2';
+import {type Request} from 'express';
 
 describe('GoogleStrategy', () => {
   let accessToken: string;

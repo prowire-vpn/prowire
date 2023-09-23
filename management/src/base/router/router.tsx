@@ -6,7 +6,7 @@ import {serverRoutes} from 'server/router';
 import {userRoutes} from 'user/router';
 
 /** Main application router */
-export const router = createBrowserRouter([
+export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
     path: 'auth',
     children: authRoutes,

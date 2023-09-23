@@ -1,5 +1,10 @@
-import {CanActivate, ExecutionContext, BadRequestException, Injectable} from '@nestjs/common';
-import {AuthGuard, IAuthModuleOptions} from '@nestjs/passport';
+import {
+  type CanActivate,
+  type ExecutionContext,
+  BadRequestException,
+  Injectable,
+} from '@nestjs/common';
+import {AuthGuard, type IAuthModuleOptions} from '@nestjs/passport';
 import {Observable} from 'rxjs';
 import {validateSync} from 'class-validator';
 import {StartGoogleFlowQueryDto} from 'auth/presentation/google.controller.dto';

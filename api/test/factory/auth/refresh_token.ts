@@ -1,7 +1,7 @@
 import {NotImplementedException} from '@nestjs/common';
-import {ClientConstructor, RefreshToken} from 'auth/domain';
+import {type ClientConstructor, RefreshToken} from 'auth/domain';
 import {clientFactory} from './client';
-import {SignOptions} from 'jsonwebtoken';
+import {type SignOptions} from 'jsonwebtoken';
 
 export const refreshTokenFactory = {
   build(overrides?: Partial<ClientConstructor> & {options?: SignOptions}): RefreshToken {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {PropsWithChildren, useEffect} from 'react';
+import {type PropsWithChildren, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {usePostToken, storeRefreshToken, useGetCodeVerifier, clearCodeVerifier} from 'auth/data';
 import {useAuthDispatch, useAuth} from 'auth/state';

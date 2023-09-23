@@ -1,5 +1,5 @@
 import {Injectable, Logger} from '@nestjs/common';
-import {Telnet, SendOptions} from 'telnet-client';
+import {Telnet, type SendOptions} from 'telnet-client';
 import {setTimeout} from 'timers/promises';
 import {existsSync} from 'fs';
 import {ShutdownService} from 'lifecycle';

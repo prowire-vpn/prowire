@@ -4,7 +4,7 @@ import {UserService} from 'organization/domain';
 import {AuthTokenRequestBodyDto} from './auth.controller.dto';
 import {Client} from 'auth/domain/client.entity';
 import {createAuthCookie} from './utils';
-import {Response as IResponse} from 'express';
+import {type Response as IResponse} from 'express';
 import {TokenExceptionFilter} from './auth.controller.exception';
 
 @Controller('auth')

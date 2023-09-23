@@ -13,7 +13,7 @@ function parseToken(token: string) {
     throw new Error('Invalid token');
   }
   return {
-    header: JSON.parse(utf8.stringify(b64.parse(parts[0]))),
+    header: JSON.parse(utf8.stringify(b64.parse(parts[0]))) as unknown,
     payload: JSON.parse(utf8.stringify(b64.parse(parts[1]))) as TokenPayload,
     signature: b64.parse(parts[2]),
   };

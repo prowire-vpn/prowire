@@ -1,4 +1,4 @@
-import {GetClientConfigResponseBody} from 'base/data';
+import {type GetClientConfigResponseBody} from 'base/data';
 
 export interface SetApiUrlAction {
   type: 'set';

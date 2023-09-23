@@ -1,5 +1,5 @@
-import {VpnConfigModel, VpnConfigSchemaClass} from 'server/infrastructure';
-import {VpnConfig, VpnConfigConstructor, Subnet} from 'server/domain';
+import {type VpnConfigModel, VpnConfigSchemaClass} from 'server/infrastructure';
+import {VpnConfig, type VpnConfigConstructor, Subnet} from 'server/domain';
 import {faker} from '@faker-js/faker';
 import {getModel} from 'test/utils';
 

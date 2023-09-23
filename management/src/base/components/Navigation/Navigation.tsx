@@ -19,7 +19,6 @@ const targets = [
     path: '/user',
   },
 ];
-
 export function Navigation() {
   useAuthenticated({requireAuthentication: true});
   const location = useLocation();
@@ -39,6 +38,7 @@ export function Navigation() {
           return (
             <Link
               key={target.name}
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               as={RouterLink}
               to={target.path}
               color={isActive ? '#FFFFFF' : '#8D979D'}

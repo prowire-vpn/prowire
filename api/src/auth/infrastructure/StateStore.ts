@@ -1,10 +1,10 @@
-import {
+import type {
   StateStore as IStateStore,
   StateStoreStoreCallback,
   StateStoreVerifyCallback,
   Metadata,
 } from 'passport-oauth2';
-import {Request} from 'express';
+import {type Request} from 'express';
 import {StateAlreadyExistsError, StateNotFoundError} from './StateStore.error';
 
 import {Injectable} from '@nestjs/common';

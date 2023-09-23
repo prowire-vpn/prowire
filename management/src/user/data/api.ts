@@ -6,7 +6,7 @@ import {
   CreateUserRequestBodyDto,
   ListUserClientSessionResponseBodyDto,
 } from '@prowire-vpn/api';
-import {QueryFunctionContext} from 'react-query';
+import {type QueryFunctionContext} from 'react-query';
 import {client} from 'base/data';
 
 export async function deleteUser(id: string): Promise<DeleteUserResponseBodyDto> {

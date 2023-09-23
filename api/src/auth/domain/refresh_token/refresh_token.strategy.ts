@@ -3,7 +3,7 @@ import {Injectable} from '@nestjs/common';
 import {Strategy as CookieStrategy} from 'passport-cookie';
 import {Strategy as CustomStrategy} from 'passport-custom';
 import {RefreshTokenService} from './refresh_token.service';
-import {Request} from 'express';
+import {type Request} from 'express';
 import {Client} from 'auth/domain/client.entity';
 import {RefreshTokenNotProvidedError} from './refresh_token.strategy.error';
 

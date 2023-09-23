@@ -1,4 +1,4 @@
-import {ServerGateway, ExtendedWebSocket} from './server.gateway';
+import {ServerGateway, type ExtendedWebSocket} from './server.gateway';
 import {ServerConnectedEvent, ServerDisconnectedEvent} from 'server/domain';
 import {Test} from '@nestjs/testing';
 import {IncomingMessage} from 'http';

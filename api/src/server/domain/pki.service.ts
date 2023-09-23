@@ -3,7 +3,7 @@ import {readFileSync} from 'fs';
 import {ConfigService} from '@nestjs/config';
 import {randomBytes} from 'crypto';
 import {pki, md} from 'node-forge';
-import {GenerateCertOptions} from './pki.service.interface';
+import {type GenerateCertOptions} from './pki.service.interface';
 
 @Injectable()
 export class PkiService {

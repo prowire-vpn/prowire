@@ -2,7 +2,7 @@ import request from 'supertest';
 import {Test, TestingModule} from '@nestjs/testing';
 import {AppModule} from 'app/app.module';
 import {RefreshToken} from 'auth/domain';
-import {INestApplication} from '@nestjs/common';
+import {type INestApplication} from '@nestjs/common';
 import {build, create} from 'test';
 import {User} from 'organization/domain';
 

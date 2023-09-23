@@ -2,7 +2,7 @@ import {Controller, Get, Post, UseGuards, Body, Req} from '@nestjs/common';
 import {ServerService, VpnConfigService, PkiService, VpnClientSessionService} from 'server/domain';
 import {AccessTokenGuard, ClientRolesGuard, Client as IClient} from 'auth/domain';
 import {Admin, Client} from 'auth/utils';
-import {Request} from 'express';
+import {type Request} from 'express';
 import {
   FindServerResponseBodyDto,
   ConnectServerRequestBodyDto,

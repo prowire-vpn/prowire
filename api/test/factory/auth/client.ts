@@ -1,5 +1,5 @@
 import {NotImplementedException} from '@nestjs/common';
-import {Client, ClientConstructor} from 'auth/domain';
+import {Client, type ClientConstructor} from 'auth/domain';
 import {ObjectId} from 'bson';
 
 export const clientFactory = {

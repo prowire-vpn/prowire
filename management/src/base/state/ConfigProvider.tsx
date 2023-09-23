@@ -1,7 +1,7 @@
-import {useReducer, PropsWithChildren, createContext, useContext, Dispatch} from 'react';
+import {useReducer, type PropsWithChildren, createContext, useContext, type Dispatch} from 'react';
 import * as React from 'react';
-import {ConfigActions} from './action';
-import {ConfigState, initialConfig, configReducer} from './reducer';
+import type {ConfigActions} from './action';
+import {type ConfigState, initialConfig, configReducer} from './reducer';
 
 const ConfigContext = createContext<null | ConfigState>(null);
 const ConfigDispatchContext = createContext<null | Dispatch<ConfigActions>>(null);

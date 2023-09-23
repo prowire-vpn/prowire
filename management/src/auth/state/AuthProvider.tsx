@@ -1,7 +1,7 @@
-import {useReducer, PropsWithChildren, createContext, useContext, Dispatch} from 'react';
+import {useReducer, type PropsWithChildren, createContext, useContext, type Dispatch} from 'react';
 import * as React from 'react';
-import {AuthActions} from './action';
-import {AuthState, initialAuth, authReducer} from './reducer';
+import type {AuthActions} from './action';
+import {type AuthState, initialAuth, authReducer} from './reducer';
 
 const AuthContext = createContext<null | AuthState>(null);
 const AuthDispatchContext = createContext<null | Dispatch<AuthActions>>(null);

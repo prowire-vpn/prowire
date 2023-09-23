@@ -3,6 +3,18 @@ version: 2.1
 orbs:
   node: circleci/node@5.1.0
   ruby: circleci/ruby@2.1.0
+  nx: nrwl/nx@1.6.2
+
+commands:
+  node_dependencies:
+    description: Install pnpm and node dependencies
+    steps:
+      - run:
+          name: Install pnpm
+          command: npm install -g pnpm
+      - run:
+          name: Install node dependencies
+          command: pnpm install --frozen-lockfile
 
 jobs:
   install_dependencies:
@@ -15,9 +27,7 @@ jobs:
       - restore_cache:
           keys:
             - node-deps-{{ checksum "package-lock.json" }}
-      - run:
-          name: Install node dependencies
-          command: npm ci --workspaces
+      - node_dependencies
       - save_cache:
           key: node-deps-{{ checksum "package-lock.json" }}
           paths:
@@ -35,9 +45,10 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
+      - node_dependencies
       - run:
           name: Build node applications
-          command: npm run build --workspaces
+          command: npx nx run-many -t build
       - persist_to_workspace:
           root: .
           paths:
@@ -46,6 +57,34 @@ jobs:
             - pki/dist
             - server/dist
 
+  lint_node:
+    docker:
+      - image: cimg/base:current
+    resource_class: medium
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - node_dependencies
+      - run:
+          name: Test node applications
+          command: npx nx run-many -t lint
+  
+  type_check_node:
+    docker:
+      - image: cimg/base:current
+    resource_class: medium
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - node_dependencies
+      - run:
+          name: Test node applications
+          command: npx nx run-many -t types:check
+  
   test_node:
     docker:
       - image: cimg/base:current
@@ -55,11 +94,10 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
+      - node_dependencies
       - run:
           name: Test node applications
-          command: npm run test --if-present --workspaces
-          environment:
-            MONGOMS_SYSTEM_BINARY: /usr/bin/mongod
+          command: npx nx run-many -t test
 
   build_android:
     docker:

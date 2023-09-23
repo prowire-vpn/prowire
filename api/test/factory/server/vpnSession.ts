@@ -1,10 +1,10 @@
 import {
   VpnClientSessionSchemaClass,
-  VpnClientSessionModel as IVpnClientSessionModel,
+  type VpnClientSessionModel as IVpnClientSessionModel,
 } from 'server/infrastructure/clientSession.schema';
 import {
   VpnClientSession,
-  VpnClientSessionConstructorOptions,
+  type VpnClientSessionConstructorOptions,
 } from 'server/domain/clientSession.entity';
 import {faker} from '@faker-js/faker';
 import {getModel} from 'test/utils';

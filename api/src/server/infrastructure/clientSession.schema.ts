@@ -1,8 +1,8 @@
 import {Prop, Schema, SchemaFactory, raw} from '@nestjs/mongoose';
-import {HydratedDocument, Model, UpdateQuery} from 'mongoose';
+import {type HydratedDocument, Model, type UpdateQuery} from 'mongoose';
 import {BaseSchema, Mapper} from 'app/infrastructure';
 import {VpnClientSession as VpnClientSession} from 'server/domain/clientSession.entity';
-import {IResult as Device} from 'ua-parser-js';
+import {type IResult as Device} from 'ua-parser-js';
 
 @Schema()
 export class VpnClientSessionSchemaClass extends BaseSchema<VpnClientSession> {

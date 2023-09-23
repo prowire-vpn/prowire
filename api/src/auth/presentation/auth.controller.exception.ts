@@ -1,4 +1,4 @@
-import {UnauthorizedException, Catch, ArgumentsHost} from '@nestjs/common';
+import {UnauthorizedException, Catch, type ArgumentsHost} from '@nestjs/common';
 import {InvalidCodeError, FailedCodeChallengeError} from 'auth/domain';
 import {BaseExceptionFilter} from '@nestjs/core';
 

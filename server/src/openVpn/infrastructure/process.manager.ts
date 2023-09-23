@@ -1,5 +1,5 @@
 import {spawn} from 'child_process';
-import {Injectable, Logger, OnModuleDestroy} from '@nestjs/common';
+import {Injectable, Logger, type OnModuleDestroy} from '@nestjs/common';
 import {OpenVpnConfig} from 'openVpn/domain';
 import {writeToTmpFile} from 'utils';
 import {TelnetManager} from './telnet.manager';

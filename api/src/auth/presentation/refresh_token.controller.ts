@@ -1,12 +1,12 @@
 import {Controller, UseGuards, Response, Post, Request, UseFilters, Body} from '@nestjs/common';
 import {AccessTokenService, Client as IClient, RefreshTokenGuard} from 'auth/domain';
 import {Client} from 'auth/utils/client.decorator';
-import {Request as IRequest, Response as IResponse} from 'express';
+import {type Request as IRequest, type Response as IResponse} from 'express';
 import {renewAuthCookieIfExists, getRefreshTokenFromCookie} from './utils';
 import {RefreshExceptionFilter} from './refresh_token.controller.exception';
 import {
   RefreshTokenRequestBodyDto,
-  RefreshTokenResponseBodyDto,
+  type RefreshTokenResponseBodyDto,
 } from './refresh_token.controller.dto';
 
 @Controller('auth/refresh')

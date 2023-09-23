@@ -1,6 +1,6 @@
 import {ConfigService} from '@nestjs/config';
 import {AccessToken} from './access_token.entity';
-import {SignOptions} from 'jsonwebtoken';
+import {type SignOptions} from 'jsonwebtoken';
 import {Client} from 'auth/domain/client.entity';
 import {Injectable} from '@nestjs/common';
 

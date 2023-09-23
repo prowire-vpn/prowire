@@ -1,4 +1,4 @@
-import {Catch, UnauthorizedException, ArgumentsHost} from '@nestjs/common';
+import {Catch, UnauthorizedException, type ArgumentsHost} from '@nestjs/common';
 import {
   NoUserAccountForRefreshTokenError,
   InvalidRefreshTokenError,

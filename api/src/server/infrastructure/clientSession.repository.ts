@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {VpnClientSessionModel, VpnClientSessionSchemaClass} from './clientSession.schema';
+import {type VpnClientSessionModel, VpnClientSessionSchemaClass} from './clientSession.schema';
 import {InjectModel} from '@nestjs/mongoose';
 import {VpnClientSession} from 'server/domain/clientSession.entity';
 

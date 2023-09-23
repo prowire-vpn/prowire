@@ -1,6 +1,11 @@
 import {MongooseModule, getModelToken} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
-import {UserRepository, UserSchemaClass, UserSchema, UserModel} from 'organization/infrastructure';
+import {
+  UserRepository,
+  UserSchemaClass,
+  UserSchema,
+  type UserModel,
+} from 'organization/infrastructure';
 import {build, create} from 'test/factory';
 import {faker} from '@faker-js/faker';
 import {EmailAddress} from 'organization/domain';

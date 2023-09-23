@@ -3,7 +3,7 @@ import {GoogleOAuthGuard, GoogleOAuthGuardInit, GoogleOAuthGuardForceRefresh} fr
 import {RedirectExceptionFilter} from './google.controller.exception';
 import {Client as IClient} from 'auth/domain';
 import {Client} from 'auth/utils/client.decorator';
-import {Response as IResponse} from 'express';
+import {type Response as IResponse} from 'express';
 import {StartGoogleFlowQueryDto} from './google.controller.dto';
 import {OAuthService} from 'auth/domain/oauth';
 

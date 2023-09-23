@@ -2,7 +2,7 @@ import {VpnClientSessionRepository} from './clientSession.repository';
 import {
   VpnClientSessionSchemaClass,
   VpnClientSessionSchema,
-  VpnClientSessionModel,
+  type VpnClientSessionModel,
 } from './clientSession.schema';
 import {Test, TestingModule} from '@nestjs/testing';
 import {build, create, createMany} from 'test';

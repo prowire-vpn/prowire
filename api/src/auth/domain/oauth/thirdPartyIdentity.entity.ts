@@ -1,8 +1,8 @@
 import {
-  IdentityProvider,
+  type IdentityProvider,
   EmailAddress,
-  IdentityUpdater,
-  RegisterUserInfo,
+  type IdentityUpdater,
+  type RegisterUserInfo,
 } from 'organization/domain';
 
 export interface OAuthConstructor {

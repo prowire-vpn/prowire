@@ -1,26 +1,11 @@
 {
   "name": "@prowire-vpn/prowire",
   "version": "1.0.0",
-  "description": "Prowire monorepo",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/prowire-vpn/prowire.git"
-  },
+  "description": "Prowire application monorepo",
   "author": "Noe Charmet",
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/prowire-vpn/prowire/issues"
-  },
-  "homepage": "https://github.com/prowire-vpn/prowire#readme",
-  "workspaces": [
-    "api",
-    "server",
-    "management",
-    "client",
-    "pki"
-  ]
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "nx": "16.8.1",
+    "nx-cloud": "latest"
+  }
 }

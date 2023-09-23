@@ -1,5 +1,5 @@
-import {UserSchemaClass, UserModel as IUserModel} from 'organization/infrastructure';
-import {User, UserConstructor, EmailAddress} from 'organization/domain';
+import {UserSchemaClass, type UserModel as IUserModel} from 'organization/infrastructure';
+import {User, type UserConstructor, EmailAddress} from 'organization/domain';
 import {faker} from '@faker-js/faker';
 import {getModel} from 'test/utils';
 

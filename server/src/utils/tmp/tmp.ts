@@ -1,6 +1,6 @@
 import {write, close} from 'fs';
 import {file, setGracefulCleanup} from 'tmp';
-import {TmpFileWriteOptions} from './tmp.types';
+import {type TmpFileWriteOptions} from './tmp.types';
 
 // Auto delete tmp files on shutdown
 setGracefulCleanup();

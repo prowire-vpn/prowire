@@ -1,6 +1,8 @@
 const {pathsToModuleNameMapper, defaults} = require('ts-jest');
 const {compilerOptions} = require('./tsconfig');
 const {transform} = require('react-native/jest-preset');
+console.log(require('react-native/jest-preset'));
+console.log(require('jest-expo/jest-preset'));
 
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
@@ -23,7 +25,7 @@ module.exports = {
   },
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
   transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
+    'node_modules\/\.pnpm\/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
   ],
   testTimeout: 10_000,
 };

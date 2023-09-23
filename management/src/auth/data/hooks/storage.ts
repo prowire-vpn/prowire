@@ -1,4 +1,4 @@
-import {useQuery, UseQueryOptions} from 'react-query';
+import {useQuery, type UseQueryOptions} from 'react-query';
 import {getRefreshToken, getState, getCodeVerifier} from 'auth/data/storage';
 
 export const REFRESH_TOKEN_CACHE_KEY = 'refresh_token_local';

@@ -1,4 +1,4 @@
-import {Module, NestModule, MiddlewareConsumer, ValidationPipe} from '@nestjs/common';
+import {Module, type NestModule, type MiddlewareConsumer, ValidationPipe} from '@nestjs/common';
 import {ConfigSchema} from 'config';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import {AuthModule} from 'auth';

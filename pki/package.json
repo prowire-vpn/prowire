@@ -8,22 +8,29 @@
     "prowire-pki": "dist/cli.js"
   },
   "devDependencies": {
-    "@types/node": "^20.6.0",
-    "@types/node-forge": "^1.3.5",
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.83",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.8",
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "build": "rm -rf dist && tsc && tsc-alias",
-    "start": "ts-node src/index.ts"
+    "prebuild": "rm -rf dist",
+    "build": "swc src -d dist --ignore **/*.test.ts && npm run types:build",
+    "types:build": "tsc --composite false --emitDeclarationOnly",
+    "types:check": "tsc --noEmit",
+    "lint": "eslint --ext .ts src"
   },
   "author": "Noe Charmet",
   "license": "AGPL-3.0",
   "dependencies": {
+    "@types/node": "^18.17.18",
+    "@types/node-forge": "^1.3.5",
+    "@types/yargs": "^17.0.24",
     "node-forge": "^1.3.1",
     "yargs": "^17.7.2"
   }

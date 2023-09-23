@@ -1,12 +1,17 @@
-import WS, {WebSocket, RawData} from 'ws';
-import {Injectable, Logger, OnApplicationBootstrap, OnModuleDestroy} from '@nestjs/common';
+import WS, {WebSocket, type RawData} from 'ws';
+import {
+  Injectable,
+  Logger,
+  type OnApplicationBootstrap,
+  type OnModuleDestroy,
+} from '@nestjs/common';
 import {ConfigService} from '@nestjs/config';
 import {PkiService} from 'server/domain';
 import {getPublicIp} from 'utils';
 import {ShutdownService} from 'lifecycle';
 import {EventEmitter2} from '@nestjs/event-emitter';
 import {ApiGatewayConnected} from './api.gateway.event';
-import {HandlerFunction, MessageHandlersMap} from './api.gateway.interface';
+import {type HandlerFunction, type MessageHandlersMap} from './api.gateway.interface';
 import {WebSocketMessage} from '@prowire-vpn/api';
 import {deserialize} from 'bson';
 

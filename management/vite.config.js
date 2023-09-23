@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
-  plugins: [react(), tsconfig_paths()],
+  plugins: [react(), tsconfig_paths({'projects': ['../tsconfig.json', './tsconfig.build.json']})],
   resolve: {
     alias: {
       assets: '../assets'

@@ -1,4 +1,4 @@
-import {Response, CookieOptions, Request} from 'express';
+import {type Response, type CookieOptions, type Request} from 'express';
 import {RefreshToken} from 'auth/domain';
 
 const cookieName = 'prowire_auth';
