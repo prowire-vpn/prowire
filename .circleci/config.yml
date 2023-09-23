@@ -143,6 +143,12 @@ workflows:
       - test_node:
           requires:
             - build_node
+      - lint_node:
+          requires:
+            - build_node
+      - type_check_node:
+          requires:
+            - build_node
       - build_android:
           requires:
             - build_node
