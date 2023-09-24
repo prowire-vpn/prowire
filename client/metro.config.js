@@ -13,19 +13,20 @@ const {sourceExts, assetExts} = defaultConfig.resolver;
 const config = {
   resetCache: true,
   resolver: {
-    assetExts: assetExts.filter((ext) => ext !== "svg"),
-    sourceExts: [...sourceExts, "svg"],
+    assetExts: assetExts.filter(ext => ext !== 'svg'),
+    sourceExts: [...sourceExts, 'svg'],
     extraNodeModules: {
-      'base': path.resolve(__dirname, './src/base'),
-      'config': path.resolve(__dirname, './src/config'),
-      'auth': path.resolve(__dirname, './src/auth'),
-      'ui': path.resolve(__dirname, './src/ui'),
-      'vpn': path.resolve(__dirname, './src/vpn'),
-      'assets': path.resolve(__dirname, './assets'),
-    }
+      base: path.resolve(__dirname, './src/base'),
+      config: path.resolve(__dirname, './src/config'),
+      auth: path.resolve(__dirname, './src/auth'),
+      ui: path.resolve(__dirname, './src/ui'),
+      vpn: path.resolve(__dirname, './src/vpn'),
+      assets: path.resolve(__dirname, './assets'),
+    },
+    unstable_enableSymlinks: true,
   },
   transformer: {
-    babelTransformerPath: require.resolve("react-native-svg-transformer"),
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
@@ -33,10 +34,7 @@ const config = {
       },
     }),
   },
-  watchFolders: [
-    path.resolve(__dirname),
-    path.resolve(__dirname, '../node_modules'),
-  ],
+  watchFolders: [path.resolve(__dirname)],
 };
 
 module.exports = mergeConfig(getDefaultConfig(__dirname), config);

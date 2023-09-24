@@ -17,32 +17,25 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "build:android": {
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/android/app/build/outputs/apk/release/app-release.apk"]
     },
     "test": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "lint": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "types:check": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "types:build": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/dist"]
     }
   },
   "affected": {

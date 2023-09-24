@@ -248,7 +248,7 @@ importers:
         version: 0.2.1
       ts-jest:
         specifier: ^29.0.3
-        version: 29.1.1(@babel/core@7.22.20)(jest@29.7.0)(typescript@5.2.2)
+        version: 29.1.1(@babel/core@7.22.20)(babel-jest@29.7.0)(jest@29.7.0)(typescript@5.2.2)
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@swc/core@1.3.87)(@types/node@18.17.18)(typescript@5.2.2)
@@ -296,7 +296,7 @@ importers:
         version: 12.3.0(expo@49.0.11)
       jest:
         specifier: ^29.2.1
-        version: 29.7.0(@types/node@20.6.3)(ts-node@10.9.1)
+        version: 29.7.0(@types/node@18.17.18)(ts-node@10.9.1)
       jsonwebtoken:
         specifier: ^9.0.1
         version: 9.0.2
@@ -382,6 +382,9 @@ importers:
       '@react-native/eslint-config':
         specifier: ^0.72.2
         version: 0.72.2(eslint@8.49.0)(jest@29.7.0)(prettier@2.8.8)(typescript@5.2.2)
+      '@react-native/gradle-plugin':
+        specifier: ^0.72.11
+        version: 0.72.11
       '@react-native/metro-config':
         specifier: ^0.72.11
         version: 0.72.11(@babel/core@7.22.20)
@@ -475,9 +478,6 @@ importers:
       react-native-codegen:
         specifier: ^0.71.5
         version: 0.71.5(@babel/preset-env@7.22.20)
-      react-native-gradle-plugin:
-        specifier: ^0.71.19
-        version: 0.71.19
       react-native-svg-transformer:
         specifier: ^1.1.0
         version: 1.1.0(react-native-svg@13.14.0)(react-native@0.72.4)(typescript@5.2.2)
@@ -492,7 +492,7 @@ importers:
         version: 29.1.1(@babel/core@7.22.20)(babel-jest@29.7.0)(jest@29.7.0)(typescript@5.2.2)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.1(@swc/core@1.3.87)(@types/node@20.6.3)(typescript@5.2.2)
+        version: 10.9.1(@swc/core@1.3.87)(@types/node@18.17.18)(typescript@5.2.2)
       tsconfig-paths-webpack-plugin:
         specifier: ^4.1.0
         version: 4.1.0
@@ -834,7 +834,7 @@ importers:
         version: 2.8.8
       ts-jest:
         specifier: ^29.0.3
-        version: 29.1.1(@babel/core@7.22.20)(jest@29.7.0)(typescript@5.2.2)
+        version: 29.1.1(@babel/core@7.22.20)(babel-jest@29.7.0)(jest@29.7.0)(typescript@5.2.2)
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@swc/core@1.3.87)(@types/node@18.17.18)(typescript@5.2.2)
@@ -7324,7 +7324,7 @@ packages:
       jest:
         optional: true
     dependencies:
-      jest: 29.7.0(@types/node@20.6.3)(ts-node@10.9.1)
+      jest: 29.7.0(@types/node@18.17.18)(ts-node@10.9.1)
       jest-matcher-utils: 29.7.0
       pretty-format: 29.7.0
       react: 18.2.0
@@ -9257,7 +9257,7 @@ packages:
       glob: 7.2.3
       infer-owner: 1.0.4
       lru-cache: 6.0.0
-      minipass: 3.1.6
+      minipass: 3.3.6
       minipass-collect: 1.0.2
       minipass-flush: 1.0.5
       minipass-pipeline: 1.2.4
@@ -9896,25 +9896,6 @@ packages:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-config: 29.7.0(@types/node@18.17.18)(ts-node@10.9.1)
-      jest-util: 29.7.0
-      prompts: 2.4.2
-    transitivePeerDependencies:
-      - '@types/node'
-      - babel-plugin-macros
-      - supports-color
-      - ts-node
-    dev: true
-
-  /create-jest@29.7.0(@types/node@20.6.3)(ts-node@10.9.1):
-    resolution: {integrity: sha512-Adz2bdH0Vq3F53KEMJOoftQFutWCukm6J24wbPWRO4k1kMY7gS7ds/uoJkNuV8wDCtWWnuwGcJwpWcih+zEW1Q==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    dependencies:
-      '@jest/types': 29.6.3
-      chalk: 4.1.2
-      exit: 0.1.2
-      graceful-fs: 4.2.11
-      jest-config: 29.7.0(@types/node@20.6.3)(ts-node@10.9.1)
       jest-util: 29.7.0
       prompts: 2.4.2
     transitivePeerDependencies:
@@ -11201,7 +11182,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.49.0)(typescript@5.2.2)
       '@typescript-eslint/utils': 5.62.0(eslint@8.49.0)(typescript@5.2.2)
       eslint: 8.49.0
-      jest: 29.7.0(@types/node@20.6.3)(ts-node@10.9.1)
+      jest: 29.7.0(@types/node@18.17.18)(ts-node@10.9.1)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -13847,34 +13828,6 @@ packages:
       - babel-plugin-macros
       - supports-color
       - ts-node
-    dev: true
-
-  /jest-cli@29.7.0(@types/node@20.6.3)(ts-node@10.9.1):
-    resolution: {integrity: sha512-OVVobw2IubN/GSYsxETi+gOe7Ka59EFMR/twOU3Jb2GnKKeMGJB5SGUUrEz3SFVmJASUdZUzy83sLNNQ2gZslg==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-    peerDependenciesMeta:
-      node-notifier:
-        optional: true
-    dependencies:
-      '@jest/core': 29.7.0(ts-node@10.9.1)
-      '@jest/test-result': 29.7.0
-      '@jest/types': 29.6.3
-      chalk: 4.1.2
-      create-jest: 29.7.0(@types/node@20.6.3)(ts-node@10.9.1)
-      exit: 0.1.2
-      import-local: 3.1.0
-      jest-config: 29.7.0(@types/node@20.6.3)(ts-node@10.9.1)
-      jest-util: 29.7.0
-      jest-validate: 29.7.0
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - '@types/node'
-      - babel-plugin-macros
-      - supports-color
-      - ts-node
 
   /jest-config@29.7.0(@types/node@18.17.18)(ts-node@10.9.1):
     resolution: {integrity: sha512-uXbpfeQ7R6TZBqI3/TxCU4q4ttk3u0PJeC+E0zbfSoSjq6bJ7buBPxzQPL0ifrkY4DNu4JUdk0ImlBUYi840eQ==}
@@ -13912,46 +13865,6 @@ packages:
       slash: 3.0.0
       strip-json-comments: 3.1.1
       ts-node: 10.9.1(@swc/core@1.3.87)(@types/node@18.17.18)(typescript@5.2.2)
-    transitivePeerDependencies:
-      - babel-plugin-macros
-      - supports-color
-
-  /jest-config@29.7.0(@types/node@20.6.3)(ts-node@10.9.1):
-    resolution: {integrity: sha512-uXbpfeQ7R6TZBqI3/TxCU4q4ttk3u0PJeC+E0zbfSoSjq6bJ7buBPxzQPL0ifrkY4DNu4JUdk0ImlBUYi840eQ==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    peerDependencies:
-      '@types/node': '*'
-      ts-node: '>=9.0.0'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      ts-node:
-        optional: true
-    dependencies:
-      '@babel/core': 7.22.20
-      '@jest/test-sequencer': 29.7.0
-      '@jest/types': 29.6.3
-      '@types/node': 20.6.3
-      babel-jest: 29.7.0(@babel/core@7.22.20)
-      chalk: 4.1.2
-      ci-info: 3.8.0
-      deepmerge: 4.3.1
-      glob: 7.2.3
-      graceful-fs: 4.2.11
-      jest-circus: 29.7.0
-      jest-environment-node: 29.7.0
-      jest-get-type: 29.6.3
-      jest-regex-util: 29.6.3
-      jest-resolve: 29.7.0
-      jest-runner: 29.7.0
-      jest-util: 29.7.0
-      jest-validate: 29.7.0
-      micromatch: 4.0.5
-      parse-json: 5.2.0
-      pretty-format: 29.7.0
-      slash: 3.0.0
-      strip-json-comments: 3.1.1
-      ts-node: 10.9.1(@swc/core@1.3.87)(@types/node@20.6.3)(typescript@5.2.2)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -14289,7 +14202,7 @@ packages:
     dependencies:
       ansi-escapes: 6.2.0
       chalk: 4.1.2
-      jest: 29.7.0(@types/node@20.6.3)(ts-node@10.9.1)
+      jest: 29.7.0(@types/node@18.17.18)(ts-node@10.9.1)
       jest-regex-util: 29.6.3
       jest-watcher: 29.7.0
       slash: 5.1.0
@@ -14341,27 +14254,6 @@ packages:
       '@jest/types': 29.6.3
       import-local: 3.1.0
       jest-cli: 29.7.0(@types/node@18.17.18)(ts-node@10.9.1)
-    transitivePeerDependencies:
-      - '@types/node'
-      - babel-plugin-macros
-      - supports-color
-      - ts-node
-    dev: true
-
-  /jest@29.7.0(@types/node@20.6.3)(ts-node@10.9.1):
-    resolution: {integrity: sha512-NIy3oAFp9shda19hy4HK0HRTWKtPJmGdnvywu01nOqNC2vZg+Z+fvJDxpMQA88eb2I9EcafcdjYgsDthnYTvGw==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-    peerDependenciesMeta:
-      node-notifier:
-        optional: true
-    dependencies:
-      '@jest/core': 29.7.0(ts-node@10.9.1)
-      '@jest/types': 29.6.3
-      import-local: 3.1.0
-      jest-cli: 29.7.0(@types/node@20.6.3)(ts-node@10.9.1)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -16082,7 +15974,7 @@ packages:
     resolution: {integrity: sha512-6T6lH0H8OG9kITm/Jm6tdooIbogG9e0tLgpY6mphXSm/A9u8Nq1ryBG+Qspiub9LjWlBPsPS3tWQ/Botq4FdxA==}
     engines: {node: '>= 8'}
     dependencies:
-      minipass: 3.1.6
+      minipass: 3.3.6
 
   /minipass-fetch@3.0.4:
     resolution: {integrity: sha512-jHAqnA728uUpIaFm7NWsCnqKT6UqZz7GcI/bDpPATuwYyKwJwW0remxSCxUlKiEty+eopHGa3oc8WxgQ1FFJqg==}
@@ -16099,13 +15991,13 @@ packages:
     resolution: {integrity: sha512-JmQSYYpPUqX5Jyn1mXaRwOda1uQ8HP5KAT/oDSLCzt1BYRhQU0/hDtsB1ufZfEEzMZ9aAVmsBw8+FWsIXlClWw==}
     engines: {node: '>= 8'}
     dependencies:
-      minipass: 3.1.6
+      minipass: 3.3.6
 
   /minipass-pipeline@1.2.4:
     resolution: {integrity: sha512-xuIq7cIOt09RPRJ19gdi4b+RiNvDFYe5JH+ggNvBqGqpQXcru3PcRmOZuHBKWK1Txf9+cQ+HMVN4d6z46LZP7A==}
     engines: {node: '>=8'}
     dependencies:
-      minipass: 3.1.6
+      minipass: 3.3.6
 
   /minipass-sized@1.0.3:
     resolution: {integrity: sha512-MbkQQ2CTiBMlA2Dm/5cY+9SWFEN8pzzOXi6rlM5Xxq0Yqbda5ZQy9sU75a673FE9ZK0Zsbr6Y5iP6u9nktfg2g==}
@@ -16119,6 +16011,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       yallist: 4.0.0
+    dev: false
 
   /minipass@3.3.6:
     resolution: {integrity: sha512-DxiNidxSEK+tHG6zOIklvNOwm3hvCrbUrdtzY74U6HKTJxvIDfOUL5W5P2Ghd3DTkhhKPYGqeNUIh5qcM4YBfw==}
@@ -17709,10 +17602,6 @@ packages:
       react-native: 0.72.4(@babel/core@7.22.20)(@babel/preset-env@7.22.20)(react@18.2.0)
     dev: false
 
-  /react-native-gradle-plugin@0.71.19:
-    resolution: {integrity: sha512-1dVk9NwhoyKHCSxcrM6vY6cxmojeATsBobDicX0ZKr7DgUF2cBQRTKsimQFvzH8XhOVXyH8p4HyDSZNIFI8OlQ==}
-    dev: true
-
   /react-native-radial-gradient@1.1.3:
     resolution: {integrity: sha512-csxOLG/ftBhUZdvs7L5TOsw9vrHZQ+wCs+ghitRhGtGhCOt//JNP0zjMktKoKwbxYOGEyLvXK4rbFkpEgcraBg==}
     dependencies:
@@ -19084,7 +18973,7 @@ packages:
     resolution: {integrity: sha512-97qShzy1AiyxvPNIkLWoGua7xoQzzPjQ0HAH4B0rWKo7SZ6USuPcrUiAFrws0UH8RrbWmgq3LMTObhPIHbbBeQ==}
     engines: {node: '>= 8'}
     dependencies:
-      minipass: 3.1.6
+      minipass: 3.3.6
     dev: false
 
   /stack-utils@2.0.6:
@@ -19871,40 +19760,6 @@ packages:
       babel-jest: 29.7.0(@babel/core@7.22.20)
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.7.0(@types/node@20.6.3)(ts-node@10.9.1)
-      jest-util: 29.7.0
-      json5: 2.2.3
-      lodash.memoize: 4.1.2
-      make-error: 1.3.6
-      semver: 7.5.4
-      typescript: 5.2.2
-      yargs-parser: 21.1.1
-    dev: true
-
-  /ts-jest@29.1.1(@babel/core@7.22.20)(jest@29.7.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-D6xjnnbP17cC85nliwGiL+tpoKN0StpgE0TeOjXQTU6MVCfsB4v7aW05CgQ/1OywGb0x/oy9hHFnN+sczTiRaA==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      '@babel/core': '>=7.0.0-beta.0 <8'
-      '@jest/types': ^29.0.0
-      babel-jest: ^29.0.0
-      esbuild: '*'
-      jest: ^29.0.0
-      typescript: '>=4.3 <6'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@jest/types':
-        optional: true
-      babel-jest:
-        optional: true
-      esbuild:
-        optional: true
-    dependencies:
-      '@babel/core': 7.22.20
-      bs-logger: 0.2.6
-      fast-json-stable-stringify: 2.1.0
       jest: 29.7.0(@types/node@18.17.18)(ts-node@10.9.1)
       jest-util: 29.7.0
       json5: 2.2.3
@@ -19964,37 +19819,6 @@ packages:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 18.17.18
-      acorn: 8.10.0
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.2.2
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-
-  /ts-node@10.9.1(@swc/core@1.3.87)(@types/node@20.6.3)(typescript@5.2.2):
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@swc/core': 1.3.87
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 20.6.3
       acorn: 8.10.0
       acorn-walk: 8.2.0
       arg: 4.1.3
