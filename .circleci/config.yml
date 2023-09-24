@@ -4,17 +4,6 @@ orbs:
   node: circleci/node@5.1.0
   ruby: circleci/ruby@2.1.0
 
-commands:
-  node_dependencies:
-    description: Install pnpm and node dependencies
-    steps:
-      - run:
-          name: Install pnpm
-          command: npm install -g pnpm
-      - run:
-          name: Install node dependencies
-          command: pnpm install --frozen-lockfile
-
 jobs:
   install_dependencies:
     docker:
@@ -25,10 +14,12 @@ jobs:
       - node/install
       - restore_cache:
           keys:
-            - node-deps-{{ checksum "pnpm-lock.yaml" }}
-      - node_dependencies
+            - node-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install node dependencies
+          command: npm ci --workspaces
       - save_cache:
-          key: node-deps-{{ checksum "pnpm-lock.yaml" }}
+          key: node-deps-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - persist_to_workspace:
@@ -44,7 +35,6 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
-      - node_dependencies
       - run:
           name: Build node applications
           command: npx nx run-many -t build
@@ -65,7 +55,6 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
-      - node_dependencies
       - run:
           name: Test node applications
           command: npx nx run-many -t lint
@@ -79,7 +68,6 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
-      - node_dependencies
       - run:
           name: Test node applications
           command: npx nx run-many -t types:check
@@ -93,7 +81,6 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
-      - node_dependencies
       - run:
           name: Test node applications
           command: npx nx run-many -t test

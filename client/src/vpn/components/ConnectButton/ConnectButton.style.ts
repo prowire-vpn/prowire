@@ -1,5 +1,5 @@
-import {LinearGradient} from 'expo-linear-gradient';
 import {Pressable, Dimensions} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import {styled} from 'styled-components/native';
 
 export const Root = styled(LinearGradient)`

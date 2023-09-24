@@ -23,7 +23,6 @@ const config = {
       vpn: path.resolve(__dirname, './src/vpn'),
       assets: path.resolve(__dirname, './assets'),
     },
-    unstable_enableSymlinks: true,
   },
   transformer: {
     babelTransformerPath: require.resolve('react-native-svg-transformer'),
@@ -34,7 +33,10 @@ const config = {
       },
     }),
   },
-  watchFolders: [path.resolve(__dirname)],
+  watchFolders: [
+    path.resolve(__dirname),
+    path.resolve(__dirname, '../node_modules'),
+  ]
 };
 
 module.exports = mergeConfig(getDefaultConfig(__dirname), config);

@@ -15,6 +15,6 @@ module.exports = {
     '^.+\\.(t|j)sx?$': ['@swc/jest'],
     '^.+\\.svg$': 'jest-transform-stub',
   },
-  transformIgnorePatterns: ['node_modules\/\.pnpm\/(?!pretty-bytes)'],
+  transformIgnorePatterns: ['node_modules\/(?!pretty-bytes)'],
   testTimeout: 10_000,
 };

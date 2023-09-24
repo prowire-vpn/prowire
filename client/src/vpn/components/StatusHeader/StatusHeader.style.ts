@@ -1,4 +1,4 @@
-import {LinearGradient} from 'expo-linear-gradient';
+import {LinearGradient} from 'react-native-linear-gradient';
 import {styled} from 'styled-components/native';
 import {Typography} from 'ui/components';
 
