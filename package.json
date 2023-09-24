@@ -19,9 +19,5 @@
     "management",
     "client",
     "pki"
-  ],
-  "devDependencies": {
-    "nx": "16.8.1",
-    "nx-cloud": "latest"
-  }
+  ]
 }

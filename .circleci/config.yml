@@ -4,6 +4,15 @@ orbs:
   node: circleci/node@5.1.0
   ruby: circleci/ruby@2.1.0
 
+
+commands:
+  setup_node:
+    steps:
+      - node/install
+      - run:
+          name: Install NX
+          command: npm i -g nx@^16.9.0
+
 jobs:
   install_dependencies:
     docker:
@@ -34,7 +43,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - node/install
+      - setup_node
       - run:
           name: Build node applications
           command: npx nx run-many -t build
@@ -54,7 +63,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - node/install
+      - setup_node
       - run:
           name: Test node applications
           command: npx nx run-many -t lint
@@ -67,7 +76,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - node/install
+      - setup_node
       - run:
           name: Test node applications
           command: npx nx run-many -t types:check
@@ -80,7 +89,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - node/install
+      - setup_node
       - run:
           name: Test node applications
           command: npx nx run-many -t test
@@ -93,7 +102,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - node/install
+      - setup_node
       - run:
           name: Uninstall Ruby
           command: sudo apt-get remove ruby-full
@@ -107,7 +116,7 @@ jobs:
           command: sudo apt-get update && sudo apt-get install -y ninja-build
       - run:
           name: Build android application
-          command: npm run build:android -w client
+          command: npx nx build:android @prowire-vpn/client
 
   build_containers:
     docker:
