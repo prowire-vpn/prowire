@@ -94,7 +94,7 @@ jobs:
       - ruby/install:
           version: $(cat .ruby-version)
       - ruby/install-deps:
-          app-dir: client
+          app-dir: apps/client
           include-branch-in-cache-key: false
       - run:
           name: Install build dependencies
