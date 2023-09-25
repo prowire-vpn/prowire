@@ -16,7 +16,7 @@ COPY . .
 
 # Build from sources
 FROM base AS build
-RUN npx nx build @prowire-vpn/api
+RUN npx nx build api
 
 # Ship compiled sources. This allows us to remove unnecessary sources and dependencies
 FROM node:18-alpine AS prod

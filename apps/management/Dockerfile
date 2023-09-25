@@ -17,7 +17,7 @@ COPY . .
 # Build from sources
 FROM base AS build
 ENV NODE_ENV production
-RUN npx nx build @prowire-vpn/management
+RUN npx nx build management
 
 # Host the built assets using nginx
 FROM nginx:1.25.2-alpine as production
