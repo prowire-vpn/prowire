@@ -24,7 +24,7 @@ services:
   api:
     build:
       context: ./
-      dockerfile: ./api/Dockerfile
+      dockerfile: ./apps/api/Dockerfile
     depends_on:
       mongo:
         condition: service_healthy
@@ -62,7 +62,7 @@ services:
   server:
     build:
       context: ./
-      dockerfile: ./server/Dockerfile
+      dockerfile: ./apps/server/Dockerfile
     depends_on:
       api:
         condition: service_started
@@ -84,7 +84,7 @@ services:
   management:
     build:
       context: ./
-      dockerfile: ./management/Dockerfile
+      dockerfile: ./apps/management/Dockerfile
     depends_on:
       api:
         condition: service_started
