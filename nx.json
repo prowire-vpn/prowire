@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/nx-schema.json",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "types",
+          "test",
+          "lint",
+          "build:android"
+        ],
+        "accessToken": "MDU2YWQ5OTQtNjgwNC00ZGY1LWE3OTAtODUyNTBkMTFiNTZjfHJlYWQtd3JpdGU="
+      }
+    }
+  },
+  "workspaceLayout": {
+    "projectNameAndRootFormat": "derived",
+    "appsDir": "apps",
+    "libsDir": "libs"
+  },
+  "namedInputs": {
+    "dev": ["{projectRoot}/**/*", "{workspaceRoot}/tsconfig.json", "{workspaceRoot}/.nvmrc"],
+    "prod": ["{projectRoot}/src/**/*.ts", "!{projectRoot}/src/**/*.test.ts"]
+  },
+  "affected": {
+    "defaultBase": "main"
+  }
+}

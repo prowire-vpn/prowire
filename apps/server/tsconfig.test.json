@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "paths": {
+      "test": ["../test"],
+      "test/*": ["../test/*"]
+    },
+    "composite": true
+  },
+  "include": ["src", "test"],
+  "exclude": []
+}

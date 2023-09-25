@@ -1,11 +1,8 @@
 {
-  "name": "@prowire-vpn/prowire",
+  "name": "@prowire-vpn/root",
   "version": "1.0.0",
   "description": "Prowire monorepo",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prowire-vpn/prowire.git"
@@ -17,10 +14,16 @@
   },
   "homepage": "https://github.com/prowire-vpn/prowire#readme",
   "workspaces": [
-    "api",
-    "server",
-    "management",
-    "client",
-    "pki"
-  ]
+    "apps/api",
+    "apps/client",
+    "apps/management",
+    "apps/server",
+    "libs/pki"
+  ],
+  "devDependencies": {
+    "@nx/js": "^16.9.0",
+    "@nx/linter": "^16.9.0",
+    "nx": "^16.9.0",
+    "nx-cloud": "^16.4.0"
+  }
 }

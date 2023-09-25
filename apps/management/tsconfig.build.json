@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "lib": ["ESNext", "DOM"],
+    "types": ["node", "jest", "vite/client"],
+    "rootDir": "src",
+    "baseUrl": "src",
+    "outDir": "dist",
+    "paths": {
+      "assets": ["../assets"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["**/*.test.ts"]
+}

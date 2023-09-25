@@ -12,20 +12,14 @@ jobs:
     steps:
       - checkout
       - node/install
-      - restore_cache:
-          keys:
-            - node-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Install node dependencies
-          command: npm ci --workspaces
-      - save_cache:
-          key: node-deps-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
+          command: npm ci --workspaces --include-workspace-root
       - persist_to_workspace:
           root: .
           paths:
             - node_modules
+
   build_node:
     docker:
       - image: cimg/base:current
@@ -37,14 +31,40 @@ jobs:
       - node/install
       - run:
           name: Build node applications
-          command: npm run build --workspaces
+          command: npx nx run-many -t build
       - persist_to_workspace:
           root: .
           paths:
-            - api/dist
-            - management/dist
-            - pki/dist
-            - server/dist
+            - apps/api/dist
+            - apps/management/dist
+            - apps/server/dist
+            - libs/pki/dist
+
+  lint_node:
+    docker:
+      - image: cimg/base:current
+    resource_class: medium
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - run:
+          name: Test node applications
+          command: npx nx run-many -t lint
+
+  type_check_node:
+    docker:
+      - image: cimg/base:current
+    resource_class: medium
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - run:
+          name: Test node applications
+          command: npx nx run-many -t types
 
   test_node:
     docker:
@@ -57,9 +77,7 @@ jobs:
       - node/install
       - run:
           name: Test node applications
-          command: npm run test --if-present --workspaces
-          environment:
-            MONGOMS_SYSTEM_BINARY: /usr/bin/mongod
+          command: npx nx run-many -t test
 
   build_android:
     docker:
@@ -76,25 +94,28 @@ jobs:
       - ruby/install:
           version: $(cat .ruby-version)
       - ruby/install-deps:
-          app-dir: client
+          app-dir: apps/client
           include-branch-in-cache-key: false
       - run:
           name: Install build dependencies
           command: sudo apt-get update && sudo apt-get install -y ninja-build
       - run:
           name: Build android application
-          command: npm run build:android -w client
+          command: npx nx build:android client
 
-  build_containers:
+  build_container:
     docker:
       - image: cimg/base:current
-    resource_class: large
+    resource_class: medium
+    parameters:
+      app:
+        type: string
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: Build containers
-          command: docker compose build
+          command: docker compose build << parameters.app >>
 
 workflows:
   build_and_test:
@@ -106,9 +127,19 @@ workflows:
       - test_node:
           requires:
             - build_node
+      - lint_node:
+          requires:
+            - build_node
+      - type_check_node:
+          requires:
+            - build_node
       - build_android:
           requires:
             - build_node
-  containers:
-    jobs:
-      - build_containers
+      - build_container:
+          matrix:
+            parameters:
+              app:
+                - api
+                - management
+                - server

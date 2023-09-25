@@ -1,0 +1,9 @@
+node_modules
+.bundle
+.webpack
+android/build
+babel.config.js
+.eslintrc.js
+jest.config.js
+index.js
+metro.config.js
