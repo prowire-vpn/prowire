@@ -40,6 +40,6 @@ COPY ./apps/api/package*.json ./api/
 COPY ./apps/server/package*.json ./server/
 COPY ./apps/server/docker ./server/docker
 
-RUN npm prune --production
+RUN npm prune --production -w apps/server
 
 ENTRYPOINT ["./server/docker/start.sh"]

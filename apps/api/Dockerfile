@@ -30,6 +30,6 @@ COPY ./libs/pki/package*.json ./libs/pki/
 COPY ./apps/api/package*.json ./apps/api/
 COPY ./apps/api/static ./apps/api/static
 
-RUN npm prune -w api --production
+RUN npm prune -w apps/api --production
 
 CMD ["node", "--enable-source-maps", "./api/dist/main.js"]
