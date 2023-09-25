@@ -42,10 +42,10 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - api/dist
-            - management/dist
-            - pki/dist
-            - server/dist
+            - apps/api/dist
+            - apps/management/dist
+            - apps/server/dist
+            - libs/pki/dist
 
   lint_node:
     docker:
