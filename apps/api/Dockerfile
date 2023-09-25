@@ -5,8 +5,8 @@ WORKDIR /prowire
 
 # Install node dependencies
 COPY ./package*.json ./
-COPY ./pki/package*.json ./pki/
-COPY ./api/package*.json ./api/
+COPY ./libs/pki/package*.json ./libs/pki/
+COPY ./apps/api/package*.json ./apps/api/
 
 RUN npm ci --workspaces --include-workspace-root
 
@@ -24,11 +24,11 @@ FROM node:18-alpine AS prod
 WORKDIR /prowire
 
 COPY --from=dependency /prowire/node_modules ./node_modules
-COPY --from=build /prowire/api/dist ./api/dist
+COPY --from=build /prowire/apps/api/dist ./api/dist
 COPY ./package*.json ./
-COPY ./pki/package*.json ./pki/
-COPY ./api/package*.json ./api/
-COPY ./api/static ./api/static
+COPY ./libs/pki/package*.json ./libs/pki/
+COPY ./apps/api/package*.json ./apps/api/
+COPY ./apps/api/static ./apps/api/static
 
 RUN npm prune -w api --production
 

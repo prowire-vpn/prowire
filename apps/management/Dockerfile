@@ -4,9 +4,9 @@ WORKDIR /prowire
 
 # Install node dependencies
 COPY package*.json ./
-COPY ./pki/package*.json ./pki/
-COPY ./api/package*.json ./api/
-COPY ./management/package*.json ./management/
+COPY ./libs/pki/package*.json ./libs/pki/
+COPY ./apps/api/package*.json ./apps/api/
+COPY ./apps/management/package*.json ./apps/management/
 
 RUN npm ci --workspaces --include-workspace-root
 
@@ -22,7 +22,7 @@ RUN npx nx build management
 # Host the built assets using nginx
 FROM nginx:1.25.2-alpine as production
 
-COPY --from=build /prowire/management/dist /usr/share/nginx/html
+COPY --from=build /prowire/apps/management/dist /usr/share/nginx/html
 COPY ./management/docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY ./management/docker/docker-entrypoint.d/* /docker-entrypoint.d
 
