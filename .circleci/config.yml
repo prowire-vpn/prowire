@@ -101,7 +101,7 @@ jobs:
           command: sudo apt-get update && sudo apt-get install -y ninja-build
       - run:
           name: Build android application
-          command: npx nx build:android @prowire-vpn/client
+          command: npx nx build:android client
 
   build_containers:
     docker:
