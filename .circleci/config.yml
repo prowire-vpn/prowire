@@ -136,8 +136,6 @@ workflows:
       - build_android:
           requires:
             - build_node
-  containers:
-    jobs:
       - build_container:
           matrix:
             parameters:
