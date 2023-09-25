@@ -55,7 +55,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - setup_node
+      - node/install
       - run:
           name: Test node applications
           command: npx nx run-many -t lint
