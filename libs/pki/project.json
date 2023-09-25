@@ -1,0 +1,48 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "root": "libs/pki",
+  "sourceRoot": "libs/pki/src",
+  "projectType": "library",
+  "tags": ["type:lib", "scope:shared"],
+  "targets": {
+    "build": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": [
+        "prod",
+        "{projectRoot}/mocks/**/*",
+        "{projectRoot}/.swcrc",
+        "{projectRoot}/tsconfig.json",
+        "{workspaceRoot}/tsconfig.json"
+      ],
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "rm -rf dist",
+          "swc src -d dist --ignore **/*.test.ts",
+          "tsc -p tsconfig.json --composite false --emitDeclarationOnly",
+          "npx tsc-alias -p tsconfig.json"
+        ]
+      }
+    },
+    "types": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx tsc -p tsconfig.json --noEmit"
+      }
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx eslint ."
+      }
+    }
+  }
+}

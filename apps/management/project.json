@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "root": "apps/management",
+  "sourceRoot": "apps/management/src",
+  "projectType": "application",
+  "tags": ["type:app", "scope:management"],
+  "targets": {
+    "build": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": [
+        "prod",
+        "{projectRoot}/vite.config.js",
+        "{projectRoot}/tsconfig.build.json",
+        "{workspaceRoot}/tsconfig.json"
+      ],
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+         "rm -rf dist",
+         "vite build"
+        ]
+      }
+    },
+    "types": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx tsc -p tsconfig.test.json --noEmit"
+      }
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx eslint ."
+      }
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx jest --group=-integration"
+      }
+    }
+  }
+}

@@ -4,15 +4,6 @@ orbs:
   node: circleci/node@5.1.0
   ruby: circleci/ruby@2.1.0
 
-
-commands:
-  setup_node:
-    steps:
-      - node/install
-      - run:
-          name: Install NX
-          command: npm i -g nx@^16.9.0
-
 jobs:
   install_dependencies:
     docker:
@@ -26,7 +17,7 @@ jobs:
             - node-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Install node dependencies
-          command: npm ci --workspaces
+          command: npm ci --workspaces --include-workspace-root
       - save_cache:
           key: node-deps-{{ checksum "package-lock.json" }}
           paths:
@@ -35,6 +26,7 @@ jobs:
           root: .
           paths:
             - node_modules
+
   build_node:
     docker:
       - image: cimg/base:current
@@ -43,7 +35,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - setup_node
+      - node/install
       - run:
           name: Build node applications
           command: npx nx run-many -t build
@@ -67,7 +59,7 @@ jobs:
       - run:
           name: Test node applications
           command: npx nx run-many -t lint
-  
+
   type_check_node:
     docker:
       - image: cimg/base:current
@@ -76,11 +68,11 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - setup_node
+      - node/install
       - run:
           name: Test node applications
-          command: npx nx run-many -t types:check
-  
+          command: npx nx run-many -t types
+
   test_node:
     docker:
       - image: cimg/base:current
@@ -89,7 +81,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - setup_node
+      - node/install
       - run:
           name: Test node applications
           command: npx nx run-many -t test
@@ -102,7 +94,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - setup_node
+      - node/install
       - run:
           name: Uninstall Ruby
           command: sudo apt-get remove ruby-full

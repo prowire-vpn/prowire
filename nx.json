@@ -1,12 +1,12 @@
 {
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/nx-schema.json",
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx-cloud",
       "options": {
         "cacheableOperations": [
           "build",
-          "types:build",
-          "types:check",
+          "types",
           "test",
           "lint",
           "build:android"
@@ -15,28 +15,14 @@
       }
     }
   },
-  "targetDefaults": {
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["{projectRoot}/dist"]
-    },
-    "build:android": {
-      "dependsOn": ["^build"],
-      "outputs": ["{projectRoot}/android/app/build/outputs/apk/release/app-release.apk"]
-    },
-    "test": {
-      "dependsOn": ["^build"]
-    },
-    "lint": {
-      "dependsOn": ["^build"]
-    },
-    "types:check": {
-      "dependsOn": ["^build"]
-    },
-    "types:build": {
-      "dependsOn": ["^build"],
-      "outputs": ["{projectRoot}/dist"]
-    }
+  "workspaceLayout": {
+    "projectNameAndRootFormat": "derived",
+    "appsDir": "apps",
+    "libsDir": "libs"
+  },
+  "namedInputs": {
+    "dev": ["{projectRoot}/**/*", "{workspaceRoot}/tsconfig.json", "{workspaceRoot}/.nvmrc"],
+    "prod": ["{projectRoot}/src/**/*.ts", "!{projectRoot}/src/**/*.test.ts"]
   },
   "affected": {
     "defaultBase": "main"
