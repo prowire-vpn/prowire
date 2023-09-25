@@ -23,7 +23,7 @@ RUN npx nx build management
 FROM nginx:1.25.2-alpine as production
 
 COPY --from=build /prowire/apps/management/dist /usr/share/nginx/html
-COPY ./management/docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY ./management/docker/docker-entrypoint.d/* /docker-entrypoint.d
+COPY ./apps/management/docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./apps/management/docker/docker-entrypoint.d/* /docker-entrypoint.d
 
 EXPOSE 80
