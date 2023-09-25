@@ -139,7 +139,7 @@ workflows:
       - build_container:
           matrix:
             parameters:
-              name:
+              app:
                 - api
                 - management
                 - server
