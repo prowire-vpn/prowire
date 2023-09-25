@@ -35,10 +35,10 @@ COPY --from=dependency /prowire/node_modules ./node_modules
 COPY --from=build /prowire/apps/api/dist ./apps/api/dist
 COPY --from=build /prowire/apps/server/dist ./apps/server/dist
 COPY ./package*.json ./
-COPY ./libs/pki/package*.json ./pki/
-COPY ./apps/api/package*.json ./api/
-COPY ./apps/server/package*.json ./server/
-COPY ./apps/server/docker ./server/docker
+COPY ./libs/pki/package*.json ./libs/pki/
+COPY ./apps/api/package*.json ./apps/api/
+COPY ./apps/server/package*.json ./apps/server/
+COPY ./apps/server/docker ./apps/server/docker
 
 RUN npm prune --production -w apps/server
 
