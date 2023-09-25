@@ -103,16 +103,19 @@ jobs:
           name: Build android application
           command: npx nx build:android client
 
-  build_containers:
+  build_container:
     docker:
       - image: cimg/base:current
-    resource_class: large
+    resource_class: medium
+    parameters:
+      name:
+        type: string
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: Build containers
-          command: docker compose build
+          command: docker compose build << parameters.name >>
 
 workflows:
   build_and_test:
@@ -135,4 +138,10 @@ workflows:
             - build_node
   containers:
     jobs:
-      - build_containers
+      - build_containers:
+          matrix:
+            parameters:
+              name:
+                - api
+                - management
+                - server
