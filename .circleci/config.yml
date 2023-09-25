@@ -108,14 +108,14 @@ jobs:
       - image: cimg/base:current
     resource_class: medium
     parameters:
-      name:
+      app:
         type: string
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: Build containers
-          command: docker compose build << parameters.name >>
+          command: docker compose build << parameters.app >>
 
 workflows:
   build_and_test:
