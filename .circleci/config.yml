@@ -138,7 +138,7 @@ workflows:
             - build_node
   containers:
     jobs:
-      - build_containers:
+      - build_container:
           matrix:
             parameters:
               name:
