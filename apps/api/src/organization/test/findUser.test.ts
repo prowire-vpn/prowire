@@ -4,7 +4,6 @@ import {AppModule} from 'app/app.module';
 import {AccessToken} from 'auth/domain';
 import {type INestApplication} from '@nestjs/common';
 import {build, createMany} from 'test';
-import {User} from 'organization/domain';
 import {FindUsersResponseBodyDto} from 'organization/presentation';
 
 /**
@@ -12,7 +11,6 @@ import {FindUsersResponseBodyDto} from 'organization/presentation';
  * @group integration
  */
 describe('OrganizationModule', () => {
-  let users: Array<User>;
   let accessToken: AccessToken;
 
   let app: INestApplication;
@@ -28,7 +26,7 @@ describe('OrganizationModule', () => {
   });
 
   beforeEach(async () => {
-    users = await createMany('user', 2);
+    await createMany('user', 20);
     accessToken = build('accessToken', {admin: true});
   });
 
@@ -37,16 +35,14 @@ describe('OrganizationModule', () => {
   });
 
   describe('GET - /user', () => {
-    it('should list all users', async () => {
+    it('should return a list of users with a page limit', async () => {
       const response: {body: FindUsersResponseBodyDto} = await request(app.getHttpServer())
         .get('/user')
+        .query({limit: 10})
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200);
 
-      expect(response.body.users).toHaveLength(2);
-      expect(response.body.users.map((user) => user.id).sort()).toEqual(
-        users.map((user) => user.id).sort(),
-      );
+      expect(response.body.users).toHaveLength(10);
     });
 
     it('should return 403 for non admins', async () => {

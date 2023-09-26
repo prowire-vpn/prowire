@@ -22,8 +22,18 @@
           "rm -rf dist",
           "swc src -d dist --ignore **/*.test.ts",
           "tsc -p tsconfig.json --composite false --emitDeclarationOnly",
-          "npx tsc-alias -p tsconfig.json"
-        ]
+          "npx tsc-alias -p tsconfig.json",
+          "chmod +x dist/cli.js"
+        ],
+        "parallel": false
+      }
+    },
+    "run": {
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "./libs/pki/dist/cli.js certs"
       }
     },
     "types": {

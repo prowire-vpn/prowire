@@ -37,6 +37,7 @@ describe('VpnConfigRepository', () => {
     }).compile();
     vpnConfigRepository = module.get<VpnConfigRepository>(VpnConfigRepository);
     vpnConfigModel = module.get<VpnConfigModel>(getModelToken(VpnConfigSchemaClass.name));
+    await vpnConfigModel.deleteMany();
   });
 
   afterEach(async () => {
@@ -74,7 +75,7 @@ describe('VpnConfigRepository', () => {
       expect(result?.subnet.ip).toBe('10.8.0.0');
     });
 
-    it('should return a create config', async () => {
+    it('should return a created config', async () => {
       const config = await create('vpnConfig');
 
       const result = await vpnConfigRepository.get();

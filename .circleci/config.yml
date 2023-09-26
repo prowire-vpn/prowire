@@ -77,7 +77,25 @@ jobs:
       - node/install
       - run:
           name: Test node applications
-          command: npx nx run-many -t test
+          command: npx nx run-many -t test --parallel=4 -- --runInBand
+  
+  integration_node:
+    machine:
+      image: ubuntu-2004:current
+    resource_class: large
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - run:
+          name: Setup PKI environment
+          command: npx nx run pki:run
+      - run:
+          name: Integration test node applications
+          command: |
+            docker compose -f compose.dev.yml up -d
+            npx nx run-many -t integration --parallel=4 -- --runInBand
 
   build_android:
     docker:
@@ -125,6 +143,9 @@ workflows:
           requires:
             - install_dependencies
       - test_node:
+          requires:
+            - build_node
+      - integration_node:
           requires:
             - build_node
       - lint_node:

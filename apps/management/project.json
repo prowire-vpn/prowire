@@ -17,10 +17,8 @@
       "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "{projectRoot}",
-        "commands": [
-         "rm -rf dist",
-         "vite build"
-        ]
+        "commands": ["rm -rf dist", "vite build"],
+        "parallel": false
       }
     },
     "types": {
