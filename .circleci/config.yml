@@ -97,7 +97,6 @@ jobs:
           command: |
             docker compose -f compose.dev.yml up -d
             docker ps
-            sudo lsof -i -P -n | grep LISTEN
             npx nx run-many -t integration --parallel=4 -- --runInBand
 
   build_android:

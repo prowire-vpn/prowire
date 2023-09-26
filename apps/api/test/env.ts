@@ -1,7 +1,7 @@
 import {faker} from '@faker-js/faker';
 import {randomBytes} from 'crypto';
 
-process.env = {
+export const testEnv = {
   API_URL: faker.internet.url(),
   MONGO_CONNECTION_STRING: faker.internet.url(),
   AUTHORIZED_REDIRECT_URIS: `${faker.internet.url()},${faker.internet.url()}`,
@@ -15,3 +15,5 @@ process.env = {
   CA_PRIVATE_KEY: faker.system.filePath(),
   REDIS_HOST: faker.internet.ip(),
 };
+
+process.env = testEnv;
