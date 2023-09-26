@@ -144,6 +144,9 @@ workflows:
       - test_node:
           requires:
             - build_node
+      - integration_node:
+          requires:
+            - build_node
       - lint_node:
           requires:
             - build_node
