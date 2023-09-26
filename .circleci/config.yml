@@ -88,7 +88,6 @@ jobs:
       - attach_workspace:
           at: .
       - node/install
-      - setup_remote_docker
       - run:
           name: Setup PKI environment
           command: npx nx run pki:run
