@@ -77,7 +77,24 @@ jobs:
       - node/install
       - run:
           name: Test node applications
-          command: npx nx run-many -t test
+          command: npx nx run-many -t test --parallel=4 -- --runInBand
+  
+  integration_node:
+    docker:
+      - image: cimg/base:current
+    resource_class: large
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - node/install
+      - setup_remote_docker
+      - run:
+          name: Start docker compose
+          command: docker compose -f compose.dev.yml up -d
+      - run:
+          name: Test node applications
+          command: npx nx run-many -t integration --parallel=4 -- --runInBand
 
   build_android:
     docker:

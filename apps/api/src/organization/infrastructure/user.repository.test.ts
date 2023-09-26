@@ -107,44 +107,51 @@ describe('UserRepository', () => {
 
   describe('find', () => {
     it('should find a user with email', async () => {
-      const user = await create('user', {email: new EmailAddress('findMe@test.com')});
+      const email = faker.internet.email(faker.datatype.uuid());
+      const emailName = email.split('@')[0];
+      const user = await create('user', {email: new EmailAddress(email)});
 
-      const result = await userRepository.find('findMe', 10, 1);
+      const result = await userRepository.find(emailName, 10, 1);
 
       expect(result).toHaveLength(1);
       expect(result[0].id).toBe(user.id);
     });
 
     it('should find a user by email domain', async () => {
-      const user = await create('user', {email: new EmailAddress('findMe@test.com')});
+      const email = faker.internet.email(undefined, undefined, faker.datatype.uuid());
+      const emailDomain = email.split('@')[1];
+      const user = await create('user', {email: new EmailAddress(email)});
 
-      const result = await userRepository.find('test.com', 10, 1);
+      const result = await userRepository.find(emailDomain, 10, 1);
 
       expect(result).toHaveLength(1);
       expect(result[0].id).toBe(user.id);
     });
 
     it('should not find a user by non matching email', async () => {
-      await create('user', {email: new EmailAddress('findMe@test.com')});
+      const email = faker.internet.email();
+      await create('user', {email: new EmailAddress(email)});
 
-      const result = await userRepository.find('notMe', 10, 1);
+      const result = await userRepository.find(faker.datatype.uuid(), 10, 1);
 
       expect(result).toHaveLength(0);
     });
 
     it('should find a user by first name', async () => {
-      const user = await create('user', {name: 'John Doe'});
+      const name = faker.datatype.uuid();
+      const user = await create('user', {name});
 
-      const result = await userRepository.find('John', 10, 1);
+      const result = await userRepository.find(name, 10, 1);
 
       expect(result).toHaveLength(1);
       expect(result[0].id).toBe(user.id);
     });
 
     it('should find a user by last name', async () => {
-      const user = await create('user', {name: 'John Doe'});
+      const name = faker.datatype.uuid();
+      const user = await create('user', {name: `John ${name}`});
 
-      const result = await userRepository.find('Doe', 10, 1);
+      const result = await userRepository.find(name, 10, 1);
 
       expect(result).toHaveLength(1);
       expect(result[0].id).toBe(user.id);

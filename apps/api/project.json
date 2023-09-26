@@ -52,6 +52,15 @@
         "cwd": "{projectRoot}",
         "command": "npx jest --group=-integration"
       }
+    },
+    "integration": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx jest --config=jest.config.integration.js --group=integration"
+      }
     }
   }
 }

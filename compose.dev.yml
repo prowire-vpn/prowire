@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  mongo:
+    extends:
+      file: compose.yml
+      service: mongo
+    ports:
+      - 27017:27017
+
+  redis:
+    extends:
+      file: compose.yml
+      service: redis
+    ports:
+      - 6379:6379
