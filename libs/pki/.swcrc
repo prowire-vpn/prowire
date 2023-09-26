@@ -12,5 +12,8 @@
       "decoratorMetadata": true
     }
   },
+  "module": {
+    "type": "commonjs"
+  },
   "minify": false
 }

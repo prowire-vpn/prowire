@@ -18,12 +18,12 @@
       "options": {
         "cwd": "{projectRoot}",
         "commands": [
-         "rm -rf dist",
-         "swc src -d dist --ignore **/*.test.ts",
-         "tsc -p tsconfig.build.json --composite false --emitDeclarationOnly",
-         "npx tsc-alias -p tsconfig.build.json"
-        
-        ]
+          "rm -rf dist",
+          "swc src -d dist --ignore **/*.test.ts",
+          "tsc -p tsconfig.build.json --composite false --emitDeclarationOnly",
+          "npx tsc-alias -p tsconfig.build.json"
+        ],
+        "parallel": false
       }
     },
     "types": {

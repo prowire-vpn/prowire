@@ -90,9 +90,14 @@ jobs:
       - node/install
       - setup_remote_docker
       - run:
+          name: Setup PKI environment
+          command: npx nx run pki:run
+      - run:
           name: Integration test node applications
           command: |
             docker compose -f compose.dev.yml up -d
+            docker ps
+            sudo lsof -i -P -n | grep LISTEN
             npx nx run-many -t integration --parallel=4 -- --runInBand
 
   build_android:
