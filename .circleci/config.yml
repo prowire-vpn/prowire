@@ -97,6 +97,9 @@ jobs:
           command: |
             docker compose -f compose.dev.yml up -d
             docker ps
+            sleep 10
+            docker ps
+            docker compose logs mongo
             npx nx run-many -t integration --parallel=4 -- --runInBand
 
   build_android:
