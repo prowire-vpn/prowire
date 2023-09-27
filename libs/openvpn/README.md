@@ -1,5 +1,7 @@
 # Prowire OpenVPN library
 
+📖 [Technical documentation](https://prowire-vpn.github.io/prowire/libs/openvpn/)
+
 The Prowire OpenVPN Library is a versatile tool for managing and communicating with [OpenVPN](https://openvpn.net/) processes. For client or server use cases, this library offers three core functions:
 
 - **Process Management**: It efficiently spawns and manages OpenVPN processes, ensuring stability and resource optimization.
