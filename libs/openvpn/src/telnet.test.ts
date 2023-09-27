@@ -90,7 +90,7 @@ describe('TelnetManager', () => {
       >CLIENT:ENV,dev=tun0
       >CLIENT:ENV,dev_type=tun
       >CLIENT:ENV,redirect_gateway=0
-      >CLIENT:ENV,common_name=client:6506ee77a70089e2e9d3b700
+      >CLIENT:ENV,common_name=6506ee77a70089e2e9d3b700
       >CLIENT:ENV,END
       `;
 
