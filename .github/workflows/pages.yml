@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - feature/extract_open_vpn_library
 
 concurrency:
   group: "pages"
