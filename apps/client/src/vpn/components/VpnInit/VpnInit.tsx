@@ -10,7 +10,7 @@ export function VpnInit({children}: PropsWithChildren) {
   useGenerateKeyPair({
     enabled: !publicKey || !privateKey,
     suspense: true,
-    onSuccess: keyPair => {
+    onSuccess: (keyPair) => {
       dispatch({type: 'keyPair', payload: keyPair});
     },
   });

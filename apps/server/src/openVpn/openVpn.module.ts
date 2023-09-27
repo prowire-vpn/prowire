@@ -1,12 +1,12 @@
 import {Module} from '@nestjs/common';
 import {OpenVpnService} from './domain';
-import {TelnetManager, ProcessManager} from './infrastructure';
+import {OpenVpnManager} from './infrastructure';
 import {OpenVpnMessenger} from './presentation';
 import {LifecycleModule} from 'lifecycle';
 import {ServerModule} from 'server';
 
 @Module({
   imports: [ServerModule, LifecycleModule],
-  providers: [OpenVpnService, TelnetManager, ProcessManager, OpenVpnMessenger],
+  providers: [OpenVpnService, OpenVpnManager, OpenVpnManager, OpenVpnMessenger],
 })
 export class OpenVpnModule {}

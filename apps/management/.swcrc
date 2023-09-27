@@ -8,5 +8,8 @@
     },
     "baseUrl": "./src"
   },
+  "module": {
+    "type": "commonjs"
+  },
   "minify": false
 }

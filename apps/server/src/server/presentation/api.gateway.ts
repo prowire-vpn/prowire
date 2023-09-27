@@ -152,7 +152,7 @@ export class ApiGateway implements OnApplicationBootstrap, OnModuleDestroy {
     this.logger.log('Disconnected gracefully. Shutting-off now');
   }
 
-  public send(message: WebSocketMessage): void {
+  public send(message: WebSocketMessage<unknown>): void {
     if (!this.webSocket) throw new Error('No websocket connection');
     this.logger.verbose(`Sending message of type "${message.type}"`, message.payload);
     this.webSocket?.send(message.serialize());

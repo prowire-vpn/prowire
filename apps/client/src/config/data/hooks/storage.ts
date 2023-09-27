@@ -1,9 +1,4 @@
-import {
-  useQuery,
-  UseQueryOptions,
-  useMutation,
-  UseMutationOptions,
-} from 'react-query';
+import {useQuery, UseQueryOptions, useMutation, UseMutationOptions} from 'react-query';
 import {queryClient} from 'base/data';
 import {getItem, storeItem, clearItem} from 'base/state/storage';
 
@@ -17,10 +12,7 @@ export function useGetApiUrl(
 }
 
 export function useStoreApiUrl(
-  options?: Omit<
-    UseMutationOptions<void, unknown, string>,
-    'queryKey' | 'queryFn'
-  >,
+  options?: Omit<UseMutationOptions<void, unknown, string>, 'queryKey' | 'queryFn'>,
 ) {
   return useMutation<void, unknown, string>(
     (item: string) => storeItem(API_URL_KEY, item),
@@ -29,10 +21,7 @@ export function useStoreApiUrl(
 }
 
 export function useClearApiUrl(
-  options?: Omit<
-    UseMutationOptions<void, unknown, undefined>,
-    'queryKey' | 'queryFn'
-  >,
+  options?: Omit<UseMutationOptions<void, unknown, undefined>, 'queryKey' | 'queryFn'>,
 ) {
   return useMutation<void, unknown, undefined>(() => clearItem(API_URL_KEY), {
     ...options,

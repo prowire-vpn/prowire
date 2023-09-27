@@ -120,7 +120,7 @@ export class ServerGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   /** Send a message to a connected client */
-  public sendMessage(server: string | Server, message: WebSocketMessage): void {
+  public sendMessage(server: string | Server, message: WebSocketMessage<unknown>): void {
     const serverName = typeof server === 'string' ? server : server.name;
     const socket = this.getSocket(serverName);
     if (!socket) {

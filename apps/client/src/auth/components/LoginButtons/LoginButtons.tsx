@@ -22,7 +22,7 @@ const providers: Array<AuthProvider> = [
 export function LoginButtons() {
   return (
     <>
-      {providers.map(provider => (
+      {providers.map((provider) => (
         <LoginButton key={provider.key} provider={provider} />
       ))}
     </>

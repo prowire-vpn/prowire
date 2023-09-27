@@ -1,10 +1,4 @@
-import {
-  useReducer,
-  PropsWithChildren,
-  createContext,
-  useContext,
-  Dispatch,
-} from 'react';
+import {useReducer, PropsWithChildren, createContext, useContext, Dispatch} from 'react';
 import * as React from 'react';
 import {VpnActions} from './action';
 import {VpnState, initialState, vpnReducer} from './reducer';
@@ -16,9 +10,7 @@ export function VpnProvider({children}: PropsWithChildren) {
   const [config, dispatch] = useReducer(vpnReducer, initialState);
   return (
     <VpnContext.Provider value={config}>
-      <VpnDispatchContext.Provider value={dispatch}>
-        {children}
-      </VpnDispatchContext.Provider>
+      <VpnDispatchContext.Provider value={dispatch}>{children}</VpnDispatchContext.Provider>
     </VpnContext.Provider>
   );
 }

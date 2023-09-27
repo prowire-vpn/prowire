@@ -6,6 +6,7 @@ WORKDIR /prowire
 # Install node dependencies
 COPY ./package*.json ./
 COPY ./libs/pki/package*.json ./libs/pki/
+COPY ./libs/openvpn/package*.json ./libs/openvpn/
 COPY ./apps/api/package*.json ./apps/api/
 COPY ./apps/server/package*.json ./apps/server/
 
@@ -32,10 +33,13 @@ RUN echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.d/ipv4.conf
 RUN sysctl -p /etc/sysctl.d/ipv4.conf
 
 COPY --from=dependency /prowire/node_modules ./node_modules
+COPY --from=build /prowire/libs/openvpn/dist ./libs/openvpn/dist
+COPY --from=build /prowire/libs/pki/dist ./libs/pki/dist
 COPY --from=build /prowire/apps/api/dist ./apps/api/dist
 COPY --from=build /prowire/apps/server/dist ./apps/server/dist
 COPY ./package*.json ./
 COPY ./libs/pki/package*.json ./libs/pki/
+COPY ./libs/openvpn/package*.json ./libs/openvpn/
 COPY ./apps/api/package*.json ./apps/api/
 COPY ./apps/server/package*.json ./apps/server/
 COPY ./apps/server/docker ./apps/server/docker

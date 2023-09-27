@@ -14,9 +14,7 @@ export function Providers({children}: PropsWithChildren) {
       <AuthProvider>
         <VpnProvider>
           <ThemeProvider theme={theme}>
-            <QueryClientProvider client={queryClient}>
-              {children}
-            </QueryClientProvider>
+            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
           </ThemeProvider>
         </VpnProvider>
       </AuthProvider>

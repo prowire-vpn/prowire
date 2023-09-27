@@ -1,0 +1,67 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+  "root": "libs/openvpn",
+  "sourceRoot": "libs/openvpn/src",
+  "projectType": "library",
+  "tags": ["type:lib", "scope:shared"],
+  "targets": {
+    "build": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": [
+        "prod",
+        "{projectRoot}/.swcrc",
+        "{projectRoot}/tsconfig.json",
+        "{workspaceRoot}/tsconfig.json"
+      ],
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "rm -rf dist",
+          "swc src -d dist --ignore **/*.test.ts",
+          "tsc -p tsconfig.build.json --composite false --emitDeclarationOnly",
+          "npx tsc-alias -p tsconfig.build.json"
+        ],
+        "parallel": false
+      }
+    },
+    "types": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx tsc -p tsconfig.test.json --noEmit"
+      }
+    },
+    "docs": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "outputs": ["{projectRoot}/docs"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx typedoc"
+      }
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx eslint ."
+      }
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx jest --group=-integration"
+      }
+    }
+  }
+}

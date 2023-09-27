@@ -10,10 +10,7 @@ export interface ConfigState {
 
 export const initialConfig: ConfigState = {apiUrl: undefined, error: undefined};
 
-export function configReducer(
-  config: ConfigState,
-  action: ConfigActions,
-): ConfigState {
+export function configReducer(config: ConfigState, action: ConfigActions): ConfigState {
   switch (action.type) {
     case 'input': {
       return {

@@ -61,6 +61,15 @@
         "cwd": "{projectRoot}",
         "command": "npx jest --config=jest.config.integration.js --group=integration"
       }
+    },
+    "start": {
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "node --enable-source-maps dist/main.js"
+      }
     }
   }
 }

@@ -1,0 +1,30 @@
+name: Publish documentation to Github Pages
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  docs:
+    permissions:
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci --workspaces --include-workspace-root
+      - name: Build documentation
+        run: npx nx run-many -t docs
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: pages
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2

@@ -2,13 +2,7 @@ import * as React from 'react';
 import {useCallback, useState} from 'react';
 import {PressableProps, GestureResponderEvent} from 'react-native';
 import {SvgProps} from 'react-native-svg';
-import {
-  Root,
-  ButtonVariants,
-  ButtonColors,
-  Label,
-  LeftIconContainer,
-} from './Button.style';
+import {Root, ButtonVariants, ButtonColors, Label, LeftIconContainer} from './Button.style';
 
 interface ButtonProps extends PressableProps {
   variant?: ButtonVariants;
@@ -65,18 +59,14 @@ export function Button({
       color={color}
       pressed={pressed}
       disabled={disabled}
-      active={active}>
+      active={active}
+    >
       {PrefixIcon && (
         <LeftIconContainer>
           <PrefixIcon />
         </LeftIconContainer>
       )}
-      <Label
-        variant={variant}
-        color={color}
-        pressed={pressed}
-        disabled={disabled}
-        active={active}>
+      <Label variant={variant} color={color} pressed={pressed} disabled={disabled} active={active}>
         {text}
       </Label>
     </Root>

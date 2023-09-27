@@ -130,8 +130,7 @@ export const Root = styled(Pressable)<RootProps>`
   padding-vertical: ${({theme}) => theme.spacing.m}px;
   border-radius: ${({theme}) => theme.spacing.s}px;
   border-width: ${({variant}) => (variant === 'outlined' ? 1 : 0)}px;
-  background-color: ${({variant, ...props}) =>
-    variantColorFetcher[variant](props).backgroundColor};
+  background-color: ${({variant, ...props}) => variantColorFetcher[variant](props).backgroundColor};
 `;
 
 export const Label = styled(Typography)<LabelProps>`

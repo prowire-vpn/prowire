@@ -22,7 +22,7 @@ export function ConnectButton() {
   const {mutate: stopVpn} = useStopVpn();
 
   const {mutate: fetchConfig} = useServerConnect(publicKey ?? '', {
-    onSuccess: data => {
+    onSuccess: (data) => {
       if (!publicKey || !privateKey) {
         throw new Error('No keys');
       }
@@ -51,14 +51,16 @@ export function ConnectButton() {
         Color(theme.colors.primary).lighten(0.5).string(),
         theme.colors.white,
         Color(theme.colors.primary).lighten(0.5).string(),
-      ]}>
+      ]}
+    >
       <Button
         onPress={onPress}
         android_ripple={{
           color: Color(theme.colors.primary).lighten(0.5).string(),
           borderless: true,
           radius: Math.round(Dimensions.get('window').width / 4),
-        }}>
+        }}
+      >
         <PowerIcon />
         <Typography>{buttonText}</Typography>
       </Button>

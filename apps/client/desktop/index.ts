@@ -54,9 +54,7 @@ app.on('activate', () => {
 // Register the usage of the "prowire://" protocol.
 if (process.defaultApp) {
   if (process.argv.length >= 2) {
-    app.setAsDefaultProtocolClient('prowire', process.execPath, [
-      path.resolve(process.argv[1]),
-    ]);
+    app.setAsDefaultProtocolClient('prowire', process.execPath, [path.resolve(process.argv[1])]);
   }
 } else {
   app.setAsDefaultProtocolClient('prowire');

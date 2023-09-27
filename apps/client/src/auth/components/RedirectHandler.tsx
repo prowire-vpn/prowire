@@ -12,10 +12,7 @@ export function RedirectHandler({children}: PropsWithChildren) {
   useEffect(() => {
     function handleRedirectUrl(urlStr: string) {
       const url = new URL(urlStr);
-      const realPath = (url.hostname + url.pathname).replace(
-        /(^\/*)|(\/*$)/,
-        '',
-      );
+      const realPath = (url.hostname + url.pathname).replace(/(^\/*)|(\/*$)/, '');
 
       if (realPath !== 'auth/redirect') {
         return;
@@ -70,10 +67,9 @@ export function RedirectHandler({children}: PropsWithChildren) {
         }
         handleRedirectUrl(url);
       });
-      return () =>
-        window.electron.ipcRenderer.removeAllListeners('auth-redirect');
+      return () => window.electron.ipcRenderer.removeAllListeners('auth-redirect');
     } else {
-      const subscription = Linking.addEventListener('url', event => {
+      const subscription = Linking.addEventListener('url', (event) => {
         handleRedirectUrl(event.url);
       });
       return () => subscription.remove();
