@@ -5,17 +5,13 @@ export async function generateKeyPair() {
     publicKey: crypto.KeyObject;
     privateKey: crypto.KeyObject;
   }>((resolve, reject) => {
-    crypto.generateKeyPair(
-      'rsa',
-      {modulusLength: 2048},
-      (err, publicKey, privateKey) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve({publicKey, privateKey});
-      },
-    );
+    crypto.generateKeyPair('rsa', {modulusLength: 2048}, (err, publicKey, privateKey) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve({publicKey, privateKey});
+    });
   });
 
   return {

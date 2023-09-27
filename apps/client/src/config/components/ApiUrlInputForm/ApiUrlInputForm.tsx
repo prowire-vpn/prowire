@@ -30,15 +30,10 @@ export function ApiUrlInputForm() {
     <>
       <Controller
         control={control}
-        rules={{required: true, validate: data => validator.isURL(data)}}
+        rules={{required: true, validate: (data) => validator.isURL(data)}}
         name="url"
         render={({field: {onBlur, onChange, value}}) => (
-          <TextInput
-            label="Server URL"
-            value={value}
-            onChangeText={onChange}
-            onBlur={onBlur}
-          />
+          <TextInput label="Server URL" value={value} onChangeText={onChange} onBlur={onBlur} />
         )}
       />
 
@@ -48,12 +43,7 @@ export function ApiUrlInputForm() {
         </Typography>
       ) : null}
 
-      <Button
-        color="white"
-        text="Connect"
-        onPress={handleSubmit(onSubmit)}
-        disabled={!isValid}
-      />
+      <Button color="white" text="Connect" onPress={handleSubmit(onSubmit)} disabled={!isValid} />
     </>
   );
 }

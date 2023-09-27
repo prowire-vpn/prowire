@@ -13,9 +13,7 @@ export function App() {
       <Providers>
         <Root>
           <ContentArea>
-            <StatusBar
-              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            />
+            <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
             <Init>
               <HomePage />
             </Init>

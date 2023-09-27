@@ -1,15 +1,7 @@
 import {useEffect} from 'react';
 import {NativeModules, Platform} from 'react-native';
-import OpenVpn, {
-  addVpnStateListener,
-  removeVpnStateListener,
-} from 'react-native-simple-openvpn';
-import {
-  useQuery,
-  UseQueryOptions,
-  useMutation,
-  UseMutationOptions,
-} from 'react-query';
+import OpenVpn, {addVpnStateListener, removeVpnStateListener} from 'react-native-simple-openvpn';
+import {useQuery, UseQueryOptions, useMutation, UseMutationOptions} from 'react-query';
 import {useVpn, useVpnDispatch} from 'vpn/state';
 import {buildOpenVpnConfig, VpvStartConfig} from 'vpn/utils';
 
@@ -29,9 +21,7 @@ export function useGenerateKeyPair(
     NATIVE_KEY_PAIR_CACHE_KEY,
     () => {
       if (Platform.OS === 'web') {
-        return window.electron.ipcRenderer.invoke<KeyPair>(
-          'crypto:generateKeyPair',
-        );
+        return window.electron.ipcRenderer.invoke<KeyPair>('crypto:generateKeyPair');
       }
       return NativeModules.CryptoModule.createKeyPair();
     },
@@ -60,10 +50,7 @@ function mapOpenVpnState(state: number) {
 }
 
 export function useStartVpn(
-  options?: Omit<
-    UseMutationOptions<void, unknown, VpvStartConfig>,
-    'queryKey' | 'queryFn'
-  >,
+  options?: Omit<UseMutationOptions<void, unknown, VpvStartConfig>, 'queryKey' | 'queryFn'>,
 ) {
   const {state} = useVpn();
   const dispatch = useVpnDispatch();
@@ -99,9 +86,7 @@ export function useStartVpn(
   );
 }
 
-export function useStopVpn(
-  options?: Omit<UseMutationOptions, 'queryKey' | 'queryFn'>,
-) {
+export function useStopVpn(options?: Omit<UseMutationOptions, 'queryKey' | 'queryFn'>) {
   return useMutation(
     NATIVE_STOP_VPN_CACHE_KEY,
     async () => {

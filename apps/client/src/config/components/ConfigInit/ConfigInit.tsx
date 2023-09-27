@@ -11,7 +11,7 @@ export function ConfigInit({children}: PropsWithChildren) {
 
   useGetApiUrl({
     suspense: true,
-    onSuccess: url => {
+    onSuccess: (url) => {
       if (url) {
         setBaseUrl(url);
         dispatch({type: 'validate', payload: url});

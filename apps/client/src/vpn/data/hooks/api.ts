@@ -4,10 +4,7 @@ import {postServerConnect} from 'vpn/data/api';
 
 export function useServerConnect(
   publicKey: string,
-  options?: Omit<
-    UseMutationOptions<ConnectServerResponseBodyDto>,
-    'queryKey' | 'queryFn'
-  >,
+  options?: Omit<UseMutationOptions<ConnectServerResponseBodyDto>, 'queryKey' | 'queryFn'>,
 ) {
   return useMutation<ConnectServerResponseBodyDto>(
     ['clientConfig', publicKey],

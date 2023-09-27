@@ -29,8 +29,7 @@ export const Label = styled(Text)<LabelProps>`
   position: absolute;
   top: ${({theme}) => theme.spacing.xs}px;
   left: ${({theme}) => theme.spacing.s}px;
-  color: ${({theme, isFocused}) =>
-    isFocused ? theme.colors.primary : theme.colors.grey};
+  color: ${({theme, isFocused}) => (isFocused ? theme.colors.primary : theme.colors.grey)};
   font-size: 14px;
   font-weight: 500;
   line-height: 16px;

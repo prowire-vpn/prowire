@@ -1,26 +1,16 @@
-import {
-  useReducer,
-  PropsWithChildren,
-  createContext,
-  useContext,
-  Dispatch,
-} from 'react';
+import {useReducer, PropsWithChildren, createContext, useContext, Dispatch} from 'react';
 import * as React from 'react';
 import {ConfigActions} from './action';
 import {ConfigState, initialConfig, configReducer} from './reducer';
 
 const ConfigContext = createContext<null | ConfigState>(null);
-const ConfigDispatchContext = createContext<null | Dispatch<ConfigActions>>(
-  null,
-);
+const ConfigDispatchContext = createContext<null | Dispatch<ConfigActions>>(null);
 
 export function ConfigProvider({children}: PropsWithChildren) {
   const [config, dispatch] = useReducer(configReducer, initialConfig);
   return (
     <ConfigContext.Provider value={config}>
-      <ConfigDispatchContext.Provider value={dispatch}>
-        {children}
-      </ConfigDispatchContext.Provider>
+      <ConfigDispatchContext.Provider value={dispatch}>{children}</ConfigDispatchContext.Provider>
     </ConfigContext.Provider>
   );
 }

@@ -8,7 +8,7 @@ export function usePopulateRefreshTokenFromStorage() {
     enabled: !refreshToken,
     refetchInterval: false,
     suspense: true,
-    onSuccess: token => {
+    onSuccess: (token) => {
       if (token) {
         dispatch({type: 'setRefreshToken', payload: token});
       }

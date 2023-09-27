@@ -39,13 +39,10 @@ export function StatusHeader() {
 
   return (
     <Root
-      colors={[
-        'transparent',
-        Color(theme.colors.primary).alpha(0.5).hsl().string(),
-        'transparent',
-      ]}
+      colors={['transparent', Color(theme.colors.primary).alpha(0.5).hsl().string(), 'transparent']}
       start={{x: 0, y: 0.5}}
-      end={{x: 1, y: 0.5}}>
+      end={{x: 1, y: 0.5}}
+    >
       <Status variant="header">{text}</Status>
       <Timer variant="header" color="secondary">
         {timer}

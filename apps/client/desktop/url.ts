@@ -14,7 +14,7 @@ export function handleUrl(url: string) {
 }
 
 function handleAuthRedirect(url: string) {
-  BrowserWindow.getAllWindows().forEach(window => {
+  BrowserWindow.getAllWindows().forEach((window) => {
     if (window.title === 'Prowire') {
       window.webContents.send('auth-redirect', url);
       window.focus();

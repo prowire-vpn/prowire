@@ -2,11 +2,7 @@ import * as React from 'react';
 import {Root, ProwireLogo, SelectConnectionText} from './ApiConfigPage.style';
 import ScanIcon from 'assets/icons/scan.svg';
 
-import {
-  TextSeparator,
-  ApiUrlInputForm,
-  ApiUrlValidator,
-} from 'config/components';
+import {TextSeparator, ApiUrlInputForm, ApiUrlValidator} from 'config/components';
 import {Button} from 'ui/components';
 
 export function ApiConfigPage() {

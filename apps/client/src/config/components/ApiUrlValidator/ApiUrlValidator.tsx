@@ -22,7 +22,7 @@ export function ApiUrlValidator({children}: PropsWithChildren) {
       setBaseUrl(inputApiUrl);
       dispatch({type: 'validate', payload: inputApiUrl});
     },
-    onError: err => {
+    onError: (err) => {
       dispatch({type: 'error', payload: err});
     },
   });

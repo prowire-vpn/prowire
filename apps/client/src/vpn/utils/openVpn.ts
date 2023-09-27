@@ -13,7 +13,7 @@ export function buildOpenVpnConfig(config: VpvStartConfig) {
   lines.push('client');
   lines.push(`dev ${config.mode}`);
   lines.push(`proto ${config.protocol}`);
-  lines.push(...config.servers.map(s => `remote ${s.ip} ${s.port}`));
+  lines.push(...config.servers.map((s) => `remote ${s.ip} ${s.port}`));
   lines.push('resolv-retry infinite');
   lines.push('nobind');
   lines.push('persist-key');

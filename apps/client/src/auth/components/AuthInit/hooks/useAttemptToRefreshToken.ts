@@ -24,7 +24,7 @@ export function useAttemptToRefreshToken() {
         },
       });
     },
-    onError: err => {
+    onError: (err) => {
       dispatch({type: 'error', payload: err});
 
       if (isAuthError(err)) {
@@ -36,7 +36,7 @@ export function useAttemptToRefreshToken() {
     },
     retry: (count, err) => !isAuthError(err),
     refetchIntervalInBackground: true,
-    refetchInterval: data => {
+    refetchInterval: (data) => {
       if (!data) {
         return false;
       }

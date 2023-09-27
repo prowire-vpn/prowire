@@ -1,10 +1,4 @@
-import {
-  useReducer,
-  PropsWithChildren,
-  createContext,
-  useContext,
-  Dispatch,
-} from 'react';
+import {useReducer, PropsWithChildren, createContext, useContext, Dispatch} from 'react';
 import * as React from 'react';
 import {AuthActions} from './action';
 import {AuthState, initialAuth, authReducer} from './reducer';
@@ -16,9 +10,7 @@ export function AuthProvider({children}: PropsWithChildren) {
   const [config, dispatch] = useReducer(authReducer, initialAuth);
   return (
     <AuthContext.Provider value={config}>
-      <AuthDispatchContext.Provider value={dispatch}>
-        {children}
-      </AuthDispatchContext.Provider>
+      <AuthDispatchContext.Provider value={dispatch}>{children}</AuthDispatchContext.Provider>
     </AuthContext.Provider>
   );
 }

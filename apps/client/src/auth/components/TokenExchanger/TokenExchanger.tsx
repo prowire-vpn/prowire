@@ -20,7 +20,7 @@ export function TokenExchanger({children}: PropsWithChildren) {
       cacheTime: 0,
       suspense: true,
       enabled: !refreshToken && !!code && !!codeVerifier,
-      onSuccess: data => {
+      onSuccess: (data) => {
         if (!data.refresh_token) {
           throw new Error('No refresh token provided by API');
         }
@@ -35,7 +35,7 @@ export function TokenExchanger({children}: PropsWithChildren) {
           },
         });
       },
-      onError: err => {
+      onError: (err) => {
         dispatch({type: 'error', payload: err});
       },
     },
