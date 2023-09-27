@@ -42,7 +42,7 @@ export class PkiService {
       clientCertificate.validity.notBefore.getFullYear() + 1,
     );
 
-    clientCertificate.setSubject(this.getAttributes(commonName, options?.server));
+    clientCertificate.setSubject(this.getAttributes(commonName));
     clientCertificate.setIssuer(caCertificate.subject.attributes);
     clientCertificate.setExtensions(this.getExtensions(options?.server));
 
@@ -51,11 +51,11 @@ export class PkiService {
   }
 
   /** Get the certificate attributes */
-  private getAttributes(commonName: string, server = false): Array<pki.CertificateField> {
+  private getAttributes(commonName: string): Array<pki.CertificateField> {
     return [
       {
         name: 'commonName',
-        value: `${server ? 'server' : 'client'}:${commonName}`,
+        value: commonName,
       },
       {
         name: 'countryName',

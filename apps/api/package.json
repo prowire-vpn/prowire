@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "Prowire VPN main backend API",
   "main": "dist/index.js",
-  "scripts": {
-    "start": "ts-node -r tsconfig-paths/register src/main.ts",
-    "watch": "ts-node-dev -r tsconfig-paths/register src/main.ts"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prowire-vpn/prowire.git"

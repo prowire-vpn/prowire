@@ -1,42 +1,30 @@
-import {TelnetManager} from './telnet.manager';
-import {Test} from '@nestjs/testing';
-import {EventEmitter2} from '@nestjs/event-emitter';
-import {ShutdownService} from 'lifecycle';
-import {Client} from 'openVpn/domain/client.entity';
+import * as telnetManager from './telnet';
+
+import {Client} from './events';
+import * as callback from './callback';
+
+jest.mock('./callback', () => {
+  const originalModule = jest.requireActual('./callback');
+  return {
+    __esModule: true,
+    ...originalModule,
+    emit: jest.fn(),
+  };
+});
 
 describe('TelnetManager', () => {
-  let telnetManager: TelnetManager;
-  let mockShutdownService: Partial<ShutdownService>;
-  let mockEventEmitter: Partial<EventEmitter2>;
-
   beforeEach(async () => {
-    mockShutdownService = {
-      shutdown: jest.fn(),
-    };
-
-    mockEventEmitter = {
-      emit: jest.fn(),
-    };
-
-    const moduleRef = await Test.createTestingModule({
-      providers: [TelnetManager, ShutdownService, EventEmitter2],
-    })
-      .overrideProvider(ShutdownService)
-      .useValue(mockShutdownService)
-      .overrideProvider(EventEmitter2)
-      .useValue(mockEventEmitter)
-      .compile();
-
-    telnetManager = moduleRef.get<TelnetManager>(TelnetManager);
+    jest.clearAllMocks();
   });
 
   describe('onData', () => {
     it('should parse ByteCount messages in a single chunk', () => {
       const message = '>BYTECOUNT:123,456\n';
 
-      telnetManager['onData'](Buffer.from(message));
+      telnetManager._test_only.onData(Buffer.from(message));
 
-      expect(mockEventEmitter.emit).toHaveBeenCalledWith('bytecount', {
+      expect(callback.emit).toHaveBeenCalledWith({
+        eventName: 'bytecount',
         bytesIn: 123,
         bytesOut: 456,
       });
@@ -67,13 +55,13 @@ describe('TelnetManager', () => {
       >CLIENT:ENV,tls_digest_0=c2:ee:8c:4b:f6:89:78:a2:13:74:15:43:7b:fa:21:2c:e4:96:ba:1f
       `;
 
-      const message2 = `>CLIENT:ENV,tls_id_0=CN=client:6506ee77a70089e2e9d3b700, C=FR, ST=Paris, L=Paris, O=Prowire, OU=Prowire Certificate Authority
+      const message2 = `>CLIENT:ENV,tls_id_0=CN=6506ee77a70089e2e9d3b700, C=FR, ST=Paris, L=Paris, O=Prowire, OU=Prowire Certificate Authority
       >CLIENT:ENV,X509_0_OU=Prowire Certificate Authority
       >CLIENT:ENV,X509_0_O=Prowire
       >CLIENT:ENV,X509_0_L=Paris
       >CLIENT:ENV,X509_0_ST=Paris
       >CLIENT:ENV,X509_0_C=FR
-      >CLIENT:ENV,X509_0_CN=client:6506ee77a70089e2e9d3b700
+      >CLIENT:ENV,X509_0_CN=6506ee77a70089e2e9d3b700
       >CLIENT:ENV,tls_serial_hex_1=37:59:d6:c8:02:5e:1e:07:61:81:89:c5:b9:70:67:fd:c6:e7:f8:04
       >CLIENT:ENV,tls_serial_1=315997968806790321126228663082402013795515365380
       >CLIENT:ENV,tls_digest_sha256_1=a2:4d:f0:21:46:75:84:69:60:8a:28:14:5b:5b:64:03:03:8e:e3:9c:30:9e:83:36:2e:9e:b2:f1:78:8d:b7:cd
@@ -106,15 +94,13 @@ describe('TelnetManager', () => {
       >CLIENT:ENV,END
       `;
 
-      await telnetManager['onData'](Buffer.from(message1));
-      await telnetManager['onData'](Buffer.from(message2));
+      await telnetManager._test_only.onData(Buffer.from(message1));
+      await telnetManager._test_only.onData(Buffer.from(message2));
 
-      expect(mockEventEmitter.emit).toHaveBeenCalledWith('client-connect', {
+      expect(callback.emit).toHaveBeenCalledWith({
         type: 'CONNECT',
-        client: {
-          ...new Client({cid: '0', kid: '1', userId: '6506ee77a70089e2e9d3b700'}),
-          connectedAt: expect.any(Date),
-        },
+        client: new Client({cid: '0', kid: '1', commonName: '6506ee77a70089e2e9d3b700'}),
+        eventName: 'client-connect',
       });
     });
   });

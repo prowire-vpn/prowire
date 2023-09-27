@@ -1,3 +1,2 @@
-export * from './process.manager';
-export * from './telnet.manager';
-export * from './telnet.message';
+export * from './openVpn.manager';
+export * from './openVpn.manager.events';

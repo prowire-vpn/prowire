@@ -1,11 +1,11 @@
 import {VpnConfig} from 'server/domain/vpnConfig.entity';
 import {serialize} from 'bson';
 
-export abstract class WebSocketMessage {
+export abstract class WebSocketMessage<T = undefined> {
   public readonly type: string;
-  public readonly payload: unknown;
+  public readonly payload: T;
 
-  constructor(type: string, payload: unknown) {
+  constructor(type: string, payload: T) {
     this.type = type;
     this.payload = payload;
   }
@@ -44,9 +44,8 @@ class StartServerMessagePayload {
   }
 }
 
-export class StartServerMessage extends WebSocketMessage {
+export class StartServerMessage extends WebSocketMessage<StartServerMessagePayload> {
   public static readonly type = 'start';
-  public readonly payload!: StartServerMessagePayload;
 
   constructor(config: VpnConfig, certificate: string, ca: string) {
     super(StartServerMessage.type, new StartServerMessagePayload(config, certificate, ca));
@@ -81,9 +80,8 @@ export class ServerStoppedMessage extends WebSocketMessage {
   }
 }
 
-export class ClientConnectMessage extends WebSocketMessage {
+export class ClientConnectMessage extends WebSocketMessage<string> {
   public static readonly type = 'client-connect';
-  public readonly payload!: string;
 
   constructor(sessionId: string) {
     super(ClientConnectMessage.type, sessionId);
@@ -98,9 +96,8 @@ class ClientAuthorizeMessagePayload {
   }
 }
 
-export class ClientAuthorizeMessage extends WebSocketMessage {
+export class ClientAuthorizeMessage extends WebSocketMessage<ClientAuthorizeMessagePayload> {
   public static readonly type = 'client-authorize';
-  public readonly payload!: ClientAuthorizeMessagePayload;
 
   constructor(sessionId: string) {
     super(ClientConnectMessage.type, new ClientAuthorizeMessagePayload(sessionId));
@@ -115,9 +112,8 @@ class ClientDisconnectedMessagePayload {
   }
 }
 
-export class ClientDisconnectedMessage extends WebSocketMessage {
+export class ClientDisconnectedMessage extends WebSocketMessage<ClientDisconnectedMessagePayload> {
   public static readonly type = 'client-disconnected';
-  public readonly payload!: ClientDisconnectedMessagePayload;
 
   constructor(sessionId: string) {
     super(ClientDisconnectedMessage.type, new ClientDisconnectedMessagePayload(sessionId));
@@ -134,9 +130,8 @@ class ClientAddressAssignedMessagePayload {
   }
 }
 
-export class ClientAddressAssignedMessage extends WebSocketMessage {
+export class ClientAddressAssignedMessage extends WebSocketMessage<ClientAddressAssignedMessagePayload> {
   public static readonly type = 'client-address-assigned';
-  public readonly payload!: ClientAddressAssignedMessagePayload;
 
   constructor(userId: string, address: string) {
     super(

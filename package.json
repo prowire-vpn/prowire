@@ -18,6 +18,7 @@
     "apps/client",
     "apps/management",
     "apps/server",
+    "libs/openvpn",
     "libs/pki"
   ],
   "devDependencies": {

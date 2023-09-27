@@ -1,9 +1,9 @@
 {
   "$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
-  "root": "apps/api",
-  "sourceRoot": "apps/api/src",
-  "projectType": "application",
-  "tags": ["type:app", "scope:api"],
+  "root": "libs/openvpn",
+  "sourceRoot": "libs/openvpn/src",
+  "projectType": "library",
+  "tags": ["type:lib", "scope:shared"],
   "targets": {
     "build": {
       "dependsOn": ["^build"],
@@ -11,7 +11,7 @@
       "inputs": [
         "prod",
         "{projectRoot}/.swcrc",
-        "{projectRoot}/tsconfig.build.json",
+        "{projectRoot}/tsconfig.json",
         "{workspaceRoot}/tsconfig.json"
       ],
       "outputs": ["{projectRoot}/dist"],
@@ -35,6 +35,16 @@
         "command": "npx tsc -p tsconfig.test.json --noEmit"
       }
     },
+    "docs": {
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "inputs": ["dev"],
+      "outputs": ["{projectRoot}/docs"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "npx typedoc"
+      }
+    },
     "lint": {
       "dependsOn": ["^build"],
       "executor": "nx:run-commands",
@@ -51,24 +61,6 @@
       "options": {
         "cwd": "{projectRoot}",
         "command": "npx jest --group=-integration"
-      }
-    },
-    "integration": {
-      "dependsOn": ["^build"],
-      "executor": "nx:run-commands",
-      "inputs": ["dev"],
-      "options": {
-        "cwd": "{projectRoot}",
-        "command": "npx jest --config=jest.config.integration.js --group=integration"
-      }
-    },
-    "start": {
-      "dependsOn": ["build"],
-      "executor": "nx:run-commands",
-      "inputs": ["dev"],
-      "options": {
-        "cwd": "{projectRoot}",
-        "command": "node --enable-source-maps dist/main.js"
       }
     }
   }
