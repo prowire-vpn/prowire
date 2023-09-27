@@ -16,13 +16,13 @@ sequenceDiagram
     Library-->> Library: Generate OpenVPN config
     Library-->>System: Store OpenVPN config
     Library->>System: Start OpenVPN process
-    create participant OpenVPN
     System-xOpenVPN: Spawn process
+    activate OpenVPN
     Library->>OpenVPN: Connect on Telnet interface
     OpenVPN->>Library: Send status updates
     Library->>App: Emit event
-    App->>Library: Call stop function
+    App->>Library: Call destroy function
     Library->>System: Kill OpenVPN process
-    destroy OpenVPN
     System-xOpenVPN: Kill process
+    deactivate OpenVPN
 ```
