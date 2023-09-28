@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {User, type UserUpdater} from './user.entity';
-import {UserRepository} from 'organization/infrastructure';
+import {UserRepository} from 'organization/infrastructure/user.repository';
 import {EmailAlreadyRegisteredError, UserNotFoundError} from './user.service.error';
 import {EmailAddress} from './email.entity';
 import {type RegisterUserInfo} from './user.service.interface';

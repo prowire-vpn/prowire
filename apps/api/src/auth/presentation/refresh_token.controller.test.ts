@@ -1,74 +1,90 @@
-import request from 'supertest';
-import {Test, TestingModule} from '@nestjs/testing';
-import {AppModule} from 'app/app.module';
-import {RefreshToken} from 'auth/domain';
-import {type INestApplication} from '@nestjs/common';
-import {build, create} from 'test';
-import {User} from 'organization/domain';
+import {RefreshTokenController} from './refresh_token.controller';
+import {AccessTokenService, Client, AccessToken, RefreshToken} from 'auth/domain';
+import {Test} from '@nestjs/testing';
+import {build} from 'test';
+import {type Request, type Response} from 'express';
 
-/**
- * Tests UserRepository class
- * @group integration
- */
-describe('AuthModule', () => {
-  let user: User;
+describe('RefreshTokenController', () => {
+  let client: Client;
+  let accessToken: AccessToken;
   let refreshToken: RefreshToken;
 
-  let app: INestApplication;
-  let module: TestingModule;
+  let refreshTokenController: RefreshTokenController;
+  let mockAccessTokenService: Partial<AccessTokenService>;
 
-  beforeAll(async () => {
-    module = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = module.createNestApplication();
-    await app.init();
-  });
+  let mockResponse: Response;
+  let mockRequest: Request;
 
   beforeEach(async () => {
-    user = await create('user');
-    refreshToken = build('refreshToken', {id: user.id});
+    client = build('client');
+    accessToken = build('accessToken', client);
+    refreshToken = build('refreshToken', client);
+
+    mockAccessTokenService = {
+      create: jest.fn().mockReturnValue(accessToken),
+    };
+
+    const moduleRef = await Test.createTestingModule({
+      controllers: [RefreshTokenController],
+      providers: [AccessTokenService],
+    })
+      .overrideProvider(AccessTokenService)
+      .useValue(mockAccessTokenService)
+
+      .compile();
+
+    refreshTokenController = moduleRef.get<RefreshTokenController>(RefreshTokenController);
+
+    mockResponse = {
+      cookie: jest.fn(),
+      json: jest.fn(),
+    } as unknown as Response;
+    mockRequest = {
+      cookies: {},
+    } as unknown as Request;
   });
 
-  afterAll(async () => {
-    await app.close();
-  });
+  describe('refresh', () => {
+    it('should return a new access token (refresh token provided in body)', async () => {
+      await refreshTokenController.refresh(mockRequest, mockResponse, client, {
+        refresh_token: refreshToken.token,
+      });
 
-  describe('POST - /auth/refresh', () => {
-    it('should refresh a token using request body', async () => {
-      await request(app.getHttpServer())
-        .post('/auth/refresh')
-        .send({refresh_token: refreshToken.token})
-        .expect(201);
+      expect(mockResponse.json).toHaveBeenCalledTimes(1);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        access_token: accessToken.token,
+        refresh_token: refreshToken.token,
+      });
     });
 
-    it('should refresh a token using cookie', async () => {
-      const authCookie = `prowire_auth=${JSON.stringify({refreshToken: refreshToken.token})}`;
-      await request(app.getHttpServer())
-        .post('/auth/refresh')
-        .set('Cookie', [authCookie])
-        .expect(201);
+    it('should return a new access token (refresh token provided in cookie)', async () => {
+      mockRequest.cookies.prowire_auth = JSON.stringify({refreshToken: refreshToken.token});
+
+      await refreshTokenController.refresh(mockRequest, mockResponse, client, {});
+
+      expect(mockResponse.json).toHaveBeenCalledTimes(1);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        access_token: accessToken.token,
+        refresh_token: refreshToken.token,
+      });
     });
 
-    it('should send a 401 if no refresh token is provided', async () => {
-      await request(app.getHttpServer()).post('/auth/refresh').expect(401);
+    it('should not renew cookies when refresh token provided in body', async () => {
+      await refreshTokenController.refresh(mockRequest, mockResponse, client, {
+        refresh_token: refreshToken.token,
+      });
+
+      expect(mockResponse.cookie).not.toHaveBeenCalled();
     });
 
-    it('should send a 401 if an invalid refresh token is provided', async () => {
-      await request(app.getHttpServer())
-        .post('/auth/refresh')
-        .send({refreshToken: 'invalid'})
-        .expect(401);
-    });
+    it('should renew cookies when refresh token provided in cookie', async () => {
+      const cookie = JSON.stringify({refreshToken: refreshToken.token});
+      mockRequest.cookies.prowire_auth = cookie;
 
-    it('should send a 401 if the user does not exist', async () => {
-      refreshToken = build('refreshToken');
+      await refreshTokenController.refresh(mockRequest, mockResponse, client, {});
 
-      await request(app.getHttpServer())
-        .post('/auth/refresh')
-        .send({refreshToken: refreshToken.token})
-        .expect(401);
+      expect(mockResponse.cookie).toHaveBeenCalledTimes(1);
+      expect(mockResponse.cookie).toHaveBeenCalledWith('prowire_auth', cookie, expect.anything());
     });
   });
 });

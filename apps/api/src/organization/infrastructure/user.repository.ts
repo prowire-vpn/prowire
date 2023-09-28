@@ -1,7 +1,8 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {type UserModel, UserSchemaClass} from './user.schema';
-import {User, EmailAddress} from 'organization/domain';
+import {User} from 'organization/domain/user.entity';
+import {EmailAddress} from 'organization/domain/email.entity';
 import {isObjectIdOrHexString} from 'mongoose';
 
 @Injectable()
