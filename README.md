@@ -1,4 +1,6 @@
-![Prowire logo](https://github.com/prowire-vpn/prowire/assets/59678972/c29365a7-ed86-4d99-86ba-16527bf32926)
+<p align="center">
+    <img alt="Prowire logo" src=https://github.com/prowire-vpn/prowire/assets/59678972/c29365a7-ed86-4d99-86ba-16527bf32926">
+</p>
 
 # Prowire
 
