@@ -1,6 +1,10 @@
 const {pathsToModuleNameMapper, defaults} = require('ts-jest');
-const {compilerOptions: {paths}} = require('./tsconfig.test.json');
-const {compilerOptions: {baseUrl}} = require('./tsconfig.build.json');
+const {
+  compilerOptions: {paths},
+} = require('./tsconfig.test.json');
+const {
+  compilerOptions: {baseUrl},
+} = require('./tsconfig.build.json');
 
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
@@ -11,9 +15,7 @@ module.exports = {
   moduleNameMapper: pathsToModuleNameMapper(paths, {prefix: '<rootDir>/src'}),
   modulePaths: [baseUrl],
   setupFiles: ['<rootDir>/test/env.ts'],
-  setupFilesAfterEnv: [
-    '<rootDir>/test/pki/setup.ts',
-  ],
+  setupFilesAfterEnv: ['<rootDir>/test/pki/setup.ts', '<rootDir>/test/utils/app.setup.ts'],
   transform: {
     '^.+\\.(t|j)sx?$': ['@swc/jest'],
   },

@@ -1,7 +1,9 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {type HydratedDocument, Model, type UpdateQuery} from 'mongoose';
 import {BaseSchema, Mapper} from 'app/infrastructure';
-import {User, Identity, EmailAddress} from 'organization/domain';
+import {User} from 'organization/domain/user.entity';
+import {Identity} from 'organization/domain/identity.entity';
+import {EmailAddress} from 'organization/domain/email.entity';
 
 @Schema()
 class IdentitySchemaClass extends BaseSchema<Identity> {

@@ -33,6 +33,7 @@ flowchart TD
         D -->|Configures| F
     end
 ```
+
 <p align="center"><i>Prowire components</i></p>
 
 For detailed documentation on individual components, please refer to their respective directories.
